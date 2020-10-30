@@ -8,23 +8,17 @@ EX_INCLUDE = ../include
 DFLAGS = -DMULTI_THREAD  -DNDEBUG -DVERBOSE
 
 CC=g++
-
 CFLAGS= -O2 -I$(IDIR) -I$(EX_INCLUDE) -I../ -fopenmp -lgomp $(DFLAGS) -w -std=c++11 -fpermissive
 CXXFLAGS = -O2 -I$(IDIR) -I$(EX_INCLUDE) -I../ -fopenmp -lgomp $(DFLAGS) -w -std=c++11 -fpermissive
-
 NVFLAGS = -O2 -arch=sm_35 -Xcompiler -fopenmp -lgomp $(DFLAGS) -w -std=c++11 -Xptxas -v
-
 NVCC = nvcc $(NVFLAGS) -I$(IDIR) -I$(EX_INCLUDE) -I../
-
 #-DMULTI_THREAD for multi-thread support
 #-DPRINT to print the bNVCCs in a file
 
 LIBS=-lm
-
 GPU_DIR = ../gpu
 GPU_SRC = $(GPU_DIR)/*.cu
 GPU_HEADERS = $(GPU_DIR)/*.cuh
-
 _DEPS = *.h 
 DEPS = $(patsubst %,$(EX_INCLUDE)/%,$(_DEPS))
 
