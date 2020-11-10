@@ -242,6 +242,7 @@ int main(int argc, char* argv[]) {
 	info.setTimeConstructionTrees(globalTimer.get_event_time());
 
 	//Record time for collection of cycles.
+	debug("Record time for collection of cycles.");
 	globalTimer.start_timer();
 
 	std::vector<cycle*> list_cycle_vec;
@@ -272,6 +273,7 @@ int main(int argc, char* argv[]) {
 	info.setTimeCollectCycles(globalTimer.get_event_time());
 
 	//At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
+	debug("At this stage we have shortest path trees and the cycles sorted in increasing order of length.");
 
 	//generate the bit vectors
 	bit_vector **support_vectors = new bit_vector*[num_non_tree_edges];
@@ -317,6 +319,7 @@ int main(int argc, char* argv[]) {
 	precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
 
 	//Main Outer Loop of the Algorithm.
+	debug("Main Outer Loop of the Algorithm.");
 	for (int e = 0; e < num_non_tree_edges; e++) {
 		//globalTimer.start_timer();
 
