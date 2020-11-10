@@ -4,6 +4,7 @@
 #include <stack>
 #include <omp.h>
 #include <cstring>
+#include <cmath>
 
 class bit_vector {
 
