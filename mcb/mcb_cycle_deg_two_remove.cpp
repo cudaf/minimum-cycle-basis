@@ -403,12 +403,14 @@ int main(int argc, char* argv[]) {
 
 	}
 
+	debug("Clear vector data.");
 	cycle_vector->clear_memory();
 	next_vector->clear_memory();
 	current_vector->clear_memory();
 
 	list_cycle.clear();
 
+	debug("Set GPU timings ...");
 	info.setGpuTimings(precompute_time / 1000);
 	info.setCycleInspectionTime(cycle_inspection_time);
 	info.setIndependenceTestTime(hybrid_time);
@@ -420,13 +422,16 @@ int main(int argc, char* argv[]) {
 		total_weight += final_mcb[i]->total_length;
 	}
 
+	debug("Set final num cycles ...");
 	info.setNumFinalCycles(final_mcb.size());
 	info.setTotalWeight(total_weight);
 
+	debug("Print stats.");
 	info.print_stats(argv[2]);
 
 	delete[] fvs_array;
 
+	debug("Clear all data.");
 	device_struct.clear_memory();
 	trees.clear_memory();
 
