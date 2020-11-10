@@ -51,8 +51,6 @@ int main(int argc, char* argv[]) {
     printf("4th Argument is chunk_size.(Optional) (720 default)");
     exit(1);
   }
-  for (int i=0; i<argc; i++)
-    printf("argv[%d]: %s\n", i, argv[i]);
 
   num_threads = 1;
   if (argc >= 4)
