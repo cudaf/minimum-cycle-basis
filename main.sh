@@ -22,6 +22,6 @@ do
    echo -e "\n$ bicc/Relabeller \"bicc_output/\"$filename $filename 1"
    bicc/Relabeller "bicc_output/"$filename $filename 1
    echo -e "\n$ sh run.sh $filename \"Results/\"$3 $4"
-   sh run.sh $filename "Results/"$3 $4
+   bash run.sh $filename "Results/"$3 $4
    rm -rf $filename
 done < $statsFile
