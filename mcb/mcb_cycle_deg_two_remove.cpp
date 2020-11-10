@@ -319,6 +319,8 @@ int main(int argc, char* argv[]) {
 	precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
 
 	//Main Outer Loop of the Algorithm.
+	info.print_stats(argv[2]);
+	debug("");
 	debug("Main Outer Loop of the Algorithm.");
 	for (int e = 0; e < num_non_tree_edges; e++) {
 		//globalTimer.start_timer();
