@@ -263,7 +263,7 @@ struct stats {
     }
 
     FILE *fout = fopen(output_file, "a");
-    debug("print_stats: writing to file %s", output_file);
+    debug("print_stats: writing to file", output_file);
 
     if (!file_exist) {
 

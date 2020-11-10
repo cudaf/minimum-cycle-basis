@@ -320,7 +320,6 @@ int main(int argc, char* argv[]) {
 
   //Main Outer Loop of the Algorithm.
   info.print_stats(argv[2]);
-  debug("");
   debug("Main Outer Loop of the Algorithm.");
   for (int e = 0; e < num_non_tree_edges; e++) {
     //globalTimer.start_timer();
