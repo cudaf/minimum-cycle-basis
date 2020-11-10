@@ -200,6 +200,7 @@ int main(int argc, char* argv[]) {
     debug("max_chunk_size:", max_chunk_size);
     debug("chunk_size:", chunk_size);
     debug("nstreams:", nstreams);
+    debug("");
   }
 
   info.setLoadEntireMemory(!multiple_transfers);
