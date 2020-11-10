@@ -51,29 +51,24 @@ int main(int argc, char* argv[]) {
     printf("4th Argument is chunk_size.(Optional) (720 default)");
     exit(1);
   }
+  for (int i=0; i<argc; i++)
+    printf("argv[%d]: %s\n", i, argv[i]);
 
   num_threads = 1;
-
   if (argc >= 4)
     num_threads = atoi(argv[3]);
-
-  InputFileName = argv[1];
-
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
-  std::string InputFilePath = InputFileName;
-
   //Read the Inputfile.
+  InputFileName = argv[1];
+  std::string InputFilePath = InputFileName;
   FileReader Reader(InputFilePath.c_str());
 
   int v1, v2, Initial_Vertices, weight;
-  ;
-
   int nodes, edges, chunk_size = 720, nstreams = 1;
   if(argc >= 5)
     chunk_size = atoi(argv[4]);
-
 
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
