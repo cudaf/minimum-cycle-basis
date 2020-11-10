@@ -45,7 +45,7 @@ int num_threads;
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
-    printf("Ist Argument should indicate the InputFile\n");
+    printf("1st Argument should indicate the InputFile\n");
     printf("2nd Argument should indicate the OutputFile\n");
     printf("3th argument should indicate the number of threads.(Optional) (1 default)\n");
     printf("4th Argument is chunk_size.(Optional) (720 default)");
@@ -74,8 +74,13 @@ int main(int argc, char* argv[]) {
   if(argc >= 5)
     chunk_size = atoi(argv[4]);
 
+
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
+  debug("InputFileName:", InputFileName);
+  debug("chunk_size:", chunk_size);
+  debug("nodes:", nodes);
+  debug("edges", edges);
 
   csr_graph *graph = new csr_graph();
 
