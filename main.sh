@@ -10,7 +10,7 @@ mkdir -p Results
 
 rm bicc_output/* -f
 
-echo "Invoking bicc_decomposition..."
+echo "\n$ bicc/bicc_decomposition $1 bicc_output/ 0 $2 0 1 >> /dev/null"
 bicc/bicc_decomposition $1 bicc_output/ 0 $2 0 1 >> /dev/null
 statsFile="bicc_output/stats"
 
@@ -19,7 +19,9 @@ do
   #next steps
    #echo $firstline ; file which is used to call the maxclique pmc
    filename=$(echo $line|cut -f 1 -d " ")".mtx"
+   echo "\n$ bicc/Relabeller \"bicc_output/\"$filename $filename 1"
    bicc/Relabeller "bicc_output/"$filename $filename 1
+   echo "\n$ sh run.sh $filename \"Results/\"$3 $4"
    sh run.sh $filename "Results/"$3 $4
    rm -rf $filename
 done < $statsFile
