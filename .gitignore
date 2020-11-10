@@ -1,3 +1,4 @@
+.vscode/
 bicc/*.o
 bicc/bicc_decomposition
 bicc/Relabeller
