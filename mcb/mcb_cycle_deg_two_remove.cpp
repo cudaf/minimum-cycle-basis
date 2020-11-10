@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
   debug("InputFileName:", InputFileName);
   debug("chunk_size:", chunk_size);
   debug("nodes:", nodes);
-  debug("edges", edges);
+  debug("edges:", edges);
 
   csr_graph *graph = new csr_graph();
 
@@ -196,10 +196,10 @@ int main(int argc, char* argv[]) {
   if(chunk_size <= max_chunk_size)
   {
     multiple_transfers = false;
-    debug("nstreams: ", nstreams);
-    debug("chunk_size: ", chunk_size);
-    debug("max_chunk_size:", max_chunk_size);
     debug("Multiple transfers are turned off and the entire graph is copied first.");
+    debug("max_chunk_size:", max_chunk_size);
+    debug("chunk_size:", chunk_size);
+    debug("nstreams:", nstreams);
   }
 
   info.setLoadEntireMemory(!multiple_transfers);
