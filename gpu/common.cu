@@ -59,7 +59,7 @@ extern "C" size_t calculate_chunk_size(size_t num_nodes, size_t num_edges,
 
   debug("global_storage (MB):", global_storage_bytes/(1024*1024));
   debug("static_storage (KB):", static_storage_bytes/(1024));
-  debug("remaining_storage (MB):", remaining_storage/(1024*1024));
+  debug("remaining_storage (MB):", remaining_storage_bytes/(1024*1024));
   debug("total_elem_avl (m):", total_elem_avl/(1000*1000));
   debug("max_chunk_size:", max_chunk_size);
 
