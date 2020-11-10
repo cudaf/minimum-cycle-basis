@@ -35,24 +35,24 @@
 
 #define CudaError(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
-		true) {
-	if (code != cudaSuccess) {
-		std::cerr << RED << "Error :" << cudaGetErrorString(code) << " : "
-		<< file << " : line No = " << line << RESET << std::endl;
-		// fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-		if (abort)
-		cudaDeviceReset();
-		exit(code);
-	}
+    true) {
+  if (code != cudaSuccess) {
+    std::cerr << RED << "Error :" << cudaGetErrorString(code) << " : "
+    << file << " : line No = " << line << RESET << std::endl;
+    // fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+    if (abort)
+    cudaDeviceReset();
+    exit(code);
+  }
 }
 
 #endif
 
 struct debugger {
-	template<typename T> debugger& operator ,(const T& v) {
-		std::cerr << CYAN << v << " " << RESET;
-		return *this;
-	}
+  template<typename T> debugger& operator ,(const T& v) {
+    std::cerr << CYAN << v << " " << RESET;
+    return *this;
+  }
 };
 
 #define BLOCK_DEFAULT 1024

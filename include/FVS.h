@@ -6,43 +6,43 @@
 #include "CsrGraphMulti.h"
 
 struct FVS {
-	csr_multi_graph *input_graph;
+  csr_multi_graph *input_graph;
 
-	double *W;
+  double *W;
 
-	int Nodes;
+  int Nodes;
 
-	bool *node_status;  //Whether this node is present in the graph.
-	bool *edge_status; //whether this edge is not associated with any deleted edges
-	bool *is_vtx_in_fvs; //is a vertex part of FVS.
+  bool *node_status;  //Whether this node is present in the graph.
+  bool *edge_status; //whether this edge is not associated with any deleted edges
+  bool *is_vtx_in_fvs; //is a vertex part of FVS.
 
-	std::list<int> FVS_SET; //list of vertices in the FVS.
+  std::list<int> FVS_SET; //list of vertices in the FVS.
 
-	FVS(csr_multi_graph *graph);
+  FVS(csr_multi_graph *graph);
 
-	~FVS() {
-		delete[] W;
+  ~FVS() {
+    delete[] W;
 
-		delete[] node_status;
-		delete[] edge_status;
-		delete[] is_vtx_in_fvs;
+    delete[] node_status;
+    delete[] edge_status;
+    delete[] is_vtx_in_fvs;
 
-		FVS_SET.clear();
-	}
+    FVS_SET.clear();
+  }
 
-	void pruning(int node_id);
+  void pruning(int node_id);
 
-	void MGA();
+  void MGA();
 
-	bool test_fvs();
+  bool test_fvs();
 
-	bool contains_cycle(int node_id, bool *visited, int *parent);
+  bool contains_cycle(int node_id, bool *visited, int *parent);
 
-	int *get_copy_fvs_array();
+  int *get_copy_fvs_array();
 
-	void print_fvs();
+  void print_fvs();
 
-	int get_num_elements();
+  int get_num_elements();
 };
 
 #endif

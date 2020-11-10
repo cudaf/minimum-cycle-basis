@@ -31,20 +31,20 @@ SRC_DEPS = $(patsubst %,$(EX_INCLUDE)/%,$(_SRC_DEPS))
 all: bicc_decomposition Relabeller
 
 bicc_decomposition: $(OBJ) $(EXTRA_DEPS)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) $(DFLAGS)
+  $(CC) -o $@ $^ $(CFLAGS) $(LIBS) $(DFLAGS)
 
 Relabeller: Relabeller.cpp $(EXTRA_DEPS)
-	$(CC) -o $@ $^ $(CFLAGS) $(DFLAGS)
+  $(CC) -o $@ $^ $(CFLAGS) $(DFLAGS)
 
 bicc_decomposition.o: src/bcc_decomposition.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) $(DFLAGS)
+  $(CC) -c -o $@ $< $(CFLAGS) $(DFLAGS)
 
 #$(include)/%.o: $(include)/%.cpp $(DEPS)
-	#$(CC) $(CFLAGS) $(LIBS) $(DFLAGS) -o $@ $< 
+  #$(CC) $(CFLAGS) $(LIBS) $(DFLAGS) -o $@ $< 
 
 
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~  *.o ../include/*.o
+  rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~  *.o ../include/*.o

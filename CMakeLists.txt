@@ -33,15 +33,15 @@ cuda_add_executable(
     )
 
 add_executable(
-	mcb_cpu
-	mcb/mcb_non_cpu_rd.cpp
-	$<TARGET_OBJECTS:hostlib>
+  mcb_cpu
+  mcb/mcb_non_cpu_rd.cpp
+  $<TARGET_OBJECTS:hostlib>
 )
 
 add_executable(
-	mcb_cpu_baseline
-	mcb/mcb_cycle.cpp
-	$<TARGET_OBJECTS:hostlib>
+  mcb_cpu_baseline
+  mcb/mcb_cycle.cpp
+  $<TARGET_OBJECTS:hostlib>
 )
 
 add_executable(
@@ -69,7 +69,7 @@ target_link_libraries(
     )
 
 target_link_libraries(
-	mcb_cpu_baseline
+  mcb_cpu_baseline
     -lgomp
 )
 
