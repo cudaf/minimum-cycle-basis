@@ -3,6 +3,7 @@
 
 #include "CsrGraphMulti.h"
 #include <cstring>
+#include <cmath>
 
 struct compressed_trees {
 	int num_rows;
