@@ -269,46 +269,46 @@ struct stats {
 
 			if (!is_gpu_timings)
 				fprintf(fout,
-						"Total_Nodes,\
-							  Total_Edges,\
-							  New_Edges,\
-							  Node_removed,\
-							  Fvs_size,\
-							  Initial_Cycles,\
-							  Final_cycles,\
-							  Total_Weight,\
-							  Construction_trees(s),\
-							  Collect_cycles(s),\
-							  Inspection_time(s),\
-							  Precompute_SP(s),\
-							  Independence_test(s),\
-							  Preprocessing Time(s),\
-							  Main_loop(s),\
-							  Total_time(s)\n");
+					"Total_Nodes,"
+					"Total_Edges,"
+					"New_Edges,"
+					"Node_removed,"
+					"Fvs_size,"
+					"Initial_Cycles,"
+					"Final_cycles,"
+					"Total_Weight,"
+					"Construction_trees(s),"
+					"Collect_cycles(s),"
+					"Inspection_time(s),"
+					"Precompute_SP(s),"
+					"Independence_test(s),"
+					"Preprocessing Time(s),"
+					"Main_loop(s),"
+					"Total_time(s)\n");
 			else
 				fprintf(fout,
-						"Total_Nodes,\
-							  Total_Edges,\
-							  New_Edges,\
-							  Nodes_removed,\
-							  Fvs_size,\
-							  Initial_Cycles,\
-							  Final_cycles,\
-							  Total_Weight,\
-							  nchunks,\
-							  nstreams,\
-							  total_memory_usage(mb),\
-							  static_memory_usage(mb),\
-							  variable_memory_usage(mb),\
-							  load_entire_memory,\
-							  Construction_trees(s),\
-							  Collect_cycles(s),\
-							  Inspection_time(s),\
-							  Gpu_timings,\
-							  Hybrid_Timings(s),\
-							  Preprocessing Time(s),\
-							  Main_loop(s),\
-							  Total_time(s)\n");
+						"Total_Nodes,"
+						"Total_Edges,"
+						"New_Edges,"
+						"Nodes_removed,"
+						"Fvs_size,"
+						"Initial_Cycles,"
+						"Final_cycles,"
+						"Total_Weight,"
+						"nchunks,"
+						"nstreams,"
+						"total_memory_usage(mb),"
+						"static_memory_usage(mb),"
+						"variable_memory_usage(mb),"
+						"load_entire_memory,"
+						"Construction_trees(s),"
+						"Collect_cycles(s),"
+						"Inspection_time(s),"
+						"Gpu_timings,"
+						"Hybrid_Timings(s),"
+						"Preprocessing Time(s),"
+						"Main_loop(s),"
+						"Total_time(s)\n");
 		}
 
 		if (!is_gpu_timings)
