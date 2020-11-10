@@ -198,9 +198,9 @@ int main(int argc, char* argv[]) {
 	if(chunk_size <= max_chunk_size)
 	{
 		multiple_transfers = false;
-
-		debug("number of streams = ",nstreams);
-		debug("current chunk_size = ",chunk_size);
+		debug("nstreams: ", nstreams);
+		debug("chunk_size: ", chunk_size);
+		debug("max_chunk_size:", max_chunk_size);
 		debug("Multiple transfers are turned off and the entire graph is copied first.");
 	}
 
@@ -210,6 +210,7 @@ int main(int argc, char* argv[]) {
 	info.setNstreams(nstreams);
 
 	//construct the initial
+	debug("Construct the initial ...");
 	//compressed_trees trees(chunk_size,fvs_helper.get_num_elements(),fvs_array,reduced_graph);
 	compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array,
 			reduced_graph, allocate_pinned_memory, free_pinned_memory);
@@ -223,9 +224,11 @@ int main(int argc, char* argv[]) {
 				&trees);
 
 	//Record time for producing SP trees.
+	debug("Record time for producing SP trees.");
 	globalTimer.start_timer();
 
 	//produce shortest path trees across all the nodes.
+	debug("Produce shortest path trees across all the nodes.");
 
 	int count_cycles = 0;
 
