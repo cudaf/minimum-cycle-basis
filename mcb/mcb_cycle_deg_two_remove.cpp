@@ -228,7 +228,6 @@ int main(int argc, char* argv[]) {
 
   //produce shortest path trees across all the nodes.
   debug("Produce shortest path trees across all the nodes.");
-
   int count_cycles = 0;
 
 #pragma omp parallel for reduction(+:count_cycles)
@@ -257,18 +256,13 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-
   sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
-
   info.setNumInitialCycles(list_cycle_vec.size());
-
   for (int i = 0; i < list_cycle_vec.size(); i++) {
     if (list_cycle_vec[i] != NULL)
       list_cycle.push_back(list_cycle_vec[i]);
   }
-
   list_cycle_vec.clear();
-
   info.setTimeCollectCycles(globalTimer.get_event_time());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
@@ -286,13 +280,10 @@ int main(int argc, char* argv[]) {
   gpu_struct device_struct(non_tree_edges_map.size(), num_non_tree_edges,
       support_vectors[0]->size, gpu_compute.original_nodes,
       gpu_compute.fvs_size, chunk_size, nstreams, &info);
-
   configure_grid(0, gpu_compute.fvs_size);
-
   //device_struct.calculate_memory();
 
   std::vector<cycle*> final_mcb;
-
   double precompute_time = 0;
   double cycle_inspection_time = 0;
   double hybrid_time = 0;
@@ -301,19 +292,16 @@ int main(int argc, char* argv[]) {
     device_struct.initialize_memory(&gpu_compute);
 
   //bit_vector *cycle_vector = new bit_vector(num_non_tree_edges,allocate_pinned_memory,free_pinned_memory);
-
   bit_vector *cycle_vector = new bit_vector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
   bit_vector *current_vector = new bit_vector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
   bit_vector *next_vector = new bit_vector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
-
   bit_vector *temp_bitvec_ptr;
 
   current_vector->init_zero();
   current_vector->set_bit(0, true);
-
   precompute_time += device_struct.copy_support_vector(current_vector);
   precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
 
@@ -322,14 +310,12 @@ int main(int argc, char* argv[]) {
   debug("Main Outer Loop of the Algorithm.");
   for (int e = 0; e < num_non_tree_edges; e++) {
     //globalTimer.start_timer();
-
     globalTimer.start_timer();
 
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes,
         *nodes_index;
     int *node_edgeoffsets, *node_parents, *node_distance;
     unsigned src, edge_offset, reverse_edge, row, col, position, bit;
-
     int src_index;
 
     for (std::list<cycle*>::iterator cycle = list_cycle.begin();
