@@ -236,9 +236,8 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i,
         reduced_graph);
   }
-  trees.print_tree();
-
   info.setTimeConstructionTrees(globalTimer.get_event_time());
+
   //Record time for collection of cycles.
   debug("Record time for collection of cycles.");
   globalTimer.start_timer();
