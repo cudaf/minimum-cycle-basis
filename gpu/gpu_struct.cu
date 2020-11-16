@@ -75,7 +75,6 @@ void gpu_struct::calculate_memory() {
 }
 
 void gpu_struct::initialize_memory(gpu_task *host_memory) {
-
   CudaError(
       cudaMemcpy(d_non_tree_edges, host_memory->non_tree_edges_array,
           to_byte_32bit(num_edges), cudaMemcpyHostToDevice));
@@ -102,20 +101,17 @@ void gpu_struct::initialize_memory(gpu_task *host_memory) {
 }
 
 float gpu_struct::copy_support_vector(BitVector *vector) {
-  timer.Start();
-
+  timer.start();
   CudaError(
       cudaMemcpy(d_si_vector, vector->data,
           to_byte_64bit(size_vector), cudaMemcpyHostToDevice));
 
-  timer.Stop();
-
-  return timer.Elapsed();
+  timer.stop();
+  return timer.elapsed();
 }
 
 float gpu_struct::fetch(gpu_task *host_memory) {
-  timer.Start();
-
+  timer.start();
   for (int i = 0; i < nstreams; i++) {
     CudaError(
         cudaMemcpy(host_memory->host_tree->precompute_value[i],
@@ -123,15 +119,12 @@ float gpu_struct::fetch(gpu_task *host_memory) {
             to_byte_32bit(chunk_size * original_nodes),
             cudaMemcpyDeviceToHost));
   }
-
-  timer.Stop();
-
-  return timer.Elapsed();
+  timer.stop();
+  return timer.elapsed();
 }
 
 void gpu_struct::transfer_from_asynchronous(int stream_index,
     gpu_task *host_memory,int num_chunk) {
-
   CudaError(
       cudaMemcpyAsync(
           d_edge_offsets + stream_index * chunk_size * original_nodes,
@@ -168,7 +161,7 @@ void gpu_struct::transfer_to_asynchronous(int stream_index,
 
 float gpu_struct::process_shortest_path(gpu_task *host_memory,
     bool multiple_transfer) {
-  timer.Start();
+  timer.start();
 
   for (int i = 0; i < num_chunks; i++) {
 
@@ -187,7 +180,7 @@ float gpu_struct::process_shortest_path(gpu_task *host_memory,
 
   CudaError(cudaDeviceSynchronize());
 
-  timer.Stop();
+  timer.stop();
 
-  return timer.Elapsed();
+  return timer.elapsed();
 }
