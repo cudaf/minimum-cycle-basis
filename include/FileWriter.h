@@ -8,35 +8,26 @@
 
 class FileWriter {
   FILE *file;
-  int M, N, Edges;
-
-  inline void ERROR(const char *ch) {
-    std::cerr << RED << ch << " " << RESET;
-  }
 
 public:
-  FileWriter(const char *name, int Nodes, int NZ) {
+  FileWriter(const char *name, int vertices, int edges) {
     MM_typecode code;
-    M = Nodes;
-    Edges = NZ;
-
-    if ((file = fopen(name, "w")) == NULL) {
-      ERROR("Unable to open file.\n");
-      printf("filename = %s\n", name);
+    file = fopen(name, "w");
+    if (file == NULL) {
+      fprintf(stderr, "Unable to open file: %s\n", name);
       exit(1);
     }
-
     mm_initialize_typecode(&code);
     mm_set_matrix(&code);
     mm_set_coordinate(&code);
     mm_set_integer(&code);
     mm_set_symmetric(&code);
     mm_write_banner(file, code);
-    mm_write_mtx_crd_size(file, Nodes, Nodes, Edges);
+    mm_write_mtx_crd_size(file, vertices, vertices, edges);
   }
 
   void write_edge(int u, int v, int weight) {
-    fprintf(file, "%d %d %d\n", u + 1, v + 1, weight);
+    fprintf(file, "%d %d %d\n", u+1, v+1, weight);
   }
 
   FILE *get_file() {
