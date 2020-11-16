@@ -268,9 +268,9 @@ int main(int argc, char* argv[]) {
   debug("At this stage we have shortest path trees and the cycles sorted in increasing order of length.");
 
   //generate the bit vectors
-  bit_vector **support_vectors = new bit_vector*[num_non_tree_edges];
+  BitVector **support_vectors = new BitVector*[num_non_tree_edges];
   for (int i = 0; i < num_non_tree_edges; i++) {
-    support_vectors[i] = new bit_vector(num_non_tree_edges);
+    support_vectors[i] = new BitVector(num_non_tree_edges);
     support_vectors[i]->set(i, true);
   }
 
@@ -291,13 +291,13 @@ int main(int argc, char* argv[]) {
     device_struct.initialize_memory(&gpu_compute);
 
   //bit_vector *cycle_vector = new bit_vector(num_non_tree_edges,allocate_pinned_memory,free_pinned_memory);
-  bit_vector *cycle_vector = new bit_vector(num_non_tree_edges,
+  BitVector *cycle_vector = new BitVector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
-  bit_vector *current_vector = new bit_vector(num_non_tree_edges,
+  BitVector *current_vector = new BitVector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
-  bit_vector *next_vector = new bit_vector(num_non_tree_edges,
+  BitVector *next_vector = new BitVector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
-  bit_vector *temp_bitvec_ptr;
+  BitVector *temp_bitvec_ptr;
 
   current_vector->init();
   current_vector->set(0, true);

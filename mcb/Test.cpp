@@ -223,12 +223,12 @@ int main(int argc, char* argv[]) {
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
 
   //generate the bit vectors
-  bit_vector **support_vectors = new bit_vector*[num_non_tree_edges];
+  BitVector **support_vectors = new BitVector*[num_non_tree_edges];
 
   printf("Number of non_tree_edges = %d\n", num_non_tree_edges);
 
   for (int i = 0; i < num_non_tree_edges; i++) {
-    support_vectors[i] = new bit_vector(num_non_tree_edges);
+    support_vectors[i] = new BitVector(num_non_tree_edges);
     support_vectors[i]->set(i, true);
   }
 
@@ -282,7 +282,7 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    bit_vector *cycle_vector = final_mcb.back()->get_cycle_vector(
+    BitVector *cycle_vector = final_mcb.back()->get_cycle_vector(
         non_tree_edges_map,
         initial_spanning_tree->non_tree_edges->size());
     final_mcb.back()->print();

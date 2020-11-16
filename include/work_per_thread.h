@@ -152,7 +152,7 @@ struct worker_thread {
   // }
 
   void precompute_supportVec(std::vector<int> &non_tree_edges,
-      bit_vector &vector) {
+      BitVector &vector) {
     //assert(non_tree_edge_map.size() == vector.get_num_elements());
     //assert(vector.get_size() == (int)(ceil((double)non_tree_edge_map.size()/64)));
 

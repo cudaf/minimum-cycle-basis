@@ -80,9 +80,9 @@ struct cycle {
    * @param non_tree_edges map of non_tree edges and its position from 0 - non_tree_edges.size() - 1
    * @return bit_vector describing the cycle.
    */
-  bit_vector *get_cycle_vector(std::vector<int> &non_tree_edges,
+  BitVector *get_cycle_vector(std::vector<int> &non_tree_edges,
       int num_elements) {
-    bit_vector *vector = new bit_vector(num_elements);
+    BitVector *vector = new BitVector(num_elements);
 
     unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
     unsigned col = trees->parent_graph->columns->at(non_tree_edge_index);
@@ -142,7 +142,7 @@ struct cycle {
    * @return bit_vector describing the cycle.
    */
   void *get_cycle_vector(std::vector<int> &non_tree_edges, int num_elements,
-      bit_vector *cycle_vector) {
+      BitVector *cycle_vector) {
 
     cycle_vector->init();
 

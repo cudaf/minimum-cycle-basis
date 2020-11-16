@@ -9,7 +9,7 @@ typedef unsigned* (*fn_mem_alloc)(int, int);
 typedef void  (*fn_mem_free)(unsigned*);
 
 
-class bit_vector {
+class BitVector {
 
 public:
 	uint64_t *data;
@@ -18,7 +18,7 @@ public:
 	int size;
 	fn_mem_free free_pinned_memory;
 
-	bit_vector(int &n) {
+	BitVector(int &n) {
 		size = n;
 		capacity = (int) (ceil((double) n / 64));
 		data = new uint64_t[capacity];
@@ -26,7 +26,7 @@ public:
 		pinned = false;
 	}
 
-	bit_vector(int &n, fn_mem_alloc mem_alloc, fn_mem_free mem_free) {
+	BitVector(int &n, fn_mem_alloc mem_alloc, fn_mem_free mem_free) {
 		data = (uint64_t*) mem_alloc(capacity, 2);
 		capacity = (int) (ceil((double) n / 64));
 		size = n;
@@ -34,7 +34,7 @@ public:
 		free_pinned_memory = mem_free;
 	}
 
-	~bit_vector() {
+	~BitVector() {
 	}
 
 	void init() {
@@ -73,7 +73,7 @@ public:
 		return count;
 	}
 
-	void copy_vector(const bit_vector *src_vector) {
+	void copy_vector(const BitVector *src_vector) {
 		memcpy(data, src_vector->data,
 				sizeof(uint64_t) * capacity);
 	}
@@ -112,13 +112,13 @@ public:
 		data[d] |= v << b;
 	}
 
-	void do_xor(bit_vector *vector) {
+	void do_xor(BitVector *vector) {
 		assert(vector->capacity == capacity);
 		for (int i = 0; i < capacity; i++)
 			data[i] = data[i] ^ vector->data[i];
 	}
 
-	unsigned dot_product(bit_vector *vector1) {
+	unsigned dot_product(BitVector *vector1) {
 		unsigned val = 0;
 		for (int i = 0; i < capacity; i++)
 			val ^= get_and_numbers(data[i], vector1->data[i]);

@@ -67,7 +67,7 @@ struct gpu_struct {
   void calculate_memory();
 
   void initialize_memory(gpu_task *host_memory);
-  float copy_support_vector(bit_vector *vector);
+  float copy_support_vector(BitVector *vector);
 
   void transfer_from_asynchronous(int stream_index, gpu_task *host_memory,int num_chunk);
 
