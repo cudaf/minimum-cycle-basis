@@ -3,7 +3,6 @@
 #include <cstring>
 #include <cmath>
 #include <stack>
-#include <omp.h>
 
 typedef unsigned* (*fn_mem_alloc)(int, int);
 typedef void  (*fn_mem_free)(unsigned*);
