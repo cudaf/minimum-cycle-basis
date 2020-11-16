@@ -6,12 +6,12 @@
 #include "mmio.h"
 
 
-class FileReader {
+struct FileReader {
   FILE *file;
   int ret_code;
   int M, N, Edges;
 
-public:
+
   FileReader(const char *name) {
     MM_typecode code;
     file = fopen(name, "r");
