@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i,
         reduced_graph);
   }
-  info.setTimeConstructionTrees(globalTimer.get_event_time());
+  info.setTimeConstructionTrees(globalTimer.elapsed());
 
   //Record time for collection of cycles.
   debug("Record time for collection of cycles.");
@@ -262,7 +262,7 @@ int main(int argc, char* argv[]) {
       list_cycle.push_back(list_cycle_vec[i]);
   }
   list_cycle_vec.clear();
-  info.setTimeCollectCycles(globalTimer.get_event_time());
+  info.setTimeCollectCycles(globalTimer.elapsed());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
   debug("At this stage we have shortest path trees and the cycles sorted in increasing order of length.");
@@ -351,7 +351,7 @@ int main(int argc, char* argv[]) {
     final_mcb.back()->get_cycle_vector(non_tree_edges_map,
         initial_spanning_tree->non_tree_edges->size(), cycle_vector);
 
-    cycle_inspection_time += globalTimer.get_event_time();
+    cycle_inspection_time += globalTimer.elapsed();
 
     if((e + 1) >= num_non_tree_edges)
       break;
@@ -384,7 +384,7 @@ int main(int argc, char* argv[]) {
     current_vector = next_vector;
     next_vector = temp_bitvec_ptr;
 
-    hybrid_time += globalTimer.get_event_time();
+    hybrid_time += globalTimer.elapsed();
 
   }
 
