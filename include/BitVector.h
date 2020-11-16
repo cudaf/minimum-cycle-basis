@@ -4,16 +4,16 @@
 #include <cmath>
 #include <stack>
 
-typedef unsigned* (*fn_mem_alloc)(int, int);
-typedef void  (*fn_mem_free)(unsigned*);
+typedef unsigned* (*fn_alloc_t)(int, int);
+typedef void  (*fn_free_t)(unsigned*);
 
 
 struct BitVector {
+	fn_free_t fn_free;
 	uint64_t *data;
 	bool pinned;
 	int capacity;
 	int size;
-	fn_mem_free free_pinned_memory;
 
 	BitVector(int &n) {
 		size = n;
@@ -23,12 +23,12 @@ struct BitVector {
 		pinned = false;
 	}
 
-	BitVector(int &n, fn_mem_alloc mem_alloc, fn_mem_free mem_free) {
+	BitVector(int &n, fn_alloc_t mem_alloc, fn_free_t mem_free) {
 		data = (uint64_t*) mem_alloc(capacity, 2);
 		capacity = (int) (ceil((double) n / 64));
 		size = n;
 		pinned = true;
-		free_pinned_memory = mem_free;
+		fn_free = mem_free;
 	}
 
 	~BitVector() {
@@ -40,7 +40,7 @@ struct BitVector {
 
 	void free() {
 		if (!pinned) delete[] data;
-		else free_pinned_memory((unsigned *) data);
+		else fn_free((unsigned *) data);
 	}
 
 	inline uint64_t get_or_number(int &offset, bool &val) {
