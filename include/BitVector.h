@@ -11,7 +11,6 @@ typedef void  (*fn_free_t)(unsigned*);
 struct BitVector {
 	fn_free_t fn_free;
 	uint64_t *data;
-	bool pinned;
 	int capacity;
 	int size;
 
@@ -20,14 +19,13 @@ struct BitVector {
 		capacity = (int) (ceil((double) n / 64));
 		data = new uint64_t[capacity];
 		memset(data, 0, sizeof(uint64_t) * capacity);
-		pinned = false;
+		fn_free = NULL;
 	}
 
-	BitVector(int &n, fn_alloc_t mem_alloc, fn_free_t mem_free) {
-		data = (uint64_t*) mem_alloc(capacity, 2);
+	BitVector(int &n, fn_alloc_t falloc, fn_free_t ffree) {
 		capacity = (int) (ceil((double) n / 64));
+		data = (uint64_t*) falloc(capacity, 2);
 		size = n;
-		pinned = true;
 		fn_free = mem_free;
 	}
 
@@ -35,12 +33,12 @@ struct BitVector {
 	}
 
 	void init() {
-		memset(data, 0, sizeof(uint64_t) * capacity);
+		memset(data, 0, capacity*sizeof(uint64_t));
 	}
 
 	void free() {
-		if (!pinned) delete[] data;
-		else fn_free((unsigned *) data);
+		if (!fn_free) delete[] data;
+		else fn_free((unsigned*) data);
 	}
 
 	inline uint64_t get_or_number(int &offset, bool &val) {
