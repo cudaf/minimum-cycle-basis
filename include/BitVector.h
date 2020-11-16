@@ -70,9 +70,8 @@ struct BitVector {
 		return count;
 	}
 
-	void copy_vector(const BitVector *src_vector) {
-		memcpy(data, src_vector->data,
-				sizeof(uint64_t) * capacity);
+	void copy_from(const BitVector *y) {
+		memcpy(data, y->data, capacity*sizeof(uint64_t));
 	}
 
 	//Return the actual index of the element containing the offset.

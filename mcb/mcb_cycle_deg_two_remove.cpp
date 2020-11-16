@@ -367,7 +367,7 @@ int main(int argc, char* argv[]) {
       if (product == 1)
         support_vectors[e + 1]->do_xor(current_vector);
 
-      next_vector->copy_vector(support_vectors[e + 1]);
+      next_vector->copy_from(support_vectors[e + 1]);
 
       precompute_time += device_struct.copy_support_vector(next_vector);
       precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
