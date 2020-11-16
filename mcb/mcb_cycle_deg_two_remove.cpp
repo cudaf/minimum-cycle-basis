@@ -299,7 +299,7 @@ int main(int argc, char* argv[]) {
       allocate_pinned_memory, free_pinned_memory);
   bit_vector *temp_bitvec_ptr;
 
-  current_vector->init_zero();
+  current_vector->init();
   current_vector->set_bit(0, true);
   precompute_time += device_struct.copy_support_vector(current_vector);
   precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);

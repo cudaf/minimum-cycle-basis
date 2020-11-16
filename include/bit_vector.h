@@ -36,7 +36,7 @@ public:
 	~bit_vector() {
 	}
 
-	void init_zero() {
+	void init() {
 		memset(data, 0, sizeof(uint64_t) * capacity);
 	}
 

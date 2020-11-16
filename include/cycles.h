@@ -144,7 +144,7 @@ struct cycle {
   void *get_cycle_vector(std::vector<int> &non_tree_edges, int num_elements,
       bit_vector *cycle_vector) {
 
-    cycle_vector->init_zero();
+    cycle_vector->init();
 
     unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
     unsigned col = trees->parent_graph->columns->at(non_tree_edge_index);
