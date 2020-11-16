@@ -8,17 +8,17 @@
 
 struct FileReader {
   FILE *file;
-  int ret_code;
-  int M, N, Edges;
+  int rows;
+  int cols;
+  int vals;
 
 
   FileReader(const char *name) {
     MM_typecode code;
+
     file = fopen(name, "r");
-    if (file == NULL) {
-      fprintf(stderr, "Unable to open file: %s\n", name);
-      exit(1);
-    }
+    ASSERTMSG(file, "Unable to open file: %s\n", name);
+
     if (mm_read_banner(file, &code) != 0) {
       fprintf(stderr, "Could not process Matrix Market banner.\n");
       exit(1);
@@ -29,15 +29,15 @@ struct FileReader {
       fprintf(stderr, "Sorry, this application does not support this mtx file. \n");
       exit(1);
     }
-    if ((ret_code = mm_read_mtx_crd_size(file, &M, &N, &Edges)) != 0) {
+    if ((ret_code = mm_read_mtx_crd_size(file, &rows, &cols, &vals)) != 0) {
       fprintf(stderr, "Couldn't find all 3 parameters\n");
       exit(1);
     }
   }
 
-  void get_nodes_edges(int &nodes, int &edges) {
-    nodes = M;
-    edges = Edges;
+  void get_nodes_edges(int &verts, int &edges) {
+    verts = rows;
+    edges = vals;
   }
 
   void read_edge(int &u, int &v, int &weight) {

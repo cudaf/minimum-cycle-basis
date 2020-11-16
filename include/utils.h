@@ -31,6 +31,15 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+
+#define ASSERTMSG(c, ...) \
+  do { \
+    if (c) break;
+    fprintf(stderr, __VA_ARGS__);  \
+    exit(1);  \
+  } while (0)
+
+
 #ifdef __NVCC__
 
 #define CudaError(ans) { gpuAssert((ans), __FILE__, __LINE__); }

@@ -13,10 +13,7 @@ struct FileWriter {
   FileWriter(const char *name, int vertices, int edges) {
     MM_typecode code;
     file = fopen(name, "w");
-    if (file == NULL) {
-      fprintf(stderr, "Unable to open file: %s\n", name);
-      exit(1);
-    }
+    ASSERTMSG(file, "Unable to open file: %s\n", name);
     mm_initialize_typecode(&code);
     mm_set_matrix(&code);
     mm_set_coordinate(&code);
