@@ -43,11 +43,11 @@ struct BitVector {
 		else free_pinned_memory((unsigned *) data);
 	}
 
-	int get_size() {
+	int capacity() {
 		return capacity;
 	}
 
-	int get_num_elements() {
+	int size() {
 		return size;
 	}
 
