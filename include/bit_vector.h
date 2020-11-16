@@ -11,7 +11,7 @@ class bit_vector {
 public:
 	int num_elements;
 	int size;
-	uint64_t *elements;
+	uint64_t *data;
 	bool pinned;
 
 	void (*free_pinned_memory)(unsigned *);
@@ -19,8 +19,8 @@ public:
 	bit_vector(int &n) {
 		num_elements = n;
 		size = (int) (ceil((double) n / 64));
-		elements = new uint64_t[size];
-		memset(elements, 0, sizeof(uint64_t) * size);
+		data = new uint64_t[size];
+		memset(data, 0, sizeof(uint64_t) * size);
 		pinned = false;
 	}
 
@@ -28,7 +28,7 @@ public:
 			void (*mem_free)(unsigned *)) {
 		num_elements = n;
 		size = (int) (ceil((double) n / 64));
-		elements = (uint64_t*) mem_alloc(size, 2);
+		data = (uint64_t*) mem_alloc(size, 2);
 		pinned = true;
 		free_pinned_memory = mem_free;
 	}
@@ -37,14 +37,14 @@ public:
 	}
 
 	void init_zero() {
-		memset(elements, 0, sizeof(uint64_t) * size);
+		memset(data, 0, sizeof(uint64_t) * size);
 	}
 
 	void clear_memory() {
 		if (!pinned)
-			delete[] elements;
+			delete[] data;
 		else
-			free_pinned_memory((unsigned *) elements);
+			free_pinned_memory((unsigned *) data);
 	}
 
 	int get_size() {
@@ -75,14 +75,14 @@ public:
 	}
 
 	void copy_vector(const bit_vector *src_vector) {
-		memcpy(elements, src_vector->elements,
+		memcpy(data, src_vector->data,
 				sizeof(uint64_t) * size);
 	}
 
 	//Return the actual index of the element containing the offset.
 	inline uint64_t &get_element_for_pos(int &pos) {
 		int index = pos / 64;
-		return elements[index];
+		return data[index];
 	}
 
 	inline void print_bits(uint64_t val) {
@@ -112,19 +112,19 @@ public:
 	void do_xor(bit_vector *vector) {
 		assert(vector->size == size);
 		for (int i = 0; i < size; i++)
-			elements[i] = elements[i] ^ vector->elements[i];
+			data[i] = data[i] ^ vector->data[i];
 	}
 
 	unsigned dot_product(bit_vector *vector1) {
 		unsigned val = 0;
 		for (int i = 0; i < size; i++)
-			val ^= get_and_numbers(elements[i], vector1->elements[i]);
+			val ^= get_and_numbers(data[i], vector1->data[i]);
 		return val;
 	}
 
 	void print() {
 		for (int i = 0; i < size; i++) {
-			print_bits(elements[i]);
+			print_bits(data[i]);
 			printf(" ");
 		}
 		printf("\n");
