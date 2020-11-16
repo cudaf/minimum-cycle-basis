@@ -26,9 +26,9 @@ public:
 
 	bit_vector(int &n, unsigned *(*mem_alloc)(int, int),
 			void (*mem_free)(unsigned *)) {
-		size = n;
-		capacity = (int) (ceil((double) n / 64));
 		data = (uint64_t*) mem_alloc(capacity, 2);
+		capacity = (int) (ceil((double) n / 64));
+		size = n;
 		pinned = true;
 		free_pinned_memory = mem_free;
 	}
@@ -40,11 +40,9 @@ public:
 		memset(data, 0, sizeof(uint64_t) * capacity);
 	}
 
-	void clear_memory() {
-		if (!pinned)
-			delete[] data;
-		else
-			free_pinned_memory((unsigned *) data);
+	void free() {
+		if (!pinned) delete[] data;
+		else free_pinned_memory((unsigned *) data);
 	}
 
 	int get_size() {
