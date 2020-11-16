@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     ArticulationPoints.push_back(curr_ap - 1);
   }
 
-  Reader.fileClose();
+  Reader.close();
 
   FileWriter fout(OutputFileName.c_str(), forward_order.size(), edges);
 
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
     fprintf(file, "%u %u\n", it->first + 1, it->second + 1);
   }
 
-  fout.fileClose();
+  fout.close();
 
   edge_lists.clear();
   forward_order.clear();

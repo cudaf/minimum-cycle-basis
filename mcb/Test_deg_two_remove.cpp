@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 
   graph->calculateDegreeandRowOffset();
 
-  Reader.fileClose();
+  Reader.close();
 
   if (graph->get_num_degree_two_vertices() == graph->Nodes) {
     printf("Graph is a cycle\n");

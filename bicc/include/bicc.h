@@ -296,7 +296,7 @@ struct bicc_graph {
           fprintf(file_ref, "%d\n", (*ij) + 1);
         }
 
-        fout.fileClose();
+        fout.close();
 
         //Entry into the stats file
         std::ofstream fstats(statsFileName.c_str(),

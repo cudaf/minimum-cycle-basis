@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
   //Record the Number of initial Edges in the graph.
   info.setEdges(graph->rows->size());
 
-  Reader.fileClose();
+  Reader.close();
 
   if (graph->get_num_degree_two_vertices() == graph->Nodes) {
     info.setCycleNumFVS(1);

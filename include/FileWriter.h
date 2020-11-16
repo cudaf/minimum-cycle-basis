@@ -23,11 +23,13 @@ struct FileWriter {
     mm_write_mtx_crd_size(file, verts, verts, edges);
   }
 
+
   void write_edge(int u, int v, int wt) {
     fprintf(file, "%d %d %d\n", u+1, v+1, wt);
   }
 
-  void fileClose() {
+
+  void close() {
     fclose(file);
   }
 };

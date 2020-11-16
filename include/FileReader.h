@@ -38,13 +38,15 @@ struct FileReader {
     edges = vals;
   }
 
+
   void read_edge(int &u, int &v, int &wt) {
     fscanf(file, "%d %d %d", &u, &v, &wt);
     u--;
     v--;
   }
 
-  void fileClose() {
+
+  void close() {
     fclose(file);
   }
 };

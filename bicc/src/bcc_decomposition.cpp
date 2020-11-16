@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
   graph->calculate_nodes_edges();
   graph->initialize_bicc_numbers();
 
-  Reader.fileClose();
+  Reader.close();
 
   debug("Input File Reading Complete...\n");
 

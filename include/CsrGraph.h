@@ -187,7 +187,7 @@ public:
 				Writer.write_edge(rows->at(i), columns->at(i), weights->at(i));
 		}
 
-		Writer.fileClose();
+		Writer.close();
 	}
 
 	unsigned sum_edge_weights(std::vector<unsigned> &edges_list, unsigned &row,
