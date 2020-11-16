@@ -5,7 +5,7 @@
 #include <stack>
 #include <omp.h>
 
-typedef void* (*fn_mem_alloc)(int, int)();
+typedef void* (*fn_mem_alloc)(int, int);
 typedef void  (*fn_mem_free)(void*);
 
 
