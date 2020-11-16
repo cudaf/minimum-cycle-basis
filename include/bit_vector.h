@@ -1,20 +1,16 @@
-#ifndef _H_BIT_VECTOR
-#define _H_BIT_VECTOR
-
+#pragma once
 #include <stack>
 #include <omp.h>
 #include <cstring>
 #include <cmath>
 
+
 class bit_vector {
 
 public:
-
 	int num_elements;
 	int size;
-
 	unsigned long long *elements;
-
 	bool pinned_memory;
 
 	void (*free_pinned_memory)(unsigned *);
@@ -39,11 +35,9 @@ public:
 	}
 
 	~bit_vector() {
-
 	}
 
-	void init_zero()
-	{
+	void init_zero() {
 		memset(elements, 0, sizeof(unsigned long long) * size);
 	}
 
@@ -66,21 +60,18 @@ public:
 		unsigned long long initial_value = val;
 		if (val == false)
 			return initial_value;
-
 		initial_value <<= offset;
-
 		return initial_value;
 	}
+
 	inline unsigned get_and_numbers(unsigned long long &val1,
 			unsigned long long &val2) {
 		unsigned long long temp = (val1 & val2);
 		unsigned count = 0;
-
 		while (temp != 0) {
 			temp -= (temp & -temp);
 			count ^= 1;
 		}
-
 		return count;
 	}
 
@@ -97,19 +88,15 @@ public:
 
 	inline void print_bits(unsigned long long val) {
 		std::stack<bool> bits;
-
 		int count = 64;
-
 		while (val || (count > 0)) {
 			if (val & 1)
 				bits.push(1);
 			else
 				bits.push(0);
-
 			val >>= 1;
 			count--;
 		}
-
 		while (!bits.empty()) {
 			printf("%d", bits.top());
 			bits.pop();
@@ -119,25 +106,20 @@ public:
 	inline void set_bit(int pos, bool val) {
 		unsigned long long &item = get_element_for_pos(pos);
 		int offset = pos & 63;
-
 		unsigned long long or_number = get_or_number(offset, val);
-
 		item = item | or_number;
 	}
 
 	void do_xor(bit_vector *vector) {
 		assert(vector->size == size);
-
 		for (int i = 0; i < size; i++)
 			elements[i] = elements[i] ^ vector->elements[i];
 	}
 
 	unsigned dot_product(bit_vector *vector1) {
 		unsigned val = 0;
-
 		for (int i = 0; i < size; i++)
 			val ^= get_and_numbers(elements[i], vector1->elements[i]);
-
 		return val;
 	}
 
@@ -153,10 +135,7 @@ public:
 	inline unsigned get_bit(int pos) {
 		unsigned long long &item = get_element_for_pos(pos);
 		int offset = pos & 63;
-
 		unsigned val = (item >> offset) & 1;
 		return val;
 	}
 };
-
-#endif
