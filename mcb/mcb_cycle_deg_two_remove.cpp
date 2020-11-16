@@ -389,9 +389,9 @@ int main(int argc, char* argv[]) {
   }
 
   debug("Clear vector data.");
-  cycle_vector->clear_memory();
-  next_vector->clear_memory();
-  current_vector->clear_memory();
+  cycle_vector->free();
+  next_vector->free();
+  current_vector->free();
 
   list_cycle.clear();
 
@@ -421,7 +421,7 @@ int main(int argc, char* argv[]) {
   trees.clear_memory();
 
   for (int i = 0; i < num_non_tree_edges; i++)
-    support_vectors[i]->clear_memory();
+    support_vectors[i]->free();
 
   delete[] support_vectors;
 
