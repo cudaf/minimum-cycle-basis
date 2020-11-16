@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
   //Node Validity
   assert(reduced_graph->Nodes + nodes_removed == graph->Nodes);
 
-  reduced_graph->print_graph();
+  reduced_graph->print();
 
   FVS fvs_helper(reduced_graph);
 

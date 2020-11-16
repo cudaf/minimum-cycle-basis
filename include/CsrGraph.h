@@ -147,16 +147,14 @@ public:
 	}
 
 	//Print to a file.
-	void PrintToFile(string &fileName, int global_node_count) {
-		if (degree->size() == 0)
-			return;
-		FileWriter Writer(fileName.c_str(), global_node_count,
-				rows->size() / 2);
+	void PrintToFile(string &name, int verts) {
+		if (degree->size() == 0) return;
+		FileWriter file(name.c_str(), verts, rows->size()/2);
 		for (int i = 0; i < rows->size(); i++) {
 			if (rows->at(i) > columns->at(i))
-				Writer.write_edge(rows->at(i), columns->at(i), weights->at(i));
+				file.write_edge(rows->at(i), columns->at(i), weights->at(i));
 		}
-		Writer.close();
+		file.close();
 	}
 
 	unsigned sum_edge_weights(vector<unsigned> &edges_list, unsigned &row, unsigned &col) {
@@ -168,7 +166,7 @@ public:
 		return edge_weight;
 	}
 
-	void print_graph() {
+	void print() {
 		printf("=================================================================================\n");
 		printf("Number of nodes = %d,edges = %d\n", Nodes, rows->size() / 2);
 		for (int i = 0; i < rows->size(); i++) {
