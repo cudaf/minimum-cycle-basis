@@ -74,12 +74,6 @@ struct BitVector {
 		memcpy(data, y->data, capacity*sizeof(uint64_t));
 	}
 
-	//Return the actual index of the element containing the offset.
-	inline uint64_t &get_element_for_pos(int &pos) {
-		int index = pos / 64;
-		return data[index];
-	}
-
 	inline void print_bits(uint64_t val) {
 		std::stack<bool> bits;
 		int count = 64;
