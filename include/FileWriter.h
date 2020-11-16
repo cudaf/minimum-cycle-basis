@@ -30,10 +30,6 @@ public:
     fprintf(file, "%d %d %d\n", u+1, v+1, weight);
   }
 
-  FILE *get_file() {
-    return file;
-  }
-
   void fileClose() {
     fclose(file);
   }

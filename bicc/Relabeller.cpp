@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
   }
   std::vector<int> ArticulationPoints;
 
-  FILE *input_file = Reader.get_file();
+  FILE *input_file = Reader.file;
 
   int count_ap = 0, curr_ap;
 
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     edge_lists[i].clear();
   }
 
-  FILE *file = fout.get_file();
+  FILE *file = fout.file;
 
   fprintf(file, "%d\n", count_ap);
   for (int i = 0; i < count_ap; i++)

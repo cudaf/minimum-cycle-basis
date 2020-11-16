@@ -285,7 +285,7 @@ struct bicc_graph {
             articulation_points.insert(dest_vtx);
         }
 
-        FILE *file_ref = fout.get_file();
+        FILE *file_ref = fout.file;
 
         // write the info about Articulation Points here...
         fprintf(file_ref, "%d\n", articulation_points.size());
