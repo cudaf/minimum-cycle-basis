@@ -16,7 +16,7 @@ public:
 	bool pinned;
 	int capacity;
 	int size;
-	fn_mem_free free_pinned_memory;
+	fn_mem_free *free_pinned_memory;
 
 	bit_vector(int &n) {
 		size = n;
