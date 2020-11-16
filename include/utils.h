@@ -34,7 +34,7 @@
 
 #define ASSERTMSG(c, ...) \
   do { \
-    if (c) break;
+    if (c) break;  \
     fprintf(stderr, __VA_ARGS__);  \
     exit(1);  \
   } while (0)
