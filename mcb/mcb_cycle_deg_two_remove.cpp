@@ -277,7 +277,7 @@ int main(int argc, char* argv[]) {
   gpu_task gpu_compute(&trees, (int*) trees.final_vertices,
       non_tree_edges_map, support_vectors, num_non_tree_edges);
   gpu_struct device_struct(non_tree_edges_map.size(), num_non_tree_edges,
-      support_vectors[0]->size, gpu_compute.original_nodes,
+      support_vectors[0]->capacity, gpu_compute.original_nodes,
       gpu_compute.fvs_size, chunk_size, nstreams, &info);
   configure_grid(0, gpu_compute.fvs_size);
   //device_struct.calculate_memory();

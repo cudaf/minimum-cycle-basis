@@ -105,7 +105,7 @@ float gpu_struct::copy_support_vector(bit_vector *vector) {
   timer.Start();
 
   CudaError(
-      cudaMemcpy(d_si_vector, vector->elements,
+      cudaMemcpy(d_si_vector, vector->data,
           to_byte_64bit(size_vector), cudaMemcpyHostToDevice));
 
   timer.Stop();
