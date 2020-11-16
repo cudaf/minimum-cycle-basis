@@ -1,13 +1,10 @@
-#ifndef _CSR_GRAPH
-#define _CSR_GRAPH 
-
+#pragma once
 #include <utility>
 #include <algorithm>
-
 #include <vector>
 #include <string>
-
 #include "FileWriter.h"
+
 
 class csr_graph {
 protected:
@@ -216,5 +213,3 @@ public:
 				"=================================================================================\n");
 	}
 };
-
-#endif
