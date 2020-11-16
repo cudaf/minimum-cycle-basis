@@ -6,10 +6,10 @@
 #include "mmio.h"
 
 
-class FileWriter {
+struct FileWriter {
   FILE *file;
 
-public:
+
   FileWriter(const char *name, int vertices, int edges) {
     MM_typecode code;
     file = fopen(name, "w");
