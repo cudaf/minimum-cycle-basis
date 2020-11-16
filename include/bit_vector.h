@@ -12,7 +12,7 @@ public:
 	int num_elements;
 	int size;
 	uint64_t *elements;
-	bool pinned_memory;
+	bool pinned;
 
 	void (*free_pinned_memory)(unsigned *);
 
@@ -21,7 +21,7 @@ public:
 		size = (int) (ceil((double) n / 64));
 		elements = new uint64_t[size];
 		memset(elements, 0, sizeof(uint64_t) * size);
-		pinned_memory = false;
+		pinned = false;
 	}
 
 	bit_vector(int &n, unsigned *(*mem_alloc)(int, int),
@@ -29,7 +29,7 @@ public:
 		num_elements = n;
 		size = (int) (ceil((double) n / 64));
 		elements = (uint64_t*) mem_alloc(size, 2);
-		pinned_memory = true;
+		pinned = true;
 		free_pinned_memory = mem_free;
 	}
 
@@ -41,7 +41,7 @@ public:
 	}
 
 	void clear_memory() {
-		if (!pinned_memory)
+		if (!pinned)
 			delete[] elements;
 		else
 			free_pinned_memory((unsigned *) elements);
