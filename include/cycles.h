@@ -1,7 +1,7 @@
 #ifndef __CYCLES_H
 #define __CYCLES_H
 
-#include "bit_vector.h"
+#include "BitVector.h"
 #include "compressed_trees.h"
 
 #include <unordered_map>

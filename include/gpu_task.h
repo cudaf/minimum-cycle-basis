@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "compressed_trees.h"
-#include "bit_vector.h"
+#include "BitVector.h"
 
 struct gpu_task {
   int fvs_size;

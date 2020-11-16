@@ -24,7 +24,7 @@
 #include "CsrGraph.h"
 #include "CsrTree.h"
 #include "CsrGraphMulti.h"
-#include "bit_vector.h"
+#include "BitVector.h"
 #include "work_per_thread.h"
 #include "cycle_searcher.h"
 #include "stats.h"

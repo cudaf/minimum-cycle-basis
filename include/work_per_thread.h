@@ -5,7 +5,7 @@
 #include "CsrTree.h"
 #include "cycles.h"
 #include "Dijkstra.h"
-#include "bit_vector.h"
+#include "BitVector.h"
 #include "cycle_searcher.h"
 #include "compressed_trees.h"
 #include <queue>

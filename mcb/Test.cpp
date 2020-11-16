@@ -22,7 +22,7 @@
 #include "Host_Timer.h"
 #include "CsrGraph.h"
 #include "CsrTree.h"
-#include "bit_vector.h"
+#include "BitVector.h"
 #include "work_per_thread.h"
 #include "cycle_searcher.h"
 #include "compressed_trees.h"

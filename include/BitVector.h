@@ -9,9 +9,7 @@ typedef unsigned* (*fn_mem_alloc)(int, int);
 typedef void  (*fn_mem_free)(unsigned*);
 
 
-class BitVector {
-
-public:
+struct BitVector {
 	uint64_t *data;
 	bool pinned;
 	int capacity;
