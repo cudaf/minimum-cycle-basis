@@ -335,7 +335,7 @@ int main(int argc, char* argv[]) {
       col = reduced_graph->columns->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
-        bit = current_vector->get_bit(non_tree_edges_map[edge_offset]);
+        bit = current_vector->get(non_tree_edges_map[edge_offset]);
       }
 
       bit = (bit ^ precompute_nodes[nodes_index[row]]);

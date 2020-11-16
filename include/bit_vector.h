@@ -129,8 +129,7 @@ public:
 		printf("\n");
 	}
 
-	//get bit value at the position pos such that pos belongs to [0- num_elements - 1]
-	inline unsigned get_bit(int i) {
+	inline unsigned get(int i) {
 		int d = i/64, b = i&63;
 		return (unsigned) (data[d] >> b) & 1;
 	}

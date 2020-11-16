@@ -269,7 +269,7 @@ int main(int argc, char* argv[]) {
       col = reduced_graph->columns->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
-        bit = support_vectors[e]->get_bit(
+        bit = support_vectors[e]->get(
             non_tree_edges_map[edge_offset]);
       }
 

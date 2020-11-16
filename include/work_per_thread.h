@@ -196,7 +196,7 @@ struct worker_thread {
             assert(
                 non_tree_edges[edge_offset]
                     < vector.size);
-            bit = vector.get_bit(non_tree_edges[edge_offset]);
+            bit = vector.get(non_tree_edges[edge_offset]);
             precompute_nodes[column] = (precompute_nodes[top_node]
                 + bit) % 2;
           } else {
