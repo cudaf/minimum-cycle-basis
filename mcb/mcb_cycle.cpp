@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
         reduced_graph);
   }
 
-  info.setTimeConstructionTrees(globalTimer.get_event_time());
+  info.setTimeConstructionTrees(globalTimer.elapsed());
 
   //Record time for collection of cycles.
   globalTimer.start();
@@ -200,7 +200,7 @@ int main(int argc, char* argv[]) {
 
   //assert(list_cycle.size() == count_cycles);
 
-  info.setTimeCollectCycles(globalTimer.get_event_time());
+  info.setTimeCollectCycles(globalTimer.elapsed());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
 
@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
           *support_vectors[e]);
     }
 
-    precompute_time += globalTimer.get_event_time();
+    precompute_time += globalTimer.elapsed();
 
     //Record timings for cycle inspection steps.
     globalTimer.start();
@@ -288,7 +288,7 @@ int main(int argc, char* argv[]) {
         non_tree_edges_map,
         initial_spanning_tree->non_tree_edges->size());
 
-    cycle_inspection_time += globalTimer.get_event_time();
+    cycle_inspection_time += globalTimer.elapsed();
 
     //Record timing for independence test.
     globalTimer.start();
@@ -300,7 +300,7 @@ int main(int argc, char* argv[]) {
         support_vectors[j]->do_xor(support_vectors[e]);
     }
 
-    independence_test_time += globalTimer.get_event_time();
+    independence_test_time += globalTimer.elapsed();
 
   }
 
