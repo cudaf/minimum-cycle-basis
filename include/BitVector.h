@@ -26,7 +26,7 @@ struct BitVector {
 		capacity = (int) (ceil((double) n / 64));
 		data = (uint64_t*) falloc(capacity, 2);
 		size = n;
-		fn_free = mem_free;
+		fn_free = ffree;
 	}
 
 	~BitVector() {
