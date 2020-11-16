@@ -5,6 +5,9 @@
 #include <stack>
 #include <omp.h>
 
+typedef void* (*fn_mem_alloc)(int, int)();
+typedef void  (*fn_mem_free)(void*);
+
 
 class bit_vector {
 
@@ -13,8 +16,7 @@ public:
 	bool pinned;
 	int capacity;
 	int size;
-
-	void (*free_pinned_memory)(unsigned *);
+	fn_mem_free free_pinned_memory;
 
 	bit_vector(int &n) {
 		size = n;
