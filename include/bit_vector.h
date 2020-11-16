@@ -9,15 +9,15 @@
 class bit_vector {
 
 public:
-	int num_elements;
-	int capacity;
 	uint64_t *data;
 	bool pinned;
+	int capacity;
+	int size;
 
 	void (*free_pinned_memory)(unsigned *);
 
 	bit_vector(int &n) {
-		num_elements = n;
+		size = n;
 		capacity = (int) (ceil((double) n / 64));
 		data = new uint64_t[capacity];
 		memset(data, 0, sizeof(uint64_t) * capacity);
@@ -26,7 +26,7 @@ public:
 
 	bit_vector(int &n, unsigned *(*mem_alloc)(int, int),
 			void (*mem_free)(unsigned *)) {
-		num_elements = n;
+		size = n;
 		capacity = (int) (ceil((double) n / 64));
 		data = (uint64_t*) mem_alloc(capacity, 2);
 		pinned = true;
@@ -52,7 +52,7 @@ public:
 	}
 
 	int get_num_elements() {
-		return num_elements;
+		return size;
 	}
 
 	inline uint64_t get_or_number(int &offset, bool &val) {
