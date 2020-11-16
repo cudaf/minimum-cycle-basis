@@ -130,10 +130,8 @@ public:
 	}
 
 	//get bit value at the position pos such that pos belongs to [0- num_elements - 1]
-	inline unsigned get_bit(int pos) {
-		uint64_t &item = get_element_for_pos(pos);
-		int offset = pos & 63;
-		unsigned val = (item >> offset) & 1;
-		return val;
+	inline unsigned get_bit(int i) {
+		int d = i/64, b = i&63;
+		return (unsigned) (data[d] >> b) & 1;
 	}
 };
