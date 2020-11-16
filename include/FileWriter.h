@@ -8,10 +8,7 @@
 
 class FileWriter {
   FILE *OutputFileName;
-  MM_typecode matcode;
-
   int ret_code;
-
   int M, N, Edges;
 
   inline void ERROR(const char *ch) {
@@ -19,8 +16,8 @@ class FileWriter {
   }
 
 public:
-
   FileWriter(const char *OutputFile, int Nodes, int NZ) {
+    MM_typecode code;
     M = Nodes;
     Edges = NZ;
 
@@ -30,13 +27,12 @@ public:
       exit(1);
     }
 
-    mm_initialize_typecode(&matcode);
-    mm_set_matrix(&matcode);
-    mm_set_coordinate(&matcode);
-    mm_set_integer(&matcode);
-    mm_set_symmetric(&matcode);
-
-    mm_write_banner(OutputFileName, matcode);
+    mm_initialize_typecode(&code);
+    mm_set_matrix(&code);
+    mm_set_coordinate(&code);
+    mm_set_integer(&code);
+    mm_set_symmetric(&code);
+    mm_write_banner(OutputFileName, code);
     mm_write_mtx_crd_size(OutputFileName, Nodes, Nodes, Edges);
   }
 
@@ -51,5 +47,4 @@ public:
   void fileClose() {
     fclose(OutputFileName);
   }
-
 };
