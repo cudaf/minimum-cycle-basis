@@ -1,4 +1,4 @@
-#include "Host_Timer.h"
+#include "HostTimer.h"
 
 
 double HostTimer::start_timer() {

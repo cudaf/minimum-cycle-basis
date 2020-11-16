@@ -19,7 +19,7 @@
 #include "FileReader.h"
 #include "Files.h"
 #include "utils.h"
-#include "Host_Timer.h"
+#include "HostTimer.h"
 #include "CsrGraph.h"
 #include "CsrTree.h"
 #include "BitVector.h"

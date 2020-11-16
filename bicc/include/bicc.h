@@ -12,7 +12,7 @@
 
 #include "FileWriter.h"
 #include <fstream>
-#include "Host_Timer.h"
+#include "HostTimer.h"
 #include "CsrGraph.h"
 
 #include <assert.h>

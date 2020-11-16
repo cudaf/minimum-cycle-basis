@@ -23,7 +23,7 @@ _DEPS = *.h
 DEPS = $(patsubst %,$(EX_INCLUDE)/%,$(_DEPS))
 
 _EXTRA_DEPS = mmio.o \
-        Host_Timer.o \
+        HostTimer.o \
         CsrGraphSpanningTree.o \
         CsrGraphDegreeTwoRemoval.o \
         CsrGraphMultiSpanningTree.o \
