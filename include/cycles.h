@@ -89,7 +89,7 @@ struct cycle {
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)
-      vector->set_bit(non_tree_edges[non_tree_edge_index], true);
+      vector->set(non_tree_edges[non_tree_edge_index], true);
 
     unsigned *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
     ;
@@ -106,7 +106,7 @@ struct cycle {
       edge_offset = node_parents[row];
 
       if (non_tree_edges[edge_offset] >= 0)
-        vector->set_bit(non_tree_edges[edge_offset], true);
+        vector->set(non_tree_edges[edge_offset], true);
 
       if (trees->parent_graph->rows->at(edge_offset) != row)
         row = trees->parent_graph->rows->at(edge_offset);
@@ -121,7 +121,7 @@ struct cycle {
       edge_offset = node_parents[col];
 
       if (non_tree_edges[edge_offset] >= 0)
-        vector->set_bit(non_tree_edges[edge_offset], true);
+        vector->set(non_tree_edges[edge_offset], true);
 
       if (trees->parent_graph->rows->at(edge_offset) != col)
         col = trees->parent_graph->rows->at(edge_offset);
@@ -151,7 +151,7 @@ struct cycle {
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)
-      cycle_vector->set_bit(non_tree_edges[non_tree_edge_index], true);
+      cycle_vector->set(non_tree_edges[non_tree_edge_index], true);
 
     unsigned *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
     ;
@@ -168,7 +168,7 @@ struct cycle {
       edge_offset = node_parents[row];
 
       if (non_tree_edges[edge_offset] >= 0)
-        cycle_vector->set_bit(non_tree_edges[edge_offset], true);
+        cycle_vector->set(non_tree_edges[edge_offset], true);
 
       if (trees->parent_graph->rows->at(edge_offset) != row)
         row = trees->parent_graph->rows->at(edge_offset);
@@ -183,7 +183,7 @@ struct cycle {
       edge_offset = node_parents[col];
 
       if (non_tree_edges[edge_offset] >= 0)
-        cycle_vector->set_bit(non_tree_edges[edge_offset], true);
+        cycle_vector->set(non_tree_edges[edge_offset], true);
 
       if (trees->parent_graph->rows->at(edge_offset) != col)
         col = trees->parent_graph->rows->at(edge_offset);

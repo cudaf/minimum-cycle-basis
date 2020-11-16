@@ -255,7 +255,7 @@ int main(int argc, char* argv[]) {
 
   for (int i = 0; i < num_non_tree_edges; i++) {
     support_vectors[i] = new bit_vector(num_non_tree_edges);
-    support_vectors[i]->set_bit(i, true);
+    support_vectors[i]->set(i, true);
   }
 
   std::vector<cycle*> final_mcb;

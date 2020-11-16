@@ -106,7 +106,7 @@ public:
 		return (unsigned) (data[d] >> b) & 1;
 	}
 
-	inline void set_bit(int i, bool v) {
+	inline void set(int i, bool v) {
 		int d = i/64, b = i&63;
 		data[d] &= ~(1 << b);
 		data[d] |= v << b;

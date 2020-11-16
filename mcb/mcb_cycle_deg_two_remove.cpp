@@ -271,7 +271,7 @@ int main(int argc, char* argv[]) {
   bit_vector **support_vectors = new bit_vector*[num_non_tree_edges];
   for (int i = 0; i < num_non_tree_edges; i++) {
     support_vectors[i] = new bit_vector(num_non_tree_edges);
-    support_vectors[i]->set_bit(i, true);
+    support_vectors[i]->set(i, true);
   }
 
   gpu_task gpu_compute(&trees, (int*) trees.final_vertices,
@@ -300,7 +300,7 @@ int main(int argc, char* argv[]) {
   bit_vector *temp_bitvec_ptr;
 
   current_vector->init();
-  current_vector->set_bit(0, true);
+  current_vector->set(0, true);
   precompute_time += device_struct.copy_support_vector(current_vector);
   precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
 
