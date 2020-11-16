@@ -1,49 +1,35 @@
-#ifndef _FILE_READER_H
-#define _FILE_READER_H
-
+#pragma once
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include "utils.h"
-
-extern "C" {
 #include "mmio.h"
-}
+
 
 class FileReader {
-  FILE *InputFileName;
-  MM_typecode matcode;
-
+  FILE *file;
   int ret_code;
-
   int M, N, Edges;
 
-  inline void ERROR(std::string ch) {
-    std::cerr << RED << ch << " " << RESET;
-  }
-
 public:
-
-  FileReader(const char *InputFile) {
-
-    if ((InputFileName = fopen(InputFile, "r")) == NULL) {
-      ERROR(InputFile);
+  FileReader(const char *name) {
+    MM_typecode code;
+    file = fopen(name, "r");
+    if (file == NULL) {
+      fprintf(stderr, "Unable to open file: %s\n", name);
       exit(1);
     }
-
-    if (mm_read_banner(InputFileName, &matcode) != 0) {
-      ERROR("Could not process Matrix Market banner.\n");
+    if (mm_read_banner(file, &code) != 0) {
+      fprintf(stderr, "Could not process Matrix Market banner.\n");
       exit(1);
     }
-
-    if (!(mm_is_matrix(matcode) && mm_is_coordinate(matcode)
-        && (mm_is_integer(matcode) || mm_is_real(matcode))
-        && (mm_is_symmetric(matcode) || mm_is_general(matcode)))) {
-      ERROR("Sorry, this application does not support this mtx file. \n");
+    if (!(mm_is_matrix(code) && mm_is_coordinate(code)
+        && (mm_is_integer(code) || mm_is_real(code))
+        && (mm_is_symmetric(code) || mm_is_general(code)))) {
+      fprintf(stderr, "Sorry, this application does not support this mtx file. \n");
       exit(1);
     }
-
-    if ((ret_code = mm_read_mtx_crd_size(InputFileName, &M, &N, &Edges))
+    if ((ret_code = mm_read_mtx_crd_size(file, &M, &N, &Edges))
         != 0) {
       ERROR("Couldn't find all 3 parameters\n");
       exit(1);
@@ -56,7 +42,7 @@ public:
   }
 
   void read_edge(int &u, int &v, int &weight) {
-    fscanf(InputFileName, "%d %d %d", &u, &v, &weight);
+    fscanf(file, "%d %d %d", &u, &v, &weight);
     u--;
     v--;
     // if(u >= v)
@@ -66,14 +52,7 @@ public:
     // }
   }
 
-  FILE *get_file() {
-    return InputFileName;
-  }
-
   void fileClose() {
-    fclose(InputFileName);
+    fclose(file);
   }
-
 };
-
-#endif
