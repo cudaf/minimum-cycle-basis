@@ -1,8 +1,9 @@
 #pragma once
-#include <stack>
-#include <omp.h>
+#include <cstdint>
 #include <cstring>
 #include <cmath>
+#include <stack>
+#include <omp.h>
 
 
 class bit_vector {
@@ -10,7 +11,7 @@ class bit_vector {
 public:
 	int num_elements;
 	int size;
-	unsigned long long *elements;
+	uint64_t *elements;
 	bool pinned_memory;
 
 	void (*free_pinned_memory)(unsigned *);
@@ -18,8 +19,8 @@ public:
 	bit_vector(int &n) {
 		num_elements = n;
 		size = (int) (ceil((double) n / 64));
-		elements = new unsigned long long[size];
-		memset(elements, 0, sizeof(unsigned long long) * size);
+		elements = new uint64_t[size];
+		memset(elements, 0, sizeof(uint64_t) * size);
 		pinned_memory = false;
 	}
 
@@ -27,10 +28,8 @@ public:
 			void (*mem_free)(unsigned *)) {
 		num_elements = n;
 		size = (int) (ceil((double) n / 64));
-
-		elements = (unsigned long long *) mem_alloc(size, 2);
+		elements = (uint64_t*) mem_alloc(size, 2);
 		pinned_memory = true;
-
 		free_pinned_memory = mem_free;
 	}
 
@@ -38,7 +37,7 @@ public:
 	}
 
 	void init_zero() {
-		memset(elements, 0, sizeof(unsigned long long) * size);
+		memset(elements, 0, sizeof(uint64_t) * size);
 	}
 
 	void clear_memory() {
@@ -56,17 +55,17 @@ public:
 		return num_elements;
 	}
 
-	inline unsigned long long get_or_number(int &offset, bool &val) {
-		unsigned long long initial_value = val;
+	inline uint64_t get_or_number(int &offset, bool &val) {
+		uint64_t initial_value = val;
 		if (val == false)
 			return initial_value;
 		initial_value <<= offset;
 		return initial_value;
 	}
 
-	inline unsigned get_and_numbers(unsigned long long &val1,
-			unsigned long long &val2) {
-		unsigned long long temp = (val1 & val2);
+	inline unsigned get_and_numbers(uint64_t &val1,
+			uint64_t &val2) {
+		uint64_t temp = (val1 & val2);
 		unsigned count = 0;
 		while (temp != 0) {
 			temp -= (temp & -temp);
@@ -77,16 +76,16 @@ public:
 
 	void copy_vector(const bit_vector *src_vector) {
 		memcpy(elements, src_vector->elements,
-				sizeof(unsigned long long) * size);
+				sizeof(uint64_t) * size);
 	}
 
 	//Return the actual index of the element containing the offset.
-	inline unsigned long long &get_element_for_pos(int &pos) {
+	inline uint64_t &get_element_for_pos(int &pos) {
 		int index = pos / 64;
 		return elements[index];
 	}
 
-	inline void print_bits(unsigned long long val) {
+	inline void print_bits(uint64_t val) {
 		std::stack<bool> bits;
 		int count = 64;
 		while (val || (count > 0)) {
@@ -104,9 +103,9 @@ public:
 	}
 
 	inline void set_bit(int pos, bool val) {
-		unsigned long long &item = get_element_for_pos(pos);
+		uint64_t &item = get_element_for_pos(pos);
 		int offset = pos & 63;
-		unsigned long long or_number = get_or_number(offset, val);
+		uint64_t or_number = get_or_number(offset, val);
 		item = item | or_number;
 	}
 
@@ -133,7 +132,7 @@ public:
 
 	//get bit value at the position pos such that pos belongs to [0- num_elements - 1]
 	inline unsigned get_bit(int pos) {
-		unsigned long long &item = get_element_for_pos(pos);
+		uint64_t &item = get_element_for_pos(pos);
 		int offset = pos & 63;
 		unsigned val = (item >> offset) & 1;
 		return val;
