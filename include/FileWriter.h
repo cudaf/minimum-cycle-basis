@@ -1,14 +1,10 @@
-#ifndef _FILE_WRITER_H
-#define _FILE_WRITER_H
-
+#pragma once
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include "utils.h"
-
-extern "C" {
 #include "mmio.h"
-}
+
 
 class FileWriter {
   FILE *OutputFileName;
