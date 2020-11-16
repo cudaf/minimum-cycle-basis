@@ -3,31 +3,31 @@
 
 
 struct GpuTimer {
-  cudaEvent_t start;
-  cudaEvent_t stop;
+  cudaEvent_t e0;
+  cudaEvent_t e1;
 
   GpuTimer() {
-    cudaEventCreate(&start);
-    cudaEventCreate(&stop);
+    cudaEventCreate(&e0);
+    cudaEventCreate(&e1);
   }
 
   ~GpuTimer() {
-    cudaEventDestroy(start);
-    cudaEventDestroy(stop);
+    cudaEventDestroy(e0);
+    cudaEventDestroy(e1);
   }
 
   void start() {
-    cudaEventRecord(start, 0);
+    cudaEventRecord(e0, 0);
   }
 
   void stop() {
-    cudaEventRecord(stop, 0);
+    cudaEventRecord(e1, 0);
   }
 
   float elapsed() {
-    float elapsed;
-    cudaEventSynchronize(stop);
-    cudaEventElapsedTime(&elapsed, start, stop);
-    return elapsed;
+    float t;
+    cudaEventSynchronize(e1);
+    cudaEventElapsedTime(&t, e0, e1);
+    return t;
   }
 };
