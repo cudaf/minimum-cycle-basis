@@ -10,7 +10,7 @@ class bit_vector {
 
 public:
 	int num_elements;
-	int size;
+	int capacity;
 	uint64_t *data;
 	bool pinned;
 
@@ -18,17 +18,17 @@ public:
 
 	bit_vector(int &n) {
 		num_elements = n;
-		size = (int) (ceil((double) n / 64));
-		data = new uint64_t[size];
-		memset(data, 0, sizeof(uint64_t) * size);
+		capacity = (int) (ceil((double) n / 64));
+		data = new uint64_t[capacity];
+		memset(data, 0, sizeof(uint64_t) * capacity);
 		pinned = false;
 	}
 
 	bit_vector(int &n, unsigned *(*mem_alloc)(int, int),
 			void (*mem_free)(unsigned *)) {
 		num_elements = n;
-		size = (int) (ceil((double) n / 64));
-		data = (uint64_t*) mem_alloc(size, 2);
+		capacity = (int) (ceil((double) n / 64));
+		data = (uint64_t*) mem_alloc(capacity, 2);
 		pinned = true;
 		free_pinned_memory = mem_free;
 	}
@@ -37,7 +37,7 @@ public:
 	}
 
 	void init_zero() {
-		memset(data, 0, sizeof(uint64_t) * size);
+		memset(data, 0, sizeof(uint64_t) * capacity);
 	}
 
 	void clear_memory() {
@@ -48,7 +48,7 @@ public:
 	}
 
 	int get_size() {
-		return size;
+		return capacity;
 	}
 
 	int get_num_elements() {
@@ -76,7 +76,7 @@ public:
 
 	void copy_vector(const bit_vector *src_vector) {
 		memcpy(data, src_vector->data,
-				sizeof(uint64_t) * size);
+				sizeof(uint64_t) * capacity);
 	}
 
 	//Return the actual index of the element containing the offset.
@@ -110,20 +110,20 @@ public:
 	}
 
 	void do_xor(bit_vector *vector) {
-		assert(vector->size == size);
-		for (int i = 0; i < size; i++)
+		assert(vector->capacity == capacity);
+		for (int i = 0; i < capacity; i++)
 			data[i] = data[i] ^ vector->data[i];
 	}
 
 	unsigned dot_product(bit_vector *vector1) {
 		unsigned val = 0;
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < capacity; i++)
 			val ^= get_and_numbers(data[i], vector1->data[i]);
 		return val;
 	}
 
 	void print() {
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < capacity; i++) {
 			print_bits(data[i]);
 			printf(" ");
 		}
