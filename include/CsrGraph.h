@@ -8,12 +8,12 @@
 
 class CsrGraph {
 protected:
-	struct edge {
+	struct Edge {
 		unsigned row;
 		unsigned col;
 		int weight;
 
-		edge(unsigned &r, unsigned &c, int &w) {
+		Edge(unsigned &r, unsigned &c, int &w) {
 			row = r;
 			col = c;
 			weight = w;
@@ -21,7 +21,7 @@ protected:
 	};
 
 	struct compare {
-		bool operator()(const edge *a, const edge *b) const {
+		bool operator()(const Edge *a, const Edge *b) const {
 			if (a->row == b->row)
 				return (a->col < b->col);
 			else
@@ -107,11 +107,11 @@ public:
 		}
 		rowOffsets->at(Nodes) = 0;
 		//Allocate a pair array for rows and columns array
-		std::vector<edge*> combined;
+		std::vector<Edge*> combined;
 		//copy the elements from the row and column array
 		for (int i = 0; i < rows->size(); i++)
 			combined.push_back(
-					new edge(rows->at(i), columns->at(i), weights->at(i)));
+					new Edge(rows->at(i), columns->at(i), weights->at(i)));
 		//Sort the elements first by row, then by column
 		std::sort(combined.begin(), combined.end(), compare());
 		//copy back the elements into row and columns
