@@ -29,9 +29,8 @@ public:
       fprintf(stderr, "Sorry, this application does not support this mtx file. \n");
       exit(1);
     }
-    if ((ret_code = mm_read_mtx_crd_size(file, &M, &N, &Edges))
-        != 0) {
-      ERROR("Couldn't find all 3 parameters\n");
+    if ((ret_code = mm_read_mtx_crd_size(file, &M, &N, &Edges)) != 0) {
+      fprintf(stderr, "Couldn't find all 3 parameters\n");
       exit(1);
     }
   }
