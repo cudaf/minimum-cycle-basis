@@ -1,7 +1,6 @@
-#ifndef __GPU_TIMER_H__
-#define __GPU_TIMER_H__
-
+#pragma once
 #include <cuda_runtime.h>
+
 
 struct GpuTimer {
   cudaEvent_t start;
@@ -17,28 +16,18 @@ struct GpuTimer {
     cudaEventDestroy(stop);
   }
 
-  void Start() {
+  void start() {
     cudaEventRecord(start, 0);
   }
 
-  void Stop() {
+  void stop() {
     cudaEventRecord(stop, 0);
   }
 
-  float Elapsed() {
+  float elapsed() {
     float elapsed;
-    cudaEventSynchronize(stop);
-    cudaEventElapsedTime(&elapsed, start, stop);
-    return elapsed;
-  }
-
-  float StopGetTime() {
-    float elapsed;
-    cudaEventRecord(stop, 0);
     cudaEventSynchronize(stop);
     cudaEventElapsedTime(&elapsed, start, stop);
     return elapsed;
   }
 };
-
-#endif /* __GPU_TIMER_H__ */
