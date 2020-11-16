@@ -7,8 +7,7 @@
 
 
 class FileWriter {
-  FILE *OutputFileName;
-  int ret_code;
+  FILE *file;
   int M, N, Edges;
 
   inline void ERROR(const char *ch) {
@@ -16,14 +15,14 @@ class FileWriter {
   }
 
 public:
-  FileWriter(const char *OutputFile, int Nodes, int NZ) {
+  FileWriter(const char *name, int Nodes, int NZ) {
     MM_typecode code;
     M = Nodes;
     Edges = NZ;
 
-    if ((OutputFileName = fopen(OutputFile, "w")) == NULL) {
+    if ((file = fopen(name, "w")) == NULL) {
       ERROR("Unable to open file.\n");
-      printf("filename = %s\n", OutputFile);
+      printf("filename = %s\n", name);
       exit(1);
     }
 
@@ -32,19 +31,19 @@ public:
     mm_set_coordinate(&code);
     mm_set_integer(&code);
     mm_set_symmetric(&code);
-    mm_write_banner(OutputFileName, code);
-    mm_write_mtx_crd_size(OutputFileName, Nodes, Nodes, Edges);
+    mm_write_banner(file, code);
+    mm_write_mtx_crd_size(file, Nodes, Nodes, Edges);
   }
 
   void write_edge(int u, int v, int weight) {
-    fprintf(OutputFileName, "%d %d %d\n", u + 1, v + 1, weight);
+    fprintf(file, "%d %d %d\n", u + 1, v + 1, weight);
   }
 
   FILE *get_file() {
-    return OutputFileName;
+    return file;
   }
 
   void fileClose() {
-    fclose(OutputFileName);
+    fclose(file);
   }
 };
