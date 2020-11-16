@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
         &trees);
 
   //Record time for producing SP trees.
-  globalTimer.start_timer();
+  globalTimer.start();
 
   //produce shortest path trees across all the nodes.
   int count_cycles = 0;
@@ -171,7 +171,7 @@ int main(int argc, char* argv[]) {
   info.setTimeConstructionTrees(globalTimer.get_event_time());
 
   //Record time for collection of cycles.
-  globalTimer.start_timer();
+  globalTimer.start();
 
   std::vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
     }
 
     //Record timings for precomputation steps.
-    globalTimer.start_timer();
+    globalTimer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < num_threads; i++) {
@@ -243,7 +243,7 @@ int main(int argc, char* argv[]) {
     precompute_time += globalTimer.get_event_time();
 
     //Record timings for cycle inspection steps.
-    globalTimer.start_timer();
+    globalTimer.start();
 
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
@@ -291,7 +291,7 @@ int main(int argc, char* argv[]) {
     cycle_inspection_time += globalTimer.get_event_time();
 
     //Record timing for independence test.
-    globalTimer.start_timer();
+    globalTimer.start();
 
 #pragma omp parallel for
     for (int j = e + 1; j < num_non_tree_edges; j++) {

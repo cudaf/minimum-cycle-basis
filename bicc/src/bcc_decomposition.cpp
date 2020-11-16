@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
   graph->collect_edges_component(component_number + 1, new_component_number,
       edge_list_component, src_vtx_component);
 
-  double _counter_init = globalTimer.start_timer();
+  double _counter_init = globalTimer.start();
 
   assert(!src_vtx_component.empty());
 
@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
 
     edge_list_component.clear();
 
-    double _local_time_dfs = globalTimer.start_timer();
+    double _local_time_dfs = globalTimer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < component_list.size(); i++) {
@@ -224,7 +224,7 @@ int main(int argc, char* argv[]) {
       global_num_bridges += num_bridges;
     }
 
-    time_dfs += (globalTimer.stop_timer() - _local_time_dfs);
+    time_dfs += (globalTimer.stop() - _local_time_dfs);
 
     src_vtx_component.clear();
 
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]) {
      * Parallely prune the edge lists and update the finished component 
      * ====================================================================
      */
-    double _local_time_pruning = globalTimer.start_timer();
+    double _local_time_pruning = globalTimer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < component_list.size(); i++) {
@@ -290,7 +290,7 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    time_pruning += (globalTimer.stop_timer() - _local_time_pruning);
+    time_pruning += (globalTimer.stop() - _local_time_pruning);
 
     /*
      * ====================================================================
@@ -310,7 +310,7 @@ int main(int argc, char* argv[]) {
 
   debug("Num Iterations:", num_iterations);
 
-  double _counter_exit = globalTimer.stop_timer();
+  double _counter_exit = globalTimer.stop();
 
   totalTime += (_counter_exit - _counter_init);
 

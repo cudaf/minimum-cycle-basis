@@ -1,15 +1,13 @@
 #pragma once
 #include <omp.h>
 
-class HostTimer {
-  double elapsedTime;
+struct HostTimer {
+  double t0, t1;
 
-public:
-  double start_timer();
-  double stop_timer();
-  double get_event_time() {
-    double initial_time = elapsedTime;
-    elapsedTime = stop_timer();
-    return (elapsedTime - initial_time);
+  double start();
+  double stop();
+  double elapsed() {
+    if (t1 < t0) stop();
+    return t1 - t0;
   }
 };

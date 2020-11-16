@@ -224,7 +224,7 @@ int main(int argc, char* argv[]) {
 
   //Record time for producing SP trees.
   debug("Record time for producing SP trees.");
-  globalTimer.start_timer();
+  globalTimer.start();
 
   //produce shortest path trees across all the nodes.
   debug("Produce shortest path trees across all the nodes.");
@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
 
   //Record time for collection of cycles.
   debug("Record time for collection of cycles.");
-  globalTimer.start_timer();
+  globalTimer.start();
 
   std::vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
@@ -309,7 +309,7 @@ int main(int argc, char* argv[]) {
   debug("Main Outer Loop of the Algorithm.");
   for (int e = 0; e < num_non_tree_edges; e++) {
     //globalTimer.start_timer();
-    globalTimer.start_timer();
+    globalTimer.start();
 
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes,
         *nodes_index;
@@ -356,7 +356,7 @@ int main(int argc, char* argv[]) {
     if((e + 1) >= num_non_tree_edges)
       break;
 
-    globalTimer.start_timer();
+    globalTimer.start();
 
 
   #pragma omp parallel
