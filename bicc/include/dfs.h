@@ -27,7 +27,7 @@ inline unsigned long long merge(unsigned long long upper,
  * @param graph c_graph representation
  * @return [description]
  */
-std::unordered_map<unsigned long long, int> *create_map(csr_graph *graph) {
+std::unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
   std::unordered_map<unsigned long long, int> *edge_map = NULL;
 
   if (edge_map != NULL)

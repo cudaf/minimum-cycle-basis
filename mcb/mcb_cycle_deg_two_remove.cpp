@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
   debug("nodes:", nodes);
   debug("edges:", edges);
 
-  csr_graph *graph = new csr_graph();
+  CsrGraph *graph = new CsrGraph();
 
   graph->Nodes = nodes;
   graph->initial_edge_count = edges;

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <map>
 
-class csr_multi_graph: public csr_graph {
+class csr_multi_graph: public CsrGraph {
 
 protected:
   struct edge {
@@ -226,7 +226,7 @@ public:
   std::vector<unsigned> *get_spanning_tree(
       std::vector<unsigned> **non_tree_edges, int src);
 
-  static csr_multi_graph *get_modified_graph(csr_graph *graph,
+  static csr_multi_graph *get_modified_graph(CsrGraph *graph,
       std::vector<unsigned> *remove_edge_list,
       std::vector<std::vector<unsigned> > *edges_new_list,
       int nodes_removed) {

@@ -22,7 +22,7 @@
 struct bicc_graph {
   int Nodes, Edges;
 
-  csr_graph *c_graph;
+  CsrGraph *c_graph;
 
   std::vector<int> bicc_number;
 
@@ -31,7 +31,7 @@ struct bicc_graph {
   bicc_graph(int _Nodes) {
     Nodes = _Nodes;
     Edges = 0;
-    c_graph = new csr_graph();
+    c_graph = new CsrGraph();
     is_articulation_point.resize(Nodes, false);
   }
 

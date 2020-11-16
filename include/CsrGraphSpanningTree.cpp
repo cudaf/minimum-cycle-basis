@@ -9,7 +9,7 @@
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-std::vector<unsigned> *csr_graph::get_spanning_tree(
+std::vector<unsigned> *CsrGraph::get_spanning_tree(
     std::vector<unsigned> **non_tree_edges,
     std::vector<unsigned> *ear_decomposition, int src) {
   struct DFS_HELPER {

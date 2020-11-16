@@ -6,7 +6,7 @@
 #include "FileWriter.h"
 
 
-class csr_graph {
+class CsrGraph {
 protected:
 	struct edge {
 		unsigned row;
@@ -41,7 +41,7 @@ public:
 	std::vector<unsigned> *degree;
 	std::vector<int> *weights;
 
-	csr_graph() {
+	CsrGraph() {
 		rowOffsets = new std::vector<unsigned>();
 		columns = new std::vector<unsigned>();
 		rows = new std::vector<unsigned>();
@@ -83,7 +83,7 @@ public:
 			insert(b, a, true);
 	}
 
-	~csr_graph() {
+	~CsrGraph() {
 		rowOffsets->clear();
 		columns->clear();
 		rows->clear();

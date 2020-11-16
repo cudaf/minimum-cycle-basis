@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
 
-  csr_graph *graph = new csr_graph();
+  CsrGraph *graph = new CsrGraph();
 
   graph->Nodes = nodes;
   graph->initial_edge_count = edges;

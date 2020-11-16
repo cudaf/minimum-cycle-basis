@@ -9,7 +9,7 @@
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-std::vector<unsigned> *csr_graph::mark_degree_two_chains(
+std::vector<unsigned> *CsrGraph::mark_degree_two_chains(
     std::vector<std::vector<unsigned> > **chain, int &src) {
   struct DFS_HELPER {
     int Nodes;
