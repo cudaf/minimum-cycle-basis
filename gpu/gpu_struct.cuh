@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "gpu_task.h"
 #include "BitVector.h"
-#include "gputimer.h"
+#include "GpuTimer.h"
 #include "stats.h"
 
 #include <stdio.h>
