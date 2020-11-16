@@ -26,8 +26,7 @@ public:
 		pinned = false;
 	}
 
-	bit_vector(int &n, unsigned *(*mem_alloc)(int, int),
-			void (*mem_free)(unsigned *)) {
+	bit_vector(int &n, fn_mem_alloc mem_alloc, fn_mem_free mem_free) {
 		data = (uint64_t*) mem_alloc(capacity, 2);
 		capacity = (int) (ceil((double) n / 64));
 		size = n;
