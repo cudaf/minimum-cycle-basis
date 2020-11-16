@@ -101,11 +101,15 @@ public:
 		}
 	}
 
-	inline void set_bit(int pos, bool val) {
-		uint64_t &item = get_element_for_pos(pos);
-		int offset = pos & 63;
-		uint64_t or_number = get_or_number(offset, val);
-		item = item | or_number;
+	inline unsigned get(int i) {
+		int d = i/64, b = i&63;
+		return (unsigned) (data[d] >> b) & 1;
+	}
+
+	inline void set_bit(int i, bool v) {
+		int d = i/64, b = i&63;
+		data[d] &= ~(1 << b);
+		data[d] |= v << b;
 	}
 
 	void do_xor(bit_vector *vector) {
@@ -127,10 +131,5 @@ public:
 			printf(" ");
 		}
 		printf("\n");
-	}
-
-	inline unsigned get(int i) {
-		int d = i/64, b = i&63;
-		return (unsigned) (data[d] >> b) & 1;
 	}
 };
