@@ -5,6 +5,9 @@
 #include <string>
 #include "FileWriter.h"
 
+using std::string;
+using std::vector;
+
 
 class CsrGraph {
 protected:
@@ -32,18 +35,18 @@ protected:
 public:
 	int Nodes;
 	int initial_edge_count;
-	std::vector<unsigned> *rowOffsets;
-	std::vector<unsigned> *columns;
-	std::vector<unsigned> *rows;
-	std::vector<unsigned> *degree;
-	std::vector<int> *weights;
+	vector<unsigned> *rowOffsets;
+	vector<unsigned> *columns;
+	vector<unsigned> *rows;
+	vector<unsigned> *degree;
+	vector<int> *weights;
 
 	CsrGraph() {
-		rowOffsets = new std::vector<unsigned>();
-		columns = new std::vector<unsigned>();
-		rows = new std::vector<unsigned>();
-		degree = new std::vector<unsigned>();
-		weights = new std::vector<int>();
+		rowOffsets = new vector<unsigned>();
+		columns = new vector<unsigned>();
+		rows = new vector<unsigned>();
+		degree = new vector<unsigned>();
+		weights = new vector<int>();
 	}
 
 	int get_num_degree_two_vertices() {
@@ -84,11 +87,11 @@ public:
 		weights->clear();
 	}
 
-	std::vector<unsigned> *get_spanning_tree(
-			std::vector<unsigned> **non_tree_edges,
-			std::vector<unsigned> *ear_decomposition, int src);
+	vector<unsigned> *get_spanning_tree(
+			vector<unsigned> **non_tree_edges,
+			vector<unsigned> *ear_decomposition, int src);
 
-	std::vector<unsigned> *mark_degree_two_chains(std::vector<std::vector<unsigned> > **chain, int &src);
+	vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
 
 	inline void get_edge_endpoints(unsigned &row, unsigned &col, int &weight,	unsigned &index) {
 		assert(index < rows->size());
@@ -107,7 +110,7 @@ public:
 		}
 		rowOffsets->at(Nodes) = 0;
 		//Allocate a pair array for rows and columns array
-		std::vector<Edge*> combined;
+		vector<Edge*> combined;
 		//copy the elements from the row and column array
 		for (int i = 0; i < rows->size(); i++)
 			combined.push_back(
@@ -144,7 +147,7 @@ public:
 	}
 
 	//Print to a file.
-	void PrintToFile(std::string &fileName, int global_node_count) {
+	void PrintToFile(string &fileName, int global_node_count) {
 		if (degree->size() == 0)
 			return;
 		FileWriter Writer(fileName.c_str(), global_node_count,
@@ -156,7 +159,7 @@ public:
 		Writer.close();
 	}
 
-	unsigned sum_edge_weights(std::vector<unsigned> &edges_list, unsigned &row, unsigned &col) {
+	unsigned sum_edge_weights(vector<unsigned> &edges_list, unsigned &row, unsigned &col) {
 		unsigned edge_weight = 0;
 		for (int i = 0; i < edges_list.size(); i++)
 			edge_weight += weights->at(edges_list.at(i));
