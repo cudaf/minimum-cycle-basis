@@ -3,9 +3,9 @@
 #include <cstring>
 #include <cmath>
 #include <stack>
+#include "utils.h"
 
-typedef unsigned* (*fn_alloc_t)(int, int);
-typedef void  (*fn_free_t)(unsigned*);
+using std::stack;
 
 
 struct BitVector {
@@ -16,14 +16,14 @@ struct BitVector {
 
 	BitVector(int &n) {
 		size = n;
-		capacity = (int) (ceil((double) n / 64));
+		capacity = CEILDIV(n, 64);
 		data = new uint64_t[capacity];
-		memset(data, 0, sizeof(uint64_t) * capacity);
+		memset(data, 0, capacity*sizeof(uint64_t));
 		fn_free = NULL;
 	}
 
 	BitVector(int &n, fn_alloc_t falloc, fn_free_t ffree) {
-		capacity = (int) (ceil((double) n / 64));
+		capacity = CEILDIV(n, 64);
 		data = (uint64_t*) falloc(capacity, 2);
 		size = n;
 		fn_free = ffree;
@@ -49,8 +49,7 @@ struct BitVector {
 		return initial_value;
 	}
 
-	inline unsigned get_and_numbers(uint64_t &val1,
-			uint64_t &val2) {
+	inline unsigned get_and_numbers(uint64_t &val1, uint64_t &val2) {
 		uint64_t temp = (val1 & val2);
 		unsigned count = 0;
 		while (temp != 0) {
@@ -65,7 +64,7 @@ struct BitVector {
 	}
 
 	inline void print_bits(uint64_t val) {
-		std::stack<bool> bits;
+		stack<bool> bits;
 		int count = 64;
 		while (val || (count > 0)) {
 			if (val & 1)

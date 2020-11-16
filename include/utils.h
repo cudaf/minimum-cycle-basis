@@ -12,6 +12,11 @@
 #include <cuda.h>
 
 #endif
+
+typedef unsigned* (*fn_alloc_t)(int, int);
+typedef void  (*fn_free_t)(unsigned*);
+
+
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -30,6 +35,18 @@
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+
+
+#ifndef CEILDIV
+inline int ceildiv(int x, int y) {
+    return (x + y - 1) / y;
+}
+
+// Computes rounded-up integer division.
+// CEILDIV(6, 3) = 2
+// CEILDIV(7, 3) = 3
+#define CEILDIV(x, y) ceildiv(x, y)
+#endif
 
 
 #define ASSERTMSG(c, ...) \
