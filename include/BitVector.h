@@ -43,14 +43,6 @@ struct BitVector {
 		else free_pinned_memory((unsigned *) data);
 	}
 
-	int capacity() {
-		return capacity;
-	}
-
-	int size() {
-		return size;
-	}
-
 	inline uint64_t get_or_number(int &offset, bool &val) {
 		uint64_t initial_value = val;
 		if (val == false)
