@@ -101,7 +101,7 @@ void gpu_struct::initialize_memory(gpu_task *host_memory) {
   }
 }
 
-float gpu_struct::copy_support_vector(bit_vector *vector) {
+float gpu_struct::copy_support_vector(BitVector *vector) {
   timer.Start();
 
   CudaError(
