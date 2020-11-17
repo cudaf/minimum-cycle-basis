@@ -11,13 +11,16 @@
 #include "cycle_searcher.h"
 #include "CompressedTrees.h"
 
+using std::vector;
+using std::queue;
+
 
 struct worker_thread {
   Dijkstra *helper;
   cycle_storage *storage;
   int *fvs_array;
   CompressedTrees *trees;
-  std::vector<unsigned> shortest_path_trees;
+  vector<unsigned> shortest_path_trees;
 
   worker_thread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, CompressedTrees *tr) {
     helper = new Dijkstra(graph->Nodes, graph, fvs_array);
@@ -41,7 +44,7 @@ struct worker_thread {
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);
     //compute the cycles;
-    std::vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
+    vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
     
     int total_weight, temp_weight;
     bool is_edge_cycle, temp_check;
@@ -77,7 +80,7 @@ struct worker_thread {
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);
     //compute the cycles;
-    std::vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
+    vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
 
     int total_weight, temp_weight;
     bool is_edge_cycle, temp_check;
@@ -115,7 +118,7 @@ struct worker_thread {
   //   storage->clear_cycles();
   // }
 
-  void precompute_supportVec(std::vector<int> &non_tree_edges, BitVector &vector) {
+  void precompute_supportVec(vector<int> &non_tree_edges, BitVector &vector) {
     //assert(non_tree_edge_map.size() == vector.get_num_elements());
     //assert(vector.get_size() == (int)(ceil((double)non_tree_edge_map.size()/64)));
 
@@ -132,7 +135,7 @@ struct worker_thread {
       CsrGraphMulti *graph = trees->parent_graph;
       precompute_nodes[src] = 0;
       int edge_offset, reverse_edge, row, column, position, bit;
-      std::queue<unsigned> q;
+      queue<unsigned> q;
 
       q.push(src);
       while (!q.empty()) {
