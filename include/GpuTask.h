@@ -3,6 +3,8 @@
 #include "CompressedTrees.h"
 #include "BitVector.h"
 
+using std::vector;
+
 
 struct GpuTask {
   int fvs_size;
@@ -14,9 +16,8 @@ struct GpuTask {
   CompressedTrees *host_tree;
   BitVector **support_vectors;
 
-  GpuTask(CompressedTrees *ht, int *fvs,
-      std::vector<int> &non_tree_edges_map, BitVector **s_vectors,
-      int num_non_tree) {
+  GpuTask(CompressedTrees *ht, int *fvs, vector<int> &non_tree_edges_map,
+      BitVector **s_vectors, int num_non_tree) {
     fvs_array = fvs;
     host_tree = ht;
     fvs_size = ht->fvs_size;
