@@ -271,13 +271,12 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   }
 
   //apply the component labels
-  for (auto it = dfs_worker->store_biconnected_edges.begin();
-      it != dfs_worker->store_biconnected_edges.end(); it++) {
-    int component_number = (*it).first;
-    list<int> *edge_lists = (*it).second;
+  for (auto&& it : dfs_worker->store_biconnected_edges) {
+    int component_number = it.first;
+    list<int> *edge_lists = it.second;
 
     int _src_component = -1;
-    for (auto it : *edge_lists) {
+    for (auto&& it : *edge_lists) {
       int edge_index = it;
       int src_vtx = dfs_worker->graph->c_graph->rows->at(edge_index);
       int dest_vtx = dfs_worker->graph->c_graph->cols->at(edge_index);
