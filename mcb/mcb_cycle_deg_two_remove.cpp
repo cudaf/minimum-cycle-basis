@@ -30,8 +30,8 @@
 #include "FVS.h"
 #include "compressed_trees.h"
 #include "gpu_task.h"
-
 #include <gpu/common.cuh>
+
 
 debugger dbg;
 HostTimer globalTimer;
@@ -76,7 +76,6 @@ int main(int argc, char* argv[]) {
   debug("edges:", edges);
 
   CsrGraph *graph = new CsrGraph();
-
   graph->Nodes = nodes;
   graph->initial_edge_count = edges;
   /*
@@ -88,12 +87,10 @@ int main(int argc, char* argv[]) {
     Reader.read_edge(v1, v2, weight);
     graph->insert(v1, v2, weight, false);
   }
-
   graph->calculateDegreeandRowOffset();
 
   //Record the Number of Nodes in the graph.
   info.setNumNodesTotal(graph->Nodes);
-
   //Record the Number of initial Edges in the graph.
   info.setEdges(graph->rows->size());
 
@@ -106,7 +103,6 @@ int main(int argc, char* argv[]) {
     info.setNumInitialCycles(1);
     info.setTotalWeight(graph->totalWeight());
     info.print_stats(argv[2]);
-
     return 0;
   }
 
@@ -129,14 +125,12 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i < chains->size(); i++) {
     unsigned row, col;
     unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
-
     nodes_removed += chains->at(i).size() - 1;
 
     std::vector<unsigned> new_edge = std::vector<unsigned>();
     new_edge.push_back(row);
     new_edge.push_back(col);
     new_edge.push_back(total_weight);
-
     edges_new_list->push_back(new_edge);
     //debug(row+1,col+1,total_weight);
   }
@@ -155,7 +149,6 @@ int main(int argc, char* argv[]) {
 
   //Record the number of new edges in the graph.
   info.setNewEdges(reduced_graph->rows->size());
-
   //Record the number of FVS vertices in the graph.
   info.setCycleNumFVS(fvs_helper.get_num_elements());
 
@@ -185,11 +178,8 @@ int main(int argc, char* argv[]) {
 
   chunk_size = 720;
   nstreams = (int)ceil((double)fvs_helper.get_num_elements()/ chunk_size);
-
   int max_chunk_size = calculate_chunk_size(reduced_graph->Nodes, non_tree_edges_map.size(),
       (int) (ceil((double) num_non_tree_edges / 64)), nstreams);
-
-
   bool multiple_transfers = true;
 
   if(chunk_size <= max_chunk_size)
@@ -203,7 +193,6 @@ int main(int argc, char* argv[]) {
   }
 
   info.setLoadEntireMemory(!multiple_transfers);
-
   info.setNchunks(nstreams);
   info.setNstreams(nstreams);
 
@@ -214,7 +203,6 @@ int main(int argc, char* argv[]) {
       reduced_graph, allocate_pinned_memory, free_pinned_memory);
 
   cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
-
   worker_thread **multi_work = new worker_thread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)
@@ -325,7 +313,6 @@ int main(int argc, char* argv[]) {
           &node_edgeoffsets, &node_parents, &node_distance,
           &nodes_index, src_index);
       trees.get_precompute_array(&precompute_nodes, src_index);
-
       edge_offset = (*cycle)->non_tree_edge_index;
       bit = 0;
 
@@ -351,10 +338,8 @@ int main(int argc, char* argv[]) {
         initial_spanning_tree->non_tree_edges->size(), cycle_vector);
 
     cycle_inspection_time += globalTimer.elapsed();
-
     if((e + 1) >= num_non_tree_edges)
       break;
-
     globalTimer.start();
 
 
@@ -367,7 +352,6 @@ int main(int argc, char* argv[]) {
         support_vectors[e + 1]->do_xor(current_vector);
 
       next_vector->copy_from(support_vectors[e + 1]);
-
       precompute_time += device_struct.copy_support_vector(next_vector);
       precompute_time += device_struct.process_shortest_path(&gpu_compute,multiple_transfers);
     }
@@ -382,16 +366,13 @@ int main(int argc, char* argv[]) {
     temp_bitvec_ptr = current_vector;
     current_vector = next_vector;
     next_vector = temp_bitvec_ptr;
-
     hybrid_time += globalTimer.elapsed();
-
   }
 
   debug("Clear vector data.");
   cycle_vector->free();
   next_vector->free();
   current_vector->free();
-
   list_cycle.clear();
 
   debug("Set GPU timings ...");
@@ -401,7 +382,6 @@ int main(int argc, char* argv[]) {
   info.setTotalTime();
 
   int total_weight = 0;
-
   for (int i = 0; i < final_mcb.size(); i++) {
     total_weight += final_mcb[i]->total_length;
   }
@@ -414,7 +394,6 @@ int main(int argc, char* argv[]) {
   info.print_stats(argv[2]);
 
   delete[] fvs_array;
-
   debug("Clear all data.");
   device_struct.clear_memory();
   trees.clear_memory();
@@ -423,6 +402,5 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->free();
 
   delete[] support_vectors;
-
   return 0;
 }
