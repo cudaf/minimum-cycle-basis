@@ -11,7 +11,8 @@
 #include "dfs_helper.h"
 #include "bicc.h"
 
-
+using std::list;
+using std::unordered_map;
 
 
 inline unsigned long long merge(unsigned long long upper, unsigned long long lower) {
@@ -27,14 +28,14 @@ inline unsigned long long merge(unsigned long long upper, unsigned long long low
  * @param graph c_graph representation
  * @return [description]
  */
-std::unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
-  std::unordered_map<unsigned long long, int> *edge_map = NULL;
+unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
+  unordered_map<unsigned long long, int> *edge_map = NULL;
 
   if (edge_map != NULL)
     return edge_map;
 
-  std::unordered_map<unsigned long long, int> *custom_map =
-      new std::unordered_map<unsigned long long, int>();
+  unordered_map<unsigned long long, int> *custom_map =
+      new unordered_map<unsigned long long, int>();
 
   unsigned long long result;
   unsigned long long src;
@@ -55,16 +56,16 @@ struct DFS {
   int component_number;
   int *new_component_number;
   bicc_graph *graph;
-  std::list<int> *bicc_edges;
+  list<int> *bicc_edges;
   dfs_helper *helper;
   int count_bridges, time;  //count indicates number of bridges
-  std::unordered_map<unsigned long long, int> *edge_map;
-  std::list<std::pair<int, std::list<int>*> > store_biconnected_edges;
+  unordered_map<unsigned long long, int> *edge_map;
+  list<std::pair<int, list<int>*> > store_biconnected_edges;
   bool keep_bridges = true;
 
   DFS(int c_number, int *new_c_number, bicc_graph *gr,
-      std::list<int> *bi_edges, dfs_helper *helper_struct,
-      std::unordered_map<unsigned long long, int> *bi_map,
+      list<int> *bi_edges, dfs_helper *helper_struct,
+      unordered_map<unsigned long long, int> *bi_map,
       bool keep_bridges_param) {
     component_number = c_number;
     new_component_number = new_c_number;
@@ -149,7 +150,7 @@ struct DFS {
           if (bicc_edges->empty())
             return;
 
-          std::list<int> *edges_per_component = new std::list<int>();
+          list<int> *edges_per_component = new list<int>();
           int edge_index = bicc_edges->back();
           assert(edge_index < graph->Edges);
           unsigned src_vtx = graph->c_graph->rows->at(edge_index);
@@ -219,10 +220,10 @@ struct DFS {
  * @return count of new_bccs_formed.
  */
 int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
-    bicc_graph *graph, dfs_helper *helper, std::unordered_map<unsigned long long, int> *edge_map,
-    std::unordered_map<int, std::list<int>*> &edge_list_component, bool keep_bridges) {
+    bicc_graph *graph, dfs_helper *helper, unordered_map<unsigned long long, int> *edge_map,
+    unordered_map<int, list<int>*> &edge_list_component, bool keep_bridges) {
   int j = 1;
-  std::list<int> *bicc_edges = new std::list<int>();
+  list<int> *bicc_edges = new list<int>();
   helper->initialize_arrays();
   //////debug("New Component");
   //////debug("");
@@ -232,7 +233,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
       helper, edge_map, keep_bridges);
   dfs_worker->dfs(src);
 
-  std::list<int> *edges_per_component = new std::list<int>();
+  list<int> *edges_per_component = new list<int>();
   unsigned src_vtx = -1;
   unsigned dest_vtx = -1;
 
@@ -271,14 +272,14 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   }
 
   //apply the component labels
-  for (std::list<std::pair<int, std::list<int>*> >::iterator it =
+  for (list<std::pair<int, list<int>*> >::iterator it =
       dfs_worker->store_biconnected_edges.begin();
       it != dfs_worker->store_biconnected_edges.end(); it++) {
     int component_number = (*it).first;
-    std::list<int> *edge_lists = (*it).second;
+    list<int> *edge_lists = (*it).second;
 
     int _src_component = -1;
-    for (std::list<int>::iterator it = edge_lists->begin(); it != edge_lists->end(); it++) {
+    for (list<int>::iterator it = edge_lists->begin(); it != edge_lists->end(); it++) {
       int edge_index = *it;
       int src_vtx = dfs_worker->graph->c_graph->rows->at(edge_index);
       int dest_vtx = dfs_worker->graph->c_graph->cols->at(edge_index);
