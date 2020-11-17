@@ -160,7 +160,7 @@ struct bicc_graph {
     }
 
     for (auto&& it : edge_list_component) {
-      for (auto&& ij : it.second) {
+      for (auto&& ij : *it.second) {
         int edge_index = ij;
         ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
       }
