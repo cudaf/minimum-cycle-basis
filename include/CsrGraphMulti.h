@@ -1,12 +1,10 @@
-#ifndef __CSR_MULTI_GRAPH
-#define __CSR_MULTI_GRAPH
-
-#include "CsrGraph.h"
-#include <unordered_map>
+#pragma once
 #include <map>
+#include <unordered_map>
+#include "CsrGraph.h"
+
 
 class csr_multi_graph: public CsrGraph {
-
 protected:
   struct edge {
     unsigned row;
@@ -299,5 +297,3 @@ public:
     return new_reduced_graph;
   }
 };
-
-#endif
