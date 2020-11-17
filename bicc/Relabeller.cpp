@@ -22,49 +22,39 @@
 #include "CsrGraph.h"
 #include "CsrTree.h"
 
+
 debugger dbg;
 HostTimer globalTimer;
-
 std::string InputFileName;
 std::string OutputFileName;
-
 double totalTime = 0;
-
 std::unordered_map<unsigned, unsigned> forward_order;
+
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
     printf("Ist Argument should indicate the InputFile\n");
     printf("2nd Argument should indicate the OutputFileName\n");
-    printf(
-        "3th argument should indicate the number of threads.(Optional) (1 default)\n");
+    printf("3th argument should indicate the number of threads.(Optional) (1 default)\n");
     exit(1);
   }
 
   int num_threads = 1;
-
   if (argc == 4)
     num_threads = atoi(argv[3]);
-
   InputFileName = argv[1];
   OutputFileName = argv[2];
-
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
   std::string InputFilePath = InputFileName;
-
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
 
   int v1, v2, Initial_Vertices, weight;
-  ;
-
   int nodes, edges;
-
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
-
   int count = 0;
 
   std::vector<std::vector<unsigned> > edge_lists;
@@ -84,11 +74,8 @@ int main(int argc, char* argv[]) {
 
   }
   std::vector<int> ArticulationPoints;
-
   FILE *input_file = Reader.file;
-
   int count_ap = 0, curr_ap;
-
   fscanf(input_file, "%d", &count_ap);
 
   //push to Articulation Points
@@ -96,11 +83,9 @@ int main(int argc, char* argv[]) {
     fscanf(input_file, "%d", &curr_ap);
     ArticulationPoints.push_back(curr_ap - 1);
   }
-
   Reader.close();
 
   FileWriter fout(OutputFileName.c_str(), forward_order.size(), edges);
-
   for (int i = 0; i < edges; i++) {
     fout.write_edge(forward_order[edge_lists[i][0]],
         forward_order[edge_lists[i][1]], edge_lists[i][2]);
@@ -108,15 +93,12 @@ int main(int argc, char* argv[]) {
   }
 
   FILE *file = fout.file;
-
   fprintf(file, "%d\n", count_ap);
   for (int i = 0; i < count_ap; i++)
     fprintf(file, "%d\n", forward_order[ArticulationPoints[i]] + 1);
-
   fprintf(file, "%d\n", -1);
   fprintf(file, "%d\n", nodes);
   fprintf(file, "%d\n", forward_order.size());
-
   ArticulationPoints.clear();
 
   for (std::unordered_map<unsigned, unsigned>::iterator it =
@@ -125,9 +107,7 @@ int main(int argc, char* argv[]) {
   }
 
   fout.close();
-
   edge_lists.clear();
   forward_order.clear();
-
   return 0;
 }
