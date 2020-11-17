@@ -2,7 +2,7 @@
 #include <utility>
 #include <assert.h>
 #include "BitVector.h"
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 
 using std::vector;
 
