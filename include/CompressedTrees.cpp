@@ -1,4 +1,4 @@
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 
 using std::vector;
 
