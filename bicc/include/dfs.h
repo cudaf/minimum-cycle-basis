@@ -84,9 +84,9 @@ struct DFS {
    * 
    * @param src Vertex to start dfs.
    */
-  void dfs(unsigned src) {
+  void dfs(int src) {
     ////debug("Start Src : ",src + 1);
-    unsigned dest;
+    int dest;
     helper->parent[src] = -1;
     helper->_stack.push(src);
 
@@ -152,8 +152,8 @@ struct DFS {
           list<int> *edges_per_component = new list<int>();
           int edge_index = bicc_edges->back();
           assert(edge_index < graph->Edges);
-          unsigned src_vtx = graph->c_graph->rows->at(edge_index);
-          unsigned dest_vtx = graph->c_graph->cols->at(edge_index);
+          int src_vtx = graph->c_graph->rows->at(edge_index);
+          int dest_vtx = graph->c_graph->cols->at(edge_index);
 
           while ((src_vtx != _edge_src) || (dest_vtx != _edge_dest)) {
             edges_per_component->push_back(edge_index);
@@ -218,7 +218,7 @@ struct DFS {
  * @param bicc_pair This corresponds to a pair containing <new_bcc_number,start> vertex for every component.
  * @return count of new_bccs_formed.
  */
-int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
+int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
     bicc_graph *graph, dfs_helper *helper, unordered_map<unsigned long long, int> *edge_map,
     unordered_map<int, list<int>*> &edge_list_component, bool keep_bridges) {
   int j = 1;
@@ -233,8 +233,8 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   dfs_worker->dfs(src);
 
   list<int> *edges_per_component = new list<int>();
-  unsigned src_vtx = -1;
-  unsigned dest_vtx = -1;
+  int src_vtx = -1;
+  int dest_vtx = -1;
 
   while (!bicc_edges->empty()) {
     j = 1;

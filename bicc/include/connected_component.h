@@ -71,7 +71,7 @@ int obtain_connected_components(int bicc_number, int &new_bicc_number,
   Connected_Components component(bicc_number, &new_bicc_number, graph, helper, edge_map);
   debug("graph->nodes", graph->Nodes);
 
-  for (unsigned src = 0; src < graph->Nodes; src++) {
+  for (int src = 0; src < graph->Nodes; src++) {
     if ((graph->c_graph->rowOffsets->at(src + 1) - graph->c_graph->rowOffsets->at(src)) > 0) {
       if (helper->discovery[src] == -1) {
         component.count_components++;
