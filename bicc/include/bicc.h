@@ -19,10 +19,14 @@ using std::list;
 using std::vector;
 using std::unordered_set;
 using std::unordered_map;
+using std::ofstream;
+using std::ios;
+using std::to_string;
+using std::endl;
 
 
 //Struct BCC is used to contain information about Biconnected Components
-//Contains Nodes, Edges and adjacencyList std::map<int,std::set<int>* > 
+//Contains Nodes, Edges and adjacencyList map<int,set<int>*> 
 struct bicc_graph {
   int Nodes, Edges;
   CsrGraph *c_graph;
@@ -231,7 +235,7 @@ struct bicc_graph {
       if (it.second.size() > 0) {
         ++file_output_count;
 
-        string outputfilePath = outputDirName + std::to_string(file_output_count) + ".mtx";
+        string outputfilePath = outputDirName + to_string(file_output_count) + ".mtx";
 
         //debug(outputfilePath);
         unordered_set<int> articulation_points;
@@ -261,12 +265,12 @@ struct bicc_graph {
         fout.close();
 
         //Entry into the stats file
-        std::ofstream fstats(statsFileName.c_str(),
-          std::ios::out | std::ios::app);
+        ofstream fstats(statsFileName.c_str(),
+          ios::out | ios::app);
 
         fstats << file_output_count << " "
           << count_nodes[component_number].size() << " "
-          << it.second.size() << std::endl;
+          << it.second.size() << endl;
         fstats.close();
       }
     }
