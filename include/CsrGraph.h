@@ -86,11 +86,11 @@ public:
 
 	vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
 
-	inline void getEdge(unsigned &row, unsigned &col, int &weight,	unsigned &index) {
-		assert(index < rows->size());
-		row = rows->at(index);
-		col = cols->at(index);
-		weight = weights->at(index);
+	inline void getEdge(int i, unsigned &row, unsigned &col, int &weight) {
+		assert(i < rows->size());
+		row = rows->at(i);
+		col = cols->at(i);
+		weight = weights->at(i);
 	}
 
 	//Calculate the degree of the vertices and create the rowOffset
