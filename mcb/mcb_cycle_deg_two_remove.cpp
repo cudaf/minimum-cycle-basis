@@ -324,7 +324,7 @@ int main(int argc, char* argv[]) {
 
       if (bit == 1) {
         final_mcb.push_back(cycle);
-        list_cycle.erase(&cycle);
+        list_cycle.erase(cycle);
         break;
       }
     }
