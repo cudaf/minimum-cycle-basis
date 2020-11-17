@@ -33,12 +33,9 @@
 
 debugger dbg;
 HostTimer globalTimer;
-
 std::string InputFileName;
 std::string OutputFileDirectory;
-
 stats info(false);
-
 int num_threads;
 
 int main(int argc, char* argv[]) {
@@ -51,30 +48,23 @@ int main(int argc, char* argv[]) {
   }
 
   num_threads = 1;
-
   if (argc == 4)
     num_threads = atoi(argv[3]);
-
   InputFileName = argv[1];
-
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
   std::string InputFilePath = InputFileName;
-
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
 
   int v1, v2, Initial_Vertices, weight;
-  ;
-
   int nodes, edges, chunk_size = 1; //chunk size represents the number of rows of tree edges to be put together.
 
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
 
   CsrGraph *graph = new CsrGraph();
-
   graph->Nodes = nodes;
   graph->initial_edge_count = edges;
   /*
@@ -86,12 +76,10 @@ int main(int argc, char* argv[]) {
     Reader.read_edge(v1, v2, weight);
     graph->insert(v1, v2, weight, false);
   }
-
   graph->calculateDegreeandRowOffset();
 
   //Record the Number of Nodes in the graph.
   info.setNumNodesTotal(graph->Nodes);
-
   //Record the Number of initial Edges in the graph.
   info.setEdges(graph->rows->size());
 
@@ -103,15 +91,11 @@ int main(int argc, char* argv[]) {
     info.setNumInitialCycles(1);
     info.setTotalWeight(graph->totalWeight());
     info.print_stats(argv[2]);
-
     return 0;
   }
 
   int source_vertex = 0;
-
-  csr_multi_graph *reduced_graph = csr_multi_graph::get_modified_graph(graph,
-      NULL, NULL, 0);
-
+  csr_multi_graph *reduced_graph = csr_multi_graph::get_modified_graph(graph, NULL, NULL, 0);
   FVS fvs_helper(reduced_graph);
   fvs_helper.MGA();
   fvs_helper.print_fvs();
@@ -144,11 +128,8 @@ int main(int argc, char* argv[]) {
   }
 
   //construct the initial
-  compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array,
-      reduced_graph);
-
+  compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array, reduced_graph);
   cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
-
   worker_thread **multi_work = new worker_thread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)
@@ -169,7 +150,6 @@ int main(int argc, char* argv[]) {
   }
 
   info.setTimeConstructionTrees(globalTimer.elapsed());
-
   //Record time for collection of cycles.
   globalTimer.start();
 
@@ -188,22 +168,18 @@ int main(int argc, char* argv[]) {
   }
 
   sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
-
   info.setNumInitialCycles(list_cycle_vec.size());
 
   for (int i = 0; i < list_cycle_vec.size(); i++) {
     if (list_cycle_vec[i] != NULL)
       list_cycle.push_back(list_cycle_vec[i]);
   }
-
   list_cycle_vec.clear();
 
   //assert(list_cycle.size() == count_cycles);
-
   info.setTimeCollectCycles(globalTimer.elapsed());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
-
   //generate the bit vectors
   BitVector **support_vectors = new BitVector*[num_non_tree_edges];
   for (int i = 0; i < num_non_tree_edges; i++) {
@@ -212,11 +188,9 @@ int main(int argc, char* argv[]) {
   }
 
   std::vector<cycle*> final_mcb;
-
   double precompute_time = 0;
   double cycle_inspection_time = 0;
   double independence_test_time = 0;
-
   int pause_edge = num_non_tree_edges;
 
   if(argc == 5)
@@ -236,10 +210,8 @@ int main(int argc, char* argv[]) {
 
 #pragma omp parallel for
     for (int i = 0; i < num_threads; i++) {
-      multi_work[i]->precompute_supportVec(non_tree_edges_map,
-          *support_vectors[e]);
+      multi_work[i]->precompute_supportVec(non_tree_edges_map, *support_vectors[e]);
     }
-
     precompute_time += globalTimer.elapsed();
 
     //Record timings for cycle inspection steps.
@@ -257,8 +229,7 @@ int main(int argc, char* argv[]) {
       src_index = trees.vertices_map[src];
 
       trees.get_node_arrays(&node_rowoffsets, &node_columns,
-          &node_edgeoffsets, &node_parents, &node_distance,
-          src_index);
+          &node_edgeoffsets, &node_parents, &node_distance, src_index);
       trees.get_precompute_array(&precompute_nodes, src_index);
 
       edge_offset = (*cycle)->non_tree_edge_index;
@@ -269,15 +240,12 @@ int main(int argc, char* argv[]) {
       col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
-        bit = support_vectors[e]->get(
-            non_tree_edges_map[edge_offset]);
+        bit = support_vectors[e]->get(non_tree_edges_map[edge_offset]);
       }
-
       bit = (bit + precompute_nodes[row]) % 2;
       bit = (bit + precompute_nodes[col]) % 2;
 
       if (bit == 1) {
-
         final_mcb.push_back(*cycle);
         list_cycle.erase(cycle);
         break;
@@ -285,11 +253,8 @@ int main(int argc, char* argv[]) {
     }
 
     BitVector *cycle_vector = final_mcb.back()->get_cycle_vector(
-        non_tree_edges_map,
-        initial_spanning_tree->non_tree_edges->size());
-
+        non_tree_edges_map, initial_spanning_tree->non_tree_edges->size());
     cycle_inspection_time += globalTimer.elapsed();
-
     //Record timing for independence test.
     globalTimer.start();
 
@@ -299,11 +264,8 @@ int main(int argc, char* argv[]) {
       if (product == 1)
         support_vectors[j]->do_xor(support_vectors[e]);
     }
-
     independence_test_time += globalTimer.elapsed();
-
   }
-
   list_cycle.clear();
 
   info.setPrecomputeShortestPathTime(precompute_time);
@@ -312,17 +274,14 @@ int main(int argc, char* argv[]) {
   info.setTotalTime();
 
   int total_weight = 0;
-
   for (int i = 0; i < final_mcb.size(); i++) {
     total_weight += final_mcb[i]->total_length;
   }
 
   info.setNumFinalCycles(final_mcb.size());
   info.setTotalWeight(total_weight);
-
   info.print_stats(argv[2]);
 
   delete[] fvs_array;
-
   return 0;
 }
