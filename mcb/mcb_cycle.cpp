@@ -40,7 +40,7 @@ using std::cout;
 using std::endl;
 
 
-debugger dbg;
+Debugger dbg;
 HostTimer globalTimer;
 string InputFileName;
 string OutputFileDirectory;

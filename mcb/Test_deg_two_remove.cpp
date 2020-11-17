@@ -34,7 +34,7 @@ using std::vector;
 using std::fill;
 
 
-debugger dbg;
+Debugger dbg;
 HostTimer globalTimer;
 string InputFileName;
 string OutputFileDirectory;

@@ -27,7 +27,7 @@ using std::vector;
 using std::unordered_map;
 
 
-debugger dbg;
+Debugger dbg;
 HostTimer globalTimer;
 string InputFileName;
 string OutputFileName;

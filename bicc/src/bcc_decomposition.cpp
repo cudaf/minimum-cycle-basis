@@ -31,7 +31,7 @@ using std::unordered_set;
 using std::unordered_map;
 
 
-debugger dbg;
+Debugger dbg;
 HostTimer globalTimer;
 string InputFileName;
 string OutputFileDirectory;

@@ -71,8 +71,8 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
 }
 #endif
 
-struct debugger {
-  template<typename T> debugger& operator ,(const T& v) {
+struct Debugger {
+  template<typename T> Debugger& operator ,(const T& v) {
     cerr << CYAN << v << " " << RESET;
     return *this;
   }
@@ -81,7 +81,7 @@ struct debugger {
 #define BLOCK_DEFAULT 1024
 #define CEIL(SIZE) ((int)ceil(((double)SIZE)/BLOCK_DEFAULT))
 
-extern debugger dbg;
+extern Debugger dbg;
 
 #ifdef VERBOSE
 #define debug(args...)            {dbg,args; cerr<<endl;}

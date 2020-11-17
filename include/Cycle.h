@@ -34,9 +34,9 @@ struct Cycle {
     return root;
   }
 
-  // std::set<unsigned> *get_edges()
+  // set<unsigned> *get_edges()
   // {
-  //   std::set<unsigned> *edges = new std::set<unsigned>();
+  //   set<unsigned> *edges = new set<unsigned>();
   //   csr_multi_graph *parent_graph = tree->parent_graph;
   //   unsigned row = parent_graph->rows->at(non_tree_edge_index);
   //   unsigned col = parent_graph->columns->at(non_tree_edge_index);
@@ -44,17 +44,17 @@ struct Cycle {
   //   {
   //     unsigned edge_offset = tree->parent_edges->at(row);
   //     unsigned reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
-  //     edges->insert(std::min(edge_offset,reverse_edge_offset));
+  //     edges->insert(min(edge_offset,reverse_edge_offset));
   //     row = parent_graph->rows->at(edge_offset);
   //   }
   //   while(col != tree->root)
   //   {
   //     unsigned edge_offset = tree->parent_edges->at(col);
   //     unsigned reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
-  //     edges->insert(std::min(edge_offset,reverse_edge_offset));
+  //     edges->insert(min(edge_offset,reverse_edge_offset));
   //     col = parent_graph->rows->at(edge_offset);
   //   }
-  //   edges->insert(std::min(non_tree_edge_index,parent_graph->reverse_edge->at(non_tree_edge_index)));
+  //   edges->insert(min(non_tree_edge_index,parent_graph->reverse_edge->at(non_tree_edge_index)));
   //   return edges;
   // }
 
