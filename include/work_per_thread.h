@@ -120,7 +120,7 @@ struct worker_thread {
     //assert(vector.get_size() == (int)(ceil((double)non_tree_edge_map.size()/64)));
 
     for (int i = 0; i < shortest_path_trees.size(); i++) {
-      unsigned src = shortest_path_trees[i];
+      int src = shortest_path_trees[i];
       int src_index = trees->get_index(src);
       unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
       int *node_edgeoffsets, *node_parents, *node_distance;

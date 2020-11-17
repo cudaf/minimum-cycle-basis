@@ -52,11 +52,10 @@ struct isometric_cycle {
       assert(storage->list_trees[cle->tree->root] != NULL);
       assert(cle->ID < num_cycles);
       std::vector<unsigned> *s_values = cle->tree->s_values;
-      unsigned row, col, src;
 
-      row = cle->tree->parent_graph->rows->at(cle->non_tree_edge_index);
-      col = cle->tree->parent_graph->columns->at(cle->non_tree_edge_index);
-      src = cle->tree->root;
+      int row = cle->tree->parent_graph->rows->at(cle->non_tree_edge_index);
+      int col = cle->tree->parent_graph->columns->at(cle->non_tree_edge_index);
+      int src = cle->tree->root;
 
       if (s_values->at(row) != s_values->at(col)) {
         if ((src == row)) {

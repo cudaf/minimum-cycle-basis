@@ -185,7 +185,7 @@ struct dijkstra {
   }
 
   bool is_edge_cycle(unsigned edge_offset, int &total_weight, unsigned src) {
-    unsigned row, col, orig_row, orig_col;
+    int row, col, orig_row, orig_col;
     total_weight = 0;
     orig_row = row = graph->rows->at(edge_offset);
     orig_col = col = graph->cols->at(edge_offset);
@@ -228,7 +228,7 @@ struct dijkstra {
     }
     return (row == src);
   }
-  void assert_correctness(unsigned src) {
+  void assert_correctness(int src) {
     for (int i = 0; i < graph->Nodes; i++) {
       if (i == src) {
         assert(distance[i] == 0);
