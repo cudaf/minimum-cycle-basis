@@ -19,7 +19,7 @@ struct CommonCycles {
     listed_cycles.push_back(cle);
   }
 
-  inline void add_cycle(Cycle *cle) {
+  inline void add(Cycle *cle) {
     listed_cycles.push_back(cle);
   }
 };
@@ -49,7 +49,7 @@ struct CycleStorage {
     if (list_cycles[root].find(index) == list_cycles[root].end())
       list_cycles[root].insert(make_pair(index, new CommonCycles(cle)));
     else
-      list_cycles[root][index]->add_cycle(cle);
+      list_cycles[root][index]->add(cle);
   }
 
   void clear_cycles() {
