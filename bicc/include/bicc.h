@@ -1,6 +1,4 @@
-#ifndef BICC_H
-#define BICC_H
-
+#pragma once
 #include <map>
 #include <vector>
 #include <utility>
@@ -9,24 +7,27 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <list>
+#include <fstream>
+#include <assert.h>
 
 #include "FileWriter.h"
-#include <fstream>
 #include "HostTimer.h"
 #include "CsrGraph.h"
 
-#include <assert.h>
+using std::string;
+using std::list;
+using std::vector;
+using std::unordered_set;
+using std::unordered_map;
+
 
 //Struct BCC is used to contain information about Biconnected Components
 //Contains Nodes, Edges and adjacencyList std::map<int,std::set<int>* > 
 struct bicc_graph {
   int Nodes, Edges;
-
   CsrGraph *c_graph;
-
-  std::vector<int> bicc_number;
-
-  std::vector<bool> is_articulation_point;
+  vector<int> bicc_number;
+  vector<bool> is_articulation_point;
 
   bicc_graph(int _Nodes) {
     Nodes = _Nodes;
@@ -47,13 +48,11 @@ struct bicc_graph {
 
   void calculate_nodes_edges() {
     c_graph->Nodes = Nodes;
-
     c_graph->calculateDegreeandRowOffset();
     Edges = c_graph->rows->size();
   }
 
-  inline unsigned long long merge(unsigned long long upper,
-      unsigned long long lower) {
+  inline unsigned long long merge(unsigned long long upper, unsigned long long lower) {
     unsigned long long result = 0;
     result = ((upper << 32) | lower);
     return result;
@@ -74,17 +73,17 @@ struct bicc_graph {
    * @return count of edges pruned;
    */
   int prune_edges(int degree_threshold, int component_number,
-      std::list<int> *edge_list,
-      std::unordered_map<unsigned long long, int> *edge_map,
-      std::unordered_map<int, int> &src_vtx_component) {
+      list<int> *edge_list,
+      unordered_map<unsigned long long, int> *edge_map,
+      unordered_map<int, int> &src_vtx_component) {
     int count_edges_pruned = 0;
 
-    std::unordered_map<unsigned, int> degree_nodes;
+    unordered_map<unsigned, int> degree_nodes;
 
     unsigned src_vtx;
     unsigned dest_vtx;
 
-    for (std::list<int>::iterator it = edge_list->begin();
+    for (list<int>::iterator it = edge_list->begin();
         it != edge_list->end(); it++) {
       src_vtx = c_graph->rows->at(*it);
       dest_vtx = c_graph->cols->at(*it);
@@ -95,7 +94,7 @@ struct bicc_graph {
       degree_nodes[dest_vtx]++;
     }
 
-    // for(std::unordered_map<unsigned,int>::iterator it = degree_nodes.begin();
+    // for(unordered_map<unsigned,int>::iterator it = degree_nodes.begin();
     //   it!=degree_nodes.end();it++)
     // {
     //   ////debug("degree",it->first + 1,it->second);
@@ -107,7 +106,7 @@ struct bicc_graph {
     while (!all_vertices_pruned) {
       all_vertices_pruned = true;
 
-      for (std::unordered_map<unsigned, int>::iterator it =
+      for (unordered_map<unsigned, int>::iterator it =
           degree_nodes.begin(); it != degree_nodes.end(); it++) {
         if ((it->second <= degree_threshold) && (it->second > 0)) {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
@@ -160,14 +159,14 @@ struct bicc_graph {
    */
   void collect_edges_component(int component_range_start,
       int component_range_end,
-      std::unordered_map<int, std::list<int>*> &edge_list_component,
-      std::unordered_map<int, int> &src_vtx_component) {
+      unordered_map<int, list<int>*> &edge_list_component,
+      unordered_map<int, int> &src_vtx_component) {
     for (int j = 0; j < Edges; j++) {
       if ((bicc_number[j] >= component_range_start)
           && (bicc_number[j] <= component_range_end)) {
         if (edge_list_component.find(bicc_number[j])
             == edge_list_component.end()) {
-          std::list<int> *temp = new std::list<int>();
+          list<int> *temp = new list<int>();
           temp->push_back(j);
 
           edge_list_component[bicc_number[j]] = temp;
@@ -179,10 +178,10 @@ struct bicc_graph {
       }
     }
 
-    for (std::unordered_map<int, std::list<int>*>::iterator it =
+    for (unordered_map<int, list<int>*>::iterator it =
         edge_list_component.begin(); it != edge_list_component.end();
         it++) {
-      for (std::list<int>::iterator ij = it->second->begin();
+      for (list<int>::iterator ij = it->second->begin();
           ij != it->second->end(); ij++) {
         int edge_index = *ij;
         ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
@@ -217,13 +216,13 @@ struct bicc_graph {
    * @param end_range End Range of biconnected components.
    * @return [description]
    */
-  double print_to_a_file(int &file_output_count, std::string outputDirName,
+  double print_to_a_file(int &file_output_count, string outputDirName,
       int global_nodes_count,
-      std::unordered_set<int> &finished_components) {
-    std::string statsFileName = outputDirName + "stats";
+      unordered_set<int> &finished_components) {
+    string statsFileName = outputDirName + "stats";
     //This is used to gather the edge list corresponding to each component in the graph.
-    std::unordered_map<int, std::list<int> > edge_list;
-    std::unordered_map<int, std::unordered_set<int> > count_nodes;
+    unordered_map<int, list<int> > edge_list;
+    unordered_map<int, unordered_set<int> > count_nodes;
 
     for (int i = 0; i < Edges; i++) {
       if (finished_components.find(bicc_number[i])
@@ -232,7 +231,7 @@ struct bicc_graph {
         int dest_vtx = c_graph->cols->at(i);
 
         if (count_nodes.find(bicc_number[i]) == count_nodes.end()) {
-          count_nodes[bicc_number[i]] = std::unordered_set<int>();
+          count_nodes[bicc_number[i]] = unordered_set<int>();
         }
 
         //insert bicc_numbers[i]
@@ -246,29 +245,29 @@ struct bicc_graph {
         if (edge_list.find(bicc_number[i]) != edge_list.end())
           edge_list[bicc_number[i]].push_back(i);
         else {
-          edge_list[bicc_number[i]] = std::list<int>();
+          edge_list[bicc_number[i]] = list<int>();
           edge_list[bicc_number[i]].push_back(i);
         }
       }
     }
 
-    for (std::unordered_map<int, std::list<int> >::iterator it =
+    for (unordered_map<int, list<int> >::iterator it =
         edge_list.begin(); it != edge_list.end(); it++) {
       int component_number = it->first;
 
       if (it->second.size() > 0) {
         ++file_output_count;
 
-        std::string outputfilePath = outputDirName
+        string outputfilePath = outputDirName
             + std::to_string(file_output_count) + ".mtx";
 
         //debug(outputfilePath);
-        std::unordered_set<int> articulation_points;
+        unordered_set<int> articulation_points;
 
         FileWriter fout(outputfilePath.c_str(), global_nodes_count,
             it->second.size());
 
-        for (std::list<int>::iterator ij = it->second.begin();
+        for (list<int>::iterator ij = it->second.begin();
             ij != it->second.end(); ij++) {
           int edge_index = *ij;
 
@@ -290,7 +289,7 @@ struct bicc_graph {
         // write the info about Articulation Points here...
         fprintf(file_ref, "%d\n", articulation_points.size());
 
-        for (std::unordered_set<int>::iterator ij =
+        for (unordered_set<int>::iterator ij =
             articulation_points.begin();
             ij != articulation_points.end(); ij++) {
           fprintf(file_ref, "%d\n", (*ij) + 1);
@@ -313,5 +312,3 @@ struct bicc_graph {
 
   }
 };
-
-#endif
