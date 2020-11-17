@@ -26,7 +26,7 @@ void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
     const int* __restrict__ d_edge_offsets, int *d_precompute_array,
     const int* __restrict__ d_fvs_vertices,
     const unsigned long long *d_si_vector, int start, int end,
-    int stream_index, int chunk_size, int original_nodes, int size_vector,
+    int stream, int chunk_size, int original_nodes, int size_vector,
     int fvs_size, int num_non_tree_edges, int num_edges) {
   int si_index = -1;
 
@@ -37,9 +37,9 @@ void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
     return;
 
   int *d_row = get_pointer(d_precompute_array, src_index - start,
-      original_nodes, chunk_size, stream_index);
+      original_nodes, chunk_size, stream);
   const int* __restrict__ d_edge = get_pointer_const(d_edge_offsets,
-      src_index - start, original_nodes, chunk_size, stream_index);
+      src_index - start, original_nodes, chunk_size, stream);
 
   for (int edge_index = threadIdx.x; edge_index < original_nodes;
       edge_index += blockDim.x) {
