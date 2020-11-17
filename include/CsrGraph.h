@@ -40,26 +40,26 @@ public:
   int Nodes;
 
   CsrGraph() {
-    rowOffsets = new vector<unsigned>();
-    cols = new vector<unsigned>();
     rows = new vector<unsigned>();
-    degree = new vector<unsigned>();
+    cols = new vector<unsigned>();
     weights = new vector<int>();
+    degree = new vector<unsigned>();
+    rowOffsets = new vector<unsigned>();
   }
 
   ~CsrGraph() {
-    rowOffsets->clear();
-    cols->clear();
     rows->clear();
-    degree->clear();
+    cols->clear();
     weights->clear();
+    degree->clear();
+    rowOffsets->clear();
   }
 
   int verticesOfDegree(int d) {
     int a = 0;
     int N = degree->size();
     for (int i=0; i<N; i++)
-      if (degree->at(i) == d) a++;
+      if (degree[i] == d) a++;
     return a;
   }
 
@@ -67,7 +67,7 @@ public:
     int a = 0;
     int N = rows->size();
     for (int i=0; i<N; i++)
-      a += weights->at(i);
+      a += weights[i];
     return a/2;
   }
 
@@ -84,9 +84,9 @@ public:
 
   inline void getEdge(int i, unsigned &row, unsigned &col, int &weight) {
     assert(i < rows->size());
-    row = rows->at(i);
-    col = cols->at(i);
-    weight = weights->at(i);
+    row = rows[i];
+    col = cols[i];
+    weight = weights[i];
   }
 
   unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
