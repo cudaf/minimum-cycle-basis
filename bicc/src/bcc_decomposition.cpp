@@ -24,13 +24,17 @@
 #include "HostTimer.h"
 #include "CsrGraph.h"
 
-using namespace std;
+using std::string;
+using std::list;
+using std::vector;
+using std::unordered_set;
+using std::unordered_map;
 
 
 debugger dbg;
 HostTimer globalTimer;
-std::string InputFileName;
-std::string OutputFileDirectory;
+string InputFileName;
+string OutputFileDirectory;
 int global_output_file_count = 0;
 int global_edges_removed = 0;
 int global_num_bridges = 0;
@@ -94,9 +98,9 @@ int main(int argc, char* argv[]) {
   int component_number = 1;
   int new_component_number = 1;
   //This datastructure is used to hold edge_lists corresponding to each component number
-  std::unordered_map<int, std::list<int>*> edge_list_component;
+  unordered_map<int, list<int>*> edge_list_component;
   //This datastructure is used to hold the vertex lists corresponding to each component number.
-  std::unordered_map<int, int> src_vtx_component;
+  unordered_map<int, int> src_vtx_component;
   //Initialize the starting source vertex for component 1.
   src_vtx_component[1] = 0;
 
@@ -105,7 +109,7 @@ int main(int argc, char* argv[]) {
    * Edge_Map stores the mapping from <src,dest> => edge_index for the initial graph.
    * ====================================================================================
    */
-  std::unordered_map<unsigned long long, int> *edge_map = create_map(graph->c_graph);
+  unordered_map<unsigned long long, int> *edge_map = create_map(graph->c_graph);
 
   /*
    * ====================================================================================
@@ -113,7 +117,7 @@ int main(int argc, char* argv[]) {
    * Initially, only one dfs_helper is required.
    * ====================================================================================
    */
-  std::vector<dfs_helper*> vec_dfs_helper;
+  vector<dfs_helper*> vec_dfs_helper;
   for (int i = 0; i < num_threads; i++)
     vec_dfs_helper.push_back(new dfs_helper(global_nodes_count));
   debug("Initialization of the graph completed.\n");
@@ -149,10 +153,10 @@ int main(int argc, char* argv[]) {
    * the filter threshold.
    * ==========================================================================================
    */
-  std::unordered_set<int> finished_components;
-  std::vector<int> component_list;
+  unordered_set<int> finished_components;
+  vector<int> component_list;
 
-  for (std::unordered_map<int, std::list<int>*>::iterator it =
+  for (unordered_map<int, list<int>*>::iterator it =
       edge_list_component.begin(); it != edge_list_component.end(); it++) {
     component_list.push_back(it->first);
   }
@@ -200,10 +204,10 @@ int main(int argc, char* argv[]) {
      * above run.
      * ====================================================================
      */
-    std::list<int> list_finished_components[num_threads]; //This list is used to hold the finished component numbers for num_threads
+    list<int> list_finished_components[num_threads]; //This list is used to hold the finished component numbers for num_threads
     component_list.clear();
 
-    for (std::unordered_map<int, std::list<int>*>::iterator it =
+    for (unordered_map<int, list<int>*>::iterator it =
         edge_list_component.begin(); it != edge_list_component.end(); it++) {
       int edge_end_point = graph->c_graph->rows->at(it->second->front());
       src_vtx_component[it->first] = edge_end_point;
@@ -251,7 +255,7 @@ int main(int argc, char* argv[]) {
      * ====================================================================
      */
     for (int i = 0; i < num_threads; i++) {
-      for (std::list<int>::iterator it =
+      for (list<int>::iterator it =
           list_finished_components[i].begin();
           it != list_finished_components[i].end(); it++) {
         finished_components.insert(*it);
