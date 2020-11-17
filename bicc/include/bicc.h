@@ -52,8 +52,8 @@ struct bicc_graph {
     Edges = c_graph->rows->size();
   }
 
-  inline unsigned long long merge(unsigned long long upper, unsigned long long lower) {
-    unsigned long long result = 0;
+  inline uint64_t merge(uint64_t upper, uint64_t lower) {
+    uint64_t result = 0;
     result = ((upper << 32) | lower);
     return result;
   }
