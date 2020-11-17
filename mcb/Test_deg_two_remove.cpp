@@ -30,12 +30,9 @@
 
 debugger dbg;
 HostTimer globalTimer;
-
 std::string InputFileName;
 std::string OutputFileDirectory;
-
 double totalTime = 0;
-
 int num_threads;
 
 int main(int argc, char* argv[]) {
@@ -48,12 +45,9 @@ int main(int argc, char* argv[]) {
   }
 
   num_threads = 1;
-
   if (argc == 4)
     num_threads = atoi(argv[3]);
-
   InputFileName = argv[1];
-
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
@@ -61,17 +55,12 @@ int main(int argc, char* argv[]) {
 
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
-
   int v1, v2, Initial_Vertices, weight;
-  ;
-
   int nodes, edges, chunk_size = 1;
-
   //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
 
   CsrGraph *graph = new CsrGraph();
-
   graph->Nodes = nodes;
   /*
    * ====================================================================================
@@ -82,7 +71,6 @@ int main(int argc, char* argv[]) {
     Reader.read_edge(v1, v2, weight);
     graph->insert(v1, v2, weight, false);
   }
-
   graph->calculateDegreeandRowOffset();
 
   Reader.close();
@@ -94,11 +82,9 @@ int main(int argc, char* argv[]) {
 
   std::vector<std::vector<unsigned> > *chains = new std::vector<
       std::vector<unsigned> >();
-
   debug("Input File Reading Complete...\n");
 
   int source_vertex;
-
   std::vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
       &chains, source_vertex);
   //initial_spanning_tree.populate_tree_edges(true,NULL,souce_vertex);
@@ -111,7 +97,6 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i < chains->size(); i++) {
     unsigned row, col;
     unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
-
     nodes_removed += chains->at(i).size() - 1;
 
     std::vector<unsigned> new_edge = std::vector<unsigned>();
@@ -122,7 +107,6 @@ int main(int argc, char* argv[]) {
     edges_new_list->push_back(new_edge);
     //debug(row+1,col+1,total_weight);
   }
-
   debug("Number of nodes removed = ", nodes_removed);
 
   csr_multi_graph *reduced_graph = csr_multi_graph::get_modified_graph(graph,
@@ -130,15 +114,11 @@ int main(int argc, char* argv[]) {
 
   //Node Validity
   assert(reduced_graph->Nodes + nodes_removed == graph->Nodes);
-
   reduced_graph->print();
 
   FVS fvs_helper(reduced_graph);
-
   fvs_helper.MGA();
-
   fvs_helper.print_fvs();
-
   int *fvs_array = fvs_helper.get_copy_fvs_array();
 
   csr_tree *initial_spanning_tree = new csr_tree(reduced_graph);
@@ -147,27 +127,20 @@ int main(int argc, char* argv[]) {
   int num_non_tree_edges = initial_spanning_tree->non_tree_edges->size();
 
   //Spanning Tree Validity
-  assert(
-      num_non_tree_edges
-          == reduced_graph->rows->size() / 2 - reduced_graph->Nodes
-              + 1);
+  assert(num_non_tree_edges == reduced_graph->rows->size() / 2 - reduced_graph->Nodes + 1);
 
   initial_spanning_tree->print_tree_edges();
   initial_spanning_tree->print_non_tree_edges();
-
   std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   debug("Map of non-tree edges");
-
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++) {
     non_tree_edges_map[initial_spanning_tree->non_tree_edges->at(i)] = i;
 
     printf("%d : %u - %u\n", i,
-        reduced_graph->rows->at(
-            initial_spanning_tree->non_tree_edges->at(i)) + 1,
-        reduced_graph->cols->at(
-            initial_spanning_tree->non_tree_edges->at(i)) + 1);
+        reduced_graph->rows->at(initial_spanning_tree->non_tree_edges->at(i)) + 1,
+        reduced_graph->cols->at(initial_spanning_tree->non_tree_edges->at(i)) + 1);
   }
 
   for (int i = 0; i < reduced_graph->rows->size(); i++) {
@@ -179,16 +152,12 @@ int main(int argc, char* argv[]) {
   }
 
   //construct the initial
-  compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array,
-      reduced_graph);
-
+  compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array, reduced_graph);
   cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
-
   worker_thread **multi_work = new worker_thread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)
-    multi_work[i] = new worker_thread(reduced_graph, storage, fvs_array,
-        &trees);
+    multi_work[i] = new worker_thread(reduced_graph, storage, fvs_array, &trees);
 
   int count_cycles = 0;
 
@@ -196,9 +165,7 @@ int main(int argc, char* argv[]) {
 #pragma omp parallel for reduction(+:count_cycles)
   for (int i = 0; i < trees.fvs_size; ++i) {
     int threadId = omp_get_thread_num();
-
-    count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles(i,
-        reduced_graph);
+    count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles(i, reduced_graph);
   }
 
   std::vector<cycle*> list_cycle_vec;
@@ -218,7 +185,6 @@ int main(int argc, char* argv[]) {
   sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
 
   printf("Number of initial cycles = %d\n", list_cycle_vec.size());
-
   printf("\nList Cycles Pre Isometric\n");
   for (std::vector<cycle*>::iterator cycle = list_cycle_vec.begin();
       cycle != list_cycle_vec.end(); cycle++) {
@@ -232,7 +198,6 @@ int main(int argc, char* argv[]) {
     if (list_cycle_vec[i] != NULL)
       list_cycle.push_back(list_cycle_vec[i]);
   }
-
   list_cycle_vec.clear();
 
   printf("\nList Cycles Post Isometric\n");
@@ -246,27 +211,23 @@ int main(int argc, char* argv[]) {
   printf("\n");
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
-
   //generate the bit vectors
   BitVector **support_vectors = new BitVector*[num_non_tree_edges];
 
   printf("Number of non_tree_edges = %d\n", num_non_tree_edges);
-
   for (int i = 0; i < num_non_tree_edges; i++) {
     support_vectors[i] = new BitVector(num_non_tree_edges);
     support_vectors[i]->set(i, true);
   }
 
   std::vector<cycle*> final_mcb;
-
   //Main Outer Loop of the Algorithm.
   for (int e = 0; e < num_non_tree_edges; e++) {
     debug("Si is as follows.", e);
     support_vectors[e]->print();
 #pragma omp parallel for
     for (int i = 0; i < num_threads; i++) {
-      multi_work[i]->precompute_supportVec(non_tree_edges_map,
-          *support_vectors[e]);
+      multi_work[i]->precompute_supportVec(non_tree_edges_map, *support_vectors[e]);
     }
 
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
@@ -280,10 +241,8 @@ int main(int argc, char* argv[]) {
       src_index = trees.vertices_map[src];
 
       trees.get_node_arrays(&node_rowoffsets, &node_columns,
-          &node_edgeoffsets, &node_parents, &node_distance,
-          src_index);
+          &node_edgeoffsets, &node_parents, &node_distance, src_index);
       trees.get_precompute_array(&precompute_nodes, src_index);
-
       edge_offset = (*cycle)->non_tree_edge_index;
       bit = 0;
 
@@ -292,15 +251,13 @@ int main(int argc, char* argv[]) {
       col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
-        bit = support_vectors[e]->get(
-            non_tree_edges_map[edge_offset]);
+        bit = support_vectors[e]->get(non_tree_edges_map[edge_offset]);
       }
 
       bit = (bit + precompute_nodes[row]) % 2;
       bit = (bit + precompute_nodes[col]) % 2;
 
       if (bit == 1) {
-
         final_mcb.push_back(*cycle);
         list_cycle.erase(cycle);
         break;
@@ -308,10 +265,8 @@ int main(int argc, char* argv[]) {
     }
 
     BitVector *cycle_vector = final_mcb.back()->get_cycle_vector(
-        non_tree_edges_map,
-        initial_spanning_tree->non_tree_edges->size());
+        non_tree_edges_map, initial_spanning_tree->non_tree_edges->size());
     final_mcb.back()->print();
-
     printf("Ci ");
     cycle_vector->print();
 
@@ -324,22 +279,16 @@ int main(int argc, char* argv[]) {
       support_vectors[j]->print();
     }
   }
-
   list_cycle.clear();
 
   debug("\nPrinting final mcbs\n");
-
   int total_weight = 0;
-
   for (int i = 0; i < final_mcb.size(); i++) {
     final_mcb[i]->print();
-
     total_weight += final_mcb[i]->total_length;
   }
 
   printf("Total Weight = %d\n", total_weight);
-
   delete[] fvs_array;
-
   return 0;
 }
