@@ -4,15 +4,14 @@
 
 template<typename T>
 __device__  __forceinline__
- const T* get_pointer_const(const T* data,
-    int node_index, int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
+ const T* get_pointer_const(const T *data, int node, int nodes, int chunk_size, int stream) {
+  return (data + (stream * chunk_size * nodes) + (node * nodes));
 }
 
 template<typename T>
-__device__  __forceinline__ T* get_pointer(T* data, int node_index,
-    int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
+__device__  __forceinline__
+T* get_pointer(T* data, int node, int nodes, int chunk_size, int stream) {
+  return (data + (stream * chunk_size * nodes) + (node * nodes));
 }
 
 __device__ __forceinline__
@@ -67,9 +66,13 @@ void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
 }
 
 /**
- * @brief This method is used to invoke a kernel whose function is defined in the details section.
- * @details This method invokes a Kernel. The Kernel's task is to parallely do the following things in the order.
- * a)For each source vertex between start and end (15 at a time(grid dimension)). We fill the precompute_array edges
+ * @brief
+ * This method is used to invoke a kernel whose function is defined in the details section.
+ * @details
+ * This method invokes a Kernel. The Kernel's task is to parallely do the following things
+ * in the order.
+ * a) For each source vertex between start and end (15 at a time(grid dimension)). We fill
+ *    the precompute_array edges
  * b)The precompute array is filled in the following way.
  *   If the edge is a tree edge in the original spanning tree. then its value is 0.
  *   else if Si contains 1 in the corresponding non-tree edge position then 1 else 0.
