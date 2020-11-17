@@ -243,7 +243,7 @@ int main(int argc, char* argv[]) {
 
 #pragma omp parallel for
     for (int j = e + 1; j < num_non_tree_edges; j++) {
-      unsigned product = cycle_vector->dot_product(support_vectors[j]);
+      int product = cycle_vector->dot_product(support_vectors[j]);
       if (product == 1)
         support_vectors[j]->do_xor(support_vectors[e]);
       printf("%d ", product);
