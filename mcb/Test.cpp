@@ -23,7 +23,7 @@
 #include "CsrGraph.h"
 #include "CsrTree.h"
 #include "BitVector.h"
-#include "work_per_thread.h"
+#include "WorkerThread.h"
 #include "cycle_searcher.h"
 #include "CompressedTrees.h"
 #include "FVS.h"
