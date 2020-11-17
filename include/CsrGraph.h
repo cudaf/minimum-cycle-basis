@@ -16,7 +16,7 @@ protected:
     int col;
     int weight;
 
-    Edge(int &r, int &c, int &w) {
+    Edge(int r, int c, int w) {
       row = r;
       col = c;
       weight = w;
