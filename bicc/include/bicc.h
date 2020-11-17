@@ -266,7 +266,7 @@ struct bicc_graph {
 
         fstats << file_output_count << " "
           << count_nodes[component_number].size() << " "
-          << it->second.size() << std::endl;
+          << it.second.size() << std::endl;
         fstats.close();
       }
     }
