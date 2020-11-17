@@ -7,6 +7,7 @@
 
 using std::vector;
 using std::queue;
+using std::set;
 
 
 FVS::FVS(CsrGraphMulti *graph) {
@@ -35,7 +36,7 @@ FVS::FVS(CsrGraphMulti *graph) {
 }
 
 void FVS::pruning(int node_id) {
-  std::set<int> elements_to_prune;
+  set<int> elements_to_prune;
   elements_to_prune.insert(node_id);
   double C = W[node_id] / input_graph->degree->at(node_id);
   node_status[node_id] = 0;
@@ -90,8 +91,7 @@ bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
     bfs_queue.pop();
     int col;
 
-    for (int i = input_graph->rowOffsets->at(nid);
-        i < input_graph->rowOffsets->at(nid + 1); i++) {
+    for (int i = input_graph->rowOffsets->at(nid); i < input_graph->rowOffsets->at(nid + 1); i++) {
       col = input_graph->cols->at(i);
       if (is_vtx_in_fvs[col] == 1)
         continue;
@@ -189,10 +189,8 @@ int *FVS::get_copy_fvs_array() {
   int *fvs_output_array = new int[input_graph->Nodes];
   int count = 0;
   for (int i = 0; i < input_graph->Nodes; i++)
-    if (is_vtx_in_fvs[i])
-      fvs_output_array[i] = count++;
-    else
-      fvs_output_array[i] = -1;
+    if (is_vtx_in_fvs[i]) fvs_output_array[i] = count++;
+    else fvs_output_array[i] = -1;
   return fvs_output_array;
 }
 
