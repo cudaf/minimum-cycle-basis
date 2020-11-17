@@ -300,15 +300,15 @@ int main(int argc, char* argv[]) {
     unsigned src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;
 
-    for (auto&& cycle : list_cycle) {
-      src = cycle->get_root();
+    for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
+      src = (*cycle)->get_root();
       src_index = trees.vertices_map[src];
 
       trees.get_node_arrays_warp(&node_rowoffsets, &node_columns,
           &node_edgeoffsets, &node_parents, &node_distance,
           &nodes_index, src_index);
       trees.get_precompute_array(&precompute_nodes, src_index);
-      edge_offset = cycle->non_tree_edge_index;
+      edge_offset = (*cycle)->non_tree_edge_index;
       bit = 0;
 
       unsigned row, col;
@@ -323,7 +323,7 @@ int main(int argc, char* argv[]) {
       bit = (bit ^ precompute_nodes[nodes_index[col]]);
 
       if (bit == 1) {
-        final_mcb.push_back(cycle);
+        final_mcb.push_back(*cycle);
         list_cycle.erase(cycle);
         break;
       }

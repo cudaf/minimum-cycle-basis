@@ -161,9 +161,9 @@ int main(int argc, char* argv[]) {
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
-    for (auto it = storage->list_cycles[j].begin(); it != storage->list_cycles[j].end(); it++) {
-      for (int k = 0; k < it->second->listed_cycles.size(); k++) {
-        list_cycle_vec.push_back(it->second->listed_cycles[k]);
+    for (auto&& it : storage->list_cycles[j]) {
+      for (int k = 0; k < it.second->listed_cycles.size(); k++) {
+        list_cycle_vec.push_back(it.second->listed_cycles[k]);
         list_cycle_vec.back()->ID = list_cycle_vec.size() - 1;
       }
     }
