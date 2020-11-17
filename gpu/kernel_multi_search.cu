@@ -5,21 +5,21 @@
 
 //Get block of data from pitched pointer and pitch size
 template<typename T>
-__device__  __forceinline__ T* get_row(T* data, size_t p) {
+__device__  __forceinline__
+T* get_row(T* data, size_t p) {
   return (T*) ((char*) data + blockIdx.x * p);
 }
 
 template<typename T>
-__device__  __forceinline__ T* get_pointer(T* data, int node_index,
-    int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
+__device__  __forceinline__
+T* get_pointer(T* data, int node, int nodes, int chunk_size, int stream) {
+  return (data + (stream * chunk_size * nodes) + (node * nodes));
 }
 
 template<typename T>
 __device__  __forceinline__
- const T* get_pointer_const(const T* data,
-    int node_index, int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
+const T* get_pointer_const(const T* data, int node, int nodes, int chunk_size, int stream) {
+  return (data + (stream * chunk_size * nodes) + (node * nodes));
 }
 
 __device__ __forceinline__
@@ -100,11 +100,11 @@ void __kernel_multi_search_shuffle_based(const int *R, const int *C,
   }
 }
 
-void gpu_struct::Kernel_multi_search_helper(int start, int end, int stream_index) {
+void gpu_struct::Kernel_multi_search_helper(int start, int end, int stream) {
   int total_length = end - start;
 
   __kernel_multi_search_shuffle_based<<<
       CEILDIV(total_length, 16), 512, 0,
-      streams[stream_index]>>>(d_row_offset, d_columns, original_nodes,
-      d_precompute_array, start, end, chunk_size, stream_index);
+      streams[stream]>>>(d_row_offset, d_columns, original_nodes,
+      d_precompute_array, start, end, chunk_size, stream);
 }
