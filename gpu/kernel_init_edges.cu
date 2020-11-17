@@ -25,12 +25,12 @@ __global__
 void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
     const int* __restrict__ d_edge_offsets, int *d_precompute_array,
     const int* __restrict__ d_fvs_vertices,
-    const unsigned long long *d_si_vector, int start, int end,
+    const uint64_t *d_si_vector, int start, int end,
     int stream, int chunk_size, int original_nodes, int size_vector,
     int fvs_size, int num_non_tree_edges, int num_edges) {
   int si_index = -1;
 
-  unsigned long long si_value;
+  uint64_t si_value;
   int src_index = blockIdx.x + start;
 
   if (src_index >= end)
