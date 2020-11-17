@@ -3,16 +3,18 @@
 #include "CsrGraphMulti.h"
 #include "Dijkstra.h"
 
+using std::vector;
+
 
 class csr_tree {
 public:
   int root;
   csr_multi_graph *parent_graph;
-  std::vector<unsigned> *tree_edges;
-  std::vector<unsigned> *non_tree_edges = NULL;
+  vector<unsigned> *tree_edges;
+  vector<unsigned> *non_tree_edges = NULL;
 
-  std::vector<int> *parent_edges;
-  std::vector<int> *distance;
+  vector<int> *parent_edges;
+  vector<int> *distance;
 
   struct compare {
     csr_multi_graph *parent_graph;
@@ -45,7 +47,7 @@ public:
 
   void populate_tree_edges(bool populate_non_tree_edges, int &src) {
     if (populate_non_tree_edges)
-      non_tree_edges = new std::vector<unsigned>();
+      non_tree_edges = new vector<unsigned>();
     root = src;
     tree_edges = parent_graph->get_spanning_tree(&non_tree_edges, src);
     //std::sort(non_tree_edges->begin(),non_tree_edges->end(),compare(parent_graph));
@@ -53,18 +55,18 @@ public:
 
   void obtain_shortest_path_tree(dijkstra &helper, bool populate_non_tree_edges, int src) {
     if (populate_non_tree_edges)
-      non_tree_edges = new std::vector<unsigned>();
+      non_tree_edges = new vector<unsigned>();
 
     root = src;
     helper.dijkstra_sp(src);
     helper.compute_non_tree_edges(&non_tree_edges);
     tree_edges = helper.tree_edges;
-    parent_edges = new std::vector<int>();
+    parent_edges = new vector<int>();
 
     for (int i = 0; i < helper.edge_offsets.size(); i++)
       parent_edges->push_back(helper.edge_offsets[i]);
 
-    distance = new std::vector<int>();
+    distance = new vector<int>();
     for (int i = 0; i < helper.distance.size(); i++)
       distance->push_back(helper.distance[i]);
   }
@@ -73,8 +75,8 @@ public:
     parent_graph->getEdge(offset, row, col, weight);
   }
 
-  std::vector<int> *get_parent_edges() {
-    std::vector<int> *v = new std::vector<int>();
+  vector<int> *get_parent_edges() {
+    vector<int> *v = new vector<int>();
     assert(tree_edges != NULL);
     unsigned row, col;
     v->at(root) = -1;
