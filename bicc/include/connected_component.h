@@ -1,6 +1,4 @@
-#ifndef __CONNECTED_COMPONENT_H
-#define __CONNECTED_COMPONENT_H
-
+#pragma once
 #include <atomic>
 #include <stack>
 #include <unordered_map>
@@ -13,8 +11,8 @@
 #include "dfs_helper.h"
 #include "bicc.h"
 
-inline unsigned long long merge_32bits(unsigned long long upper,
-    unsigned long long lower) {
+
+inline unsigned long long merge_32bits(unsigned long long upper, unsigned long long lower) {
   unsigned long long result = 0;
   result = ((upper << 32) | lower);
   return result;
@@ -27,12 +25,10 @@ struct Connected_Components {
   dfs_helper *helper;
   int count_components, time;  //count indicates number of bridges
   std::unordered_map<unsigned long long, int> *edge_map;
-
   std::list<std::pair<int, std::list<int>*> > store_biconnected_edges;
 
   Connected_Components(int c_number, int *new_c_number, bicc_graph *gr,
-      dfs_helper *helper_struct,
-      std::unordered_map<unsigned long long, int> *bi_map) {
+      dfs_helper *helper_struct, std::unordered_map<unsigned long long, int> *bi_map) {
     component_number = c_number;
     new_component_number = new_c_number;
     graph = gr;
@@ -42,26 +38,17 @@ struct Connected_Components {
     edge_map = bi_map;
   }
 
-  /**
-   * @brief [brief description]
-   * @details [long description]
-   * 
-   * @param src [description]
-   */
   void dfs(unsigned src) {
     helper->low[src] = helper->discovery[src] = ++time;
-    for (int j = graph->c_graph->rowOffsets->at(src);
-        j < graph->c_graph->rowOffsets->at(src + 1); j++) {
+    for (int j = graph->c_graph->rowOffsets->at(src); j < graph->c_graph->rowOffsets->at(src + 1); j++) {
       unsigned dest = graph->c_graph->cols->at(j);
       if (helper->discovery[dest] == -1) {
         graph->bicc_number[j] = *new_component_number;
-        graph->bicc_number[edge_map->at(merge_32bits(dest, src))] =
-            *new_component_number;
+        graph->bicc_number[edge_map->at(merge_32bits(dest, src))] = *new_component_number;
         dfs(dest);
       } else {
         graph->bicc_number[j] = *new_component_number;
-        graph->bicc_number[edge_map->at(merge_32bits(dest, src))] =
-            *new_component_number;
+        graph->bicc_number[edge_map->at(merge_32bits(dest, src))] = *new_component_number;
       }
     }
   }
@@ -79,17 +66,13 @@ struct Connected_Components {
  * @param edge_map mapping from <src,dest> ==> edge_index
  */
 int obtain_connected_components(int bicc_number, int &new_bicc_number,
-    bicc_graph *graph, dfs_helper *helper,
-    std::unordered_map<unsigned long long, int> *edge_map) {
+    bicc_graph *graph, dfs_helper *helper, std::unordered_map<unsigned long long, int> *edge_map) {
   helper->initialize_arrays();
-  Connected_Components component(bicc_number, &new_bicc_number, graph, helper,
-      edge_map);
-
+  Connected_Components component(bicc_number, &new_bicc_number, graph, helper, edge_map);
   debug("graph->nodes", graph->Nodes);
 
   for (unsigned src = 0; src < graph->Nodes; src++) {
-    if ((graph->c_graph->rowOffsets->at(src + 1)
-        - graph->c_graph->rowOffsets->at(src)) > 0) {
+    if ((graph->c_graph->rowOffsets->at(src + 1) - graph->c_graph->rowOffsets->at(src)) > 0) {
       if (helper->discovery[src] == -1) {
         component.count_components++;
         new_bicc_number++;
@@ -99,5 +82,3 @@ int obtain_connected_components(int bicc_number, int &new_bicc_number,
   }
   return component.count_components;
 }
-
-#endif
