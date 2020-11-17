@@ -31,10 +31,14 @@
 #include "FVS.h"
 #include "compressed_trees.h"
 
+using std::string;
+using std::vector;
+
+
 debugger dbg;
 HostTimer globalTimer;
-std::string InputFileName;
-std::string OutputFileDirectory;
+string InputFileName;
+string OutputFileDirectory;
 stats info(false);
 int num_threads;
 
@@ -54,7 +58,7 @@ int main(int argc, char* argv[]) {
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
-  std::string InputFilePath = InputFileName;
+  string InputFilePath = InputFileName;
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
 
@@ -113,7 +117,7 @@ int main(int argc, char* argv[]) {
   assert(num_non_tree_edges == edges - nodes + 1);
   assert(graph->totalWeight() == reduced_graph->totalWeight());
 
-  std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
+  vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++)
@@ -153,7 +157,7 @@ int main(int argc, char* argv[]) {
   //Record time for collection of cycles.
   globalTimer.start();
 
-  std::vector<cycle*> list_cycle_vec;
+  vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
@@ -187,7 +191,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  std::vector<cycle*> final_mcb;
+  vector<cycle*> final_mcb;
   double precompute_time = 0;
   double cycle_inspection_time = 0;
   double independence_test_time = 0;
