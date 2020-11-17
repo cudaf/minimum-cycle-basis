@@ -151,11 +151,12 @@ public:
 	}
 
 	unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
-		unsigned a = 0;
-		for (int i = 0; i < edges.size(); i++)
-			a += weights->at(edges.at(i));
+		int a = 0;
+		int N = edges.size();
 		col = cols->at(edges.at(0));
 		row = rows->at(edges.at(edges.size() - 1));
+		for (int i=0; i<N; i++)
+			a += weights->at(edges.at(i));
 		return a;
 	}
 
