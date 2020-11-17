@@ -80,7 +80,7 @@ public:
 
   inline void get_edge_endpoints(unsigned &row, unsigned &col, int &weight,
       unsigned &offset) {
-    parent_graph->get_edge_endpoints(row, col, weight, offset);
+    parent_graph->getEdge(row, col, weight, offset);
   }
 
   std::vector<int> *get_parent_edges() {

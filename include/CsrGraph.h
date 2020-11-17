@@ -86,7 +86,7 @@ public:
 
 	vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
 
-	inline void get_edge_endpoints(unsigned &row, unsigned &col, int &weight,	unsigned &index) {
+	inline void getEdge(unsigned &row, unsigned &col, int &weight,	unsigned &index) {
 		assert(index < rows->size());
 		row = rows->at(index);
 		col = cols->at(index);
