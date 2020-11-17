@@ -52,7 +52,7 @@ struct CycleStorage {
       list_cycles[root][index]->add(cle);
   }
 
-  void clear_cycles() {
+  void clear() {
     for (int i = 0; i < list_cycles.size(); i++) {
       list_cycles[i].clear();
     }
