@@ -49,9 +49,9 @@ struct BitVector {
     return initial_value;
   }
 
-  inline unsigned get_and_numbers(uint64_t &val1, uint64_t &val2) {
+  inline int get_and_numbers(uint64_t &val1, uint64_t &val2) {
     uint64_t temp = (val1 & val2);
-    unsigned count = 0;
+    int count = 0;
     while (temp != 0) {
       temp -= (temp & -temp);
       count ^= 1;
@@ -80,9 +80,9 @@ struct BitVector {
     }
   }
 
-  inline unsigned get(int i) {
+  inline int get(int i) {
     int d = i/64, b = i&63;
-    return (unsigned) (data[d] >> b) & 1;
+    return (int) (data[d] >> b) & 1;
   }
 
   inline void set(int i, bool v) {
@@ -97,8 +97,8 @@ struct BitVector {
       data[i] = data[i] ^ vector->data[i];
   }
 
-  unsigned dot_product(BitVector *vector1) {
-    unsigned val = 0;
+  int dot_product(BitVector *vector1) {
+    int val = 0;
     for (int i = 0; i < capacity; i++)
       val ^= get_and_numbers(data[i], vector1->data[i]);
     return val;

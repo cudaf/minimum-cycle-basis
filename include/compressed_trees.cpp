@@ -51,9 +51,9 @@ void compressed_trees::copy(int index, std::vector<unsigned> *tree_edges,
   int row_number = index / chunk_size;
   int col_number = index % chunk_size;
 
-  unsigned src = final_vertices[index];
+  int src = final_vertices[index];
 
-  unsigned row, col, offset;
+  int row, col, offset;
 
   parent[row_number][col_number * original_nodes + src] = -1;
   distance[row_number][col_number * original_nodes + src] = 0;
