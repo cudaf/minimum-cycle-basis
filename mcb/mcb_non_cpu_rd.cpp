@@ -32,7 +32,12 @@
 #include "CompressedTrees.h"
 
 using std::string;
+using std::list;
 using std::vector;
+using std::fill;
+using std::cin;
+using std::cout;
+using std::endl;
 
 
 debugger dbg;
@@ -154,7 +159,7 @@ int main(int argc, char* argv[]) {
   assert(graph->totalWeight() == reduced_graph->totalWeight());
 
   vector<int> non_tree_edges_map(reduced_graph->rows->size());
-  std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
+  fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++)
     non_tree_edges_map[initial_spanning_tree->non_tree_edges->at(i)] = i;
@@ -194,7 +199,7 @@ int main(int argc, char* argv[]) {
   globalTimer.start();
 
   vector<Cycle*> list_cycle_vec;
-  std::list<Cycle*> list_cycle;
+  list<Cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
     for (auto&& it : storage->list_cycles[j]) {
@@ -236,9 +241,9 @@ int main(int argc, char* argv[]) {
   for (int e = 0; e < num_non_tree_edges; e++) {
     if(e == pause_edge)
     {
-      std::cout << "Paused at " << e << "\\" << num_non_tree_edges << std::endl;
-      std::cout << "Enter new Pause_edge value " << std::endl;
-      std::cin >> pause_edge;
+      cout << "Paused at " << e << "\\" << num_non_tree_edges << endl;
+      cout << "Enter new Pause_edge value " << endl;
+      cin >> pause_edge;
     }
 
     //Record timings for precomputation steps.
