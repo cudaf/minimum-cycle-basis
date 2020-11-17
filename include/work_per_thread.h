@@ -51,7 +51,7 @@ struct worker_thread {
       total_weight = 0;
       is_edge_cycle = helper->is_edge_cycle(non_tree_edges->at(i), total_weight, src);
       if (is_edge_cycle) {
-        cycle *cle = new cycle(trees, sp_tree->root, non_tree_edges->at(i));
+        Cycle *cle = new Cycle(trees, sp_tree->root, non_tree_edges->at(i));
         cle->total_length = total_weight;
         storage->add_cycle(src,
             helper->graph->rows->at(non_tree_edges->at(i)),
@@ -88,7 +88,7 @@ struct worker_thread {
       is_edge_cycle = helper->is_edge_cycle(non_tree_edges->at(i), total_weight, src);
 
       if (is_edge_cycle) {
-        cycle *cle = new cycle(trees, sp_tree->root, non_tree_edges->at(i));
+        Cycle *cle = new Cycle(trees, sp_tree->root, non_tree_edges->at(i));
         cle->total_length = total_weight;
         storage->add_cycle(src,
             helper->graph->rows->at(non_tree_edges->at(i)),

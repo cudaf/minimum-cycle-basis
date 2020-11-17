@@ -10,13 +10,13 @@ using std::unordered_map;
 
 
 struct list_common_cycles {
-  vector<cycle*> listed_cycles;
+  vector<Cycle*> listed_cycles;
 
-  list_common_cycles(cycle *cle) {
+  list_common_cycles(Cycle *cle) {
     listed_cycles.push_back(cle);
   }
 
-  inline void add_cycle(cycle *cle) {
+  inline void add_cycle(Cycle *cle) {
     listed_cycles.push_back(cle);
   }
 };
@@ -41,7 +41,7 @@ struct cycle_storage {
     list_cycles.clear();
   }
 
-  void add_cycle(int root, int u, int v, cycle *cle) {
+  void add_cycle(int root, int u, int v, Cycle *cle) {
     uint64_t index = combine(std::min(u, v), std::max(u, v));
     if (list_cycles[root].find(index) == list_cycles[root].end())
       list_cycles[root].insert(std::make_pair(index, new list_common_cycles(cle)));

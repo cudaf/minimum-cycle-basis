@@ -7,24 +7,24 @@
 using std::vector;
 
 
-struct cycle {
+struct Cycle {
   compressed_trees *trees;
   int root;
   int non_tree_edge_index;
   int total_length;
   int ID;
 
-  bool operator<(const cycle &rhs) const {
+  bool operator<(const Cycle &rhs) const {
     return (total_length < rhs.total_length);
   }
 
   struct compare {
-    bool operator()(cycle *lhs, cycle *rhs) {
+    bool operator()(Cycle *lhs, Cycle *rhs) {
       return (lhs->total_length < rhs->total_length);
     }
   };
 
-  cycle(compressed_trees *tr, int root, int index) {
+  Cycle(compressed_trees *tr, int root, int index) {
     trees = tr;
     non_tree_edge_index = index;
     this->root = root;

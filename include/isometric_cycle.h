@@ -7,9 +7,9 @@ struct isometric_cycle {
   int num_cycles;
   int *root;
   cycle_storage *storage;
-  std::vector<cycle*> *list_cycles;
+  std::vector<Cycle*> *list_cycles;
 
-  isometric_cycle(int N, cycle_storage *store, std::vector<cycle*> *list) {
+  isometric_cycle(int N, cycle_storage *store, std::vector<Cycle*> *list) {
     num_cycles = N;
     root = new int[num_cycles];
     for (int i = 0; i < num_cycles; i++)
@@ -48,7 +48,7 @@ struct isometric_cycle {
    */
   void obtain_isometric_cycles() {
     for (int i = 0; i < num_cycles; i++) {
-      cycle *cle = list_cycles->at(i);
+      Cycle *cle = list_cycles->at(i);
       assert(storage->list_trees[cle->tree->root] != NULL);
       assert(cle->ID < num_cycles);
       std::vector<unsigned> *s_values = cle->tree->s_values;
@@ -59,7 +59,7 @@ struct isometric_cycle {
 
       if (s_values->at(row) != s_values->at(col)) {
         if ((src == row)) {
-          cycle *match_cycle = storage->get_cycle(col, row, col, cle,
+          Cycle *match_cycle = storage->get_cycle(col, row, col, cle,
               cle->non_tree_edge_index);
           if (match_cycle != NULL) {
             merge(cle->ID, match_cycle->ID);
@@ -76,7 +76,7 @@ struct isometric_cycle {
           std::vector<unsigned> *s_value_col = storage->get_s_value(col);
 
           if ((s_value_r1 != NULL) && (src == s_value_r1->at(col))) {
-            cycle *match_cycle = storage->get_cycle(r1, row, col,
+            Cycle *match_cycle = storage->get_cycle(r1, row, col,
                 cle, cle->non_tree_edge_index);
             if (match_cycle != NULL) {
               merge(cle->ID, match_cycle->ID);
@@ -89,7 +89,7 @@ struct isometric_cycle {
             }
           } else if ((s_value_col != NULL)
               && (row == s_value_col->at(r1))) {
-            cycle *match_cycle = storage->get_cycle(col, src, r1, cle);
+            Cycle *match_cycle = storage->get_cycle(col, src, r1, cle);
             if (match_cycle != NULL) {
               merge(cle->ID, match_cycle->ID);
 #ifdef PRINT

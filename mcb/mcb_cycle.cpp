@@ -157,8 +157,8 @@ int main(int argc, char* argv[]) {
   //Record time for collection of cycles.
   globalTimer.start();
 
-  vector<cycle*> list_cycle_vec;
-  std::list<cycle*> list_cycle;
+  vector<Cycle*> list_cycle_vec;
+  std::list<Cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
     for (auto&& it : storage->list_cycles[j]) {
@@ -169,7 +169,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
+  sort(list_cycle_vec.begin(), list_cycle_vec.end(), Cycle::compare());
   info.setNumInitialCycles(list_cycle_vec.size());
 
   for (int i = 0; i < list_cycle_vec.size(); i++) {
@@ -189,7 +189,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  vector<cycle*> final_mcb;
+  vector<Cycle*> final_mcb;
   double precompute_time = 0;
   double cycle_inspection_time = 0;
   double independence_test_time = 0;

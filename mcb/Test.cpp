@@ -140,8 +140,8 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles(i, reduced_graph);
   }
 
-  vector<cycle*> list_cycle_vec;
-  std::list<cycle*> list_cycle;
+  vector<Cycle*> list_cycle_vec;
+  std::list<Cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
     for (auto&& it : storage->list_cycles[j]) {
@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-  sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
+  sort(list_cycle_vec.begin(), list_cycle_vec.end(), Cycle::compare());
 
   printf("\nList Cycles Pre Isometric\n");
   for (auto&& cycle : list_cycle_vec) {
@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  vector<cycle*> final_mcb;
+  vector<Cycle*> final_mcb;
   //Main Outer Loop of the Algorithm.
   for (int e = 0; e < num_non_tree_edges; e++) {
     debug("Si is as follows.", e);
