@@ -172,9 +172,7 @@ int main(int argc, char* argv[]) {
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
-    for (std::unordered_map<uint64_t, list_common_cycles*>::iterator it =
-        storage->list_cycles[j].begin();
-        it != storage->list_cycles[j].end(); it++) {
+    for (auto it = storage->list_cycles[j].begin(); it != storage->list_cycles[j].end(); it++) {
       for (int k = 0; k < it->second->listed_cycles.size(); k++) {
         list_cycle_vec.push_back(it->second->listed_cycles[k]);
         list_cycle_vec.back()->ID = list_cycle_vec.size() - 1;
@@ -186,8 +184,7 @@ int main(int argc, char* argv[]) {
 
   printf("Number of initial cycles = %d\n", list_cycle_vec.size());
   printf("\nList Cycles Pre Isometric\n");
-  for (vector<cycle*>::iterator cycle = list_cycle_vec.begin();
-      cycle != list_cycle_vec.end(); cycle++) {
+  for (auto cycle = list_cycle_vec.begin(); cycle != list_cycle_vec.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
         reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
@@ -201,8 +198,7 @@ int main(int argc, char* argv[]) {
   list_cycle_vec.clear();
 
   printf("\nList Cycles Post Isometric\n");
-  for (std::list<cycle*>::iterator cycle = list_cycle.begin();
-      cycle != list_cycle.end(); cycle++) {
+  for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
         reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
@@ -235,8 +231,7 @@ int main(int argc, char* argv[]) {
     unsigned src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;
 
-    for (std::list<cycle*>::iterator cycle = list_cycle.begin();
-        cycle != list_cycle.end(); cycle++) {
+    for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
       src = (*cycle)->get_root();
       src_index = trees.vertices_map[src];
 
