@@ -1,6 +1,6 @@
 #pragma once
 #include "cycle_searcher.h"
-#include "cycles.h"
+#include "Cycle.h"
 #include "CsrTree.h"
 
 struct isometric_cycle {

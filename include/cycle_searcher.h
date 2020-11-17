@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <utility>
 #include <climits>
-#include "cycles.h"
+#include "Cycle.h"
 
 using std::vector;
 using std::unordered_map;

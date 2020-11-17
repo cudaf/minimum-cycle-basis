@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <assert.h>
 #include "CsrTree.h"
-#include "cycles.h"
+#include "Cycle.h"
 #include "Dijkstra.h"
 #include "BitVector.h"
 #include "cycle_searcher.h"
