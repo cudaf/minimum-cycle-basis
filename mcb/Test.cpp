@@ -176,8 +176,7 @@ int main(int argc, char* argv[]) {
   list_cycle_vec.clear();
 
   printf("\nList Cycles Post Isometric\n");
-  for (std::list<cycle*>::iterator cycle = list_cycle.begin();
-      cycle != list_cycle.end(); cycle++) {
+  for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
         reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
