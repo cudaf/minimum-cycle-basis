@@ -1,5 +1,7 @@
 #include "compressed_trees.h"
 
+using std::vector;
+
 
 int CompressedTrees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
     int **csr_edge_offset, int **csr_parent, int **csr_distance, int node_index) {
@@ -37,8 +39,8 @@ int CompressedTrees::get_index(int original_node) {
   return vertices_map[original_node];
 }
 
-void CompressedTrees::copy(int index, std::vector<unsigned> *tree_edges,
-    std::vector<int> *parent_edges, std::vector<int> *distances) {
+void CompressedTrees::copy(int index, vector<unsigned> *tree_edges,
+    vector<int> *parent_edges, vector<int> *distances) {
   assert(index < fvs_size);
 
   int row_number = index / chunk_size;
