@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
   int nodes_removed = 0;
 
   for (int i = 0; i < chains->size(); i++) {
-    unsigned row, col;
+    int row, col;
     int total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
