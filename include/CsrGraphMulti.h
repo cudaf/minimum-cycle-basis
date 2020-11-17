@@ -29,10 +29,8 @@ protected:
 
   struct compare {
     bool operator()(const Edge *a, const Edge *b) const {
-      if (a->row == b->row)
-        return (a->col < b->col);
-      else
-        return (a->row < b->row);
+      if (a->row == b->row) return (a->col < b->col);
+      else return (a->row < b->row);
     }
   };
 public:
@@ -72,20 +70,16 @@ public:
     return;
   }
 
-  void insert(int a, int b, int wt, int chain_index, int edge_index,
-      bool direction) {
+  void insert(int a, int b, int wt, int chain_index, int edge_index, bool direction) {
     cols->push_back(b);
     rows->push_back(a);
     weights->push_back(wt);
     chains->push_back(chain_index);
     edge_original_graph->push_back(edge_index);
 
-    if (!direction)
-      reverse_edge->push_back(rows->size());
-    else
-      reverse_edge->push_back(rows->size() - 2);
-    if (!direction)
-      insert(b, a, wt, chain_index, edge_index, true);
+    if (!direction) reverse_edge->push_back(rows->size());
+    else reverse_edge->push_back(rows->size() - 2);
+    if (!direction) insert(b, a, wt, chain_index, edge_index, true);
   }
 
   //Calculate the degree of the vertices and create the rowOffset
@@ -154,8 +148,7 @@ public:
 #endif
   }
 
-  void fill_tree_edges(unsigned *r, unsigned *c, int *e,
-      vector<unsigned> *tree_edges, int src) {
+  void fill_tree_edges(unsigned *r, unsigned *c, int *e, vector<unsigned> *tree_edges, int src) {
     assert(tree_edges->size() + 1 == Nodes);
 
     vector<Edge*> temporary_array;
@@ -186,69 +179,51 @@ public:
     temporary_array.clear();
   }
 
-  vector<unsigned> *get_spanning_tree(
-      vector<unsigned> **non_tree_edges, int src);
+  vector<unsigned> *get_spanning_tree(vector<unsigned> **non_tree_edges, int src);
 
-  static CsrGraphMulti *get_modified_graph(CsrGraph *graph,
-      vector<unsigned> *remove_edge_list,
-      vector<vector<unsigned> > *edges_new_list,
-      int nodes_removed) {
+  static CsrGraphMulti *get_modified_graph(CsrGraph *graph, vector<unsigned> *remove_edge_list,
+      vector<vector<unsigned> > *edges_new_list, int nodes_removed) {
     vector<bool> filter_edges(graph->rows->size());
     for (int i = 0; i < filter_edges.size(); i++)
       filter_edges[i] = false;
 
-    for (int i = 0;
-        (remove_edge_list != NULL) && (i < remove_edge_list->size());
-        i++)
+    for (int i = 0; (remove_edge_list != NULL) && (i < remove_edge_list->size()); i++)
       filter_edges[remove_edge_list->at(i)] = true;
 
     CsrGraphMulti *new_reduced_graph = new CsrGraphMulti();
-    unordered_map<unsigned, unsigned> *new_nodes =
-        new unordered_map<unsigned, unsigned>();
+    unordered_map<unsigned, unsigned> *new_nodes = new unordered_map<unsigned, unsigned>();
 
     int new_node_count = 0;
     //This is for Relabelling vertices.
     for (int i = 0; i < graph->rows->size(); i++) {
       if (!filter_edges.at(i)) {
         if (new_nodes->find(graph->rows->at(i)) == new_nodes->end())
-          new_nodes->insert(
-              make_pair(graph->rows->at(i),
-                  new_node_count++));
+          new_nodes->insert(make_pair(graph->rows->at(i), new_node_count++));
         if (new_nodes->find(graph->cols->at(i)) == new_nodes->end())
-          new_nodes->insert(
-              make_pair(graph->cols->at(i),
-                  new_node_count++));
+          new_nodes->insert(make_pair(graph->cols->at(i), new_node_count++));
       }
     }
 
-    for (int i = 0;
-        (edges_new_list != NULL) && (i < edges_new_list->size()); i++) {
+    for (int i = 0; (edges_new_list != NULL) && (i < edges_new_list->size()); i++) {
       if (new_nodes->find(edges_new_list->at(i)[0]) == new_nodes->end())
-        new_nodes->insert(
-            make_pair(edges_new_list->at(i)[0],
-                new_node_count++));
+        new_nodes->insert(make_pair(edges_new_list->at(i)[0], new_node_count++));
       if (new_nodes->find(edges_new_list->at(i)[1]) == new_nodes->end())
-        new_nodes->insert(
-            make_pair(edges_new_list->at(i)[1],
-                new_node_count++));
+        new_nodes->insert(make_pair(edges_new_list->at(i)[1], new_node_count++));
     }
 
     new_reduced_graph->Nodes = new_node_count;
     //We have the relabel information now and can easily fill the edges.
     //add new edges first.
-    for (int i = 0;
-        (edges_new_list != NULL) && (i < edges_new_list->size()); i++) {
+    for (int i = 0; (edges_new_list != NULL) && (i < edges_new_list->size()); i++) {
       new_reduced_graph->insert(new_nodes->at(edges_new_list->at(i)[0]),
-          new_nodes->at(edges_new_list->at(i)[1]),
-          edges_new_list->at(i)[2], i, -1, false);
+          new_nodes->at(edges_new_list->at(i)[1]), edges_new_list->at(i)[2], i, -1, false);
     }
     //add the old edges
     for (int i = 0; i < graph->rows->size(); i++) {
       if (!filter_edges.at(i)) {
         if (graph->rows->at(i) < graph->cols->at(i))
           new_reduced_graph->insert(new_nodes->at(graph->rows->at(i)),
-              new_nodes->at(graph->cols->at(i)),
-              graph->weights->at(i), -1, i, false);
+              new_nodes->at(graph->cols->at(i)), graph->weights->at(i), -1, i, false);
       }
     }
 
