@@ -5,11 +5,13 @@ using std::vector;
 
 
 /**
- * @brief This method is used to obtain the spanning tree of a graph. The spanning tree contains edge offsets from the csr_graph
- * @details This method may also return the list of non_tree_edges and ear decomposition corresponding to every non-tree 
- *       edges.
- *  
- * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
+ * @brief
+ * This method is used to obtain the spanning tree of a graph. The spanning tree
+ * contains edge offsets from the csr_graph.
+ * @details
+ * This method may also return the list of non_tree_edges and ear decomposition
+ * corresponding to every non-tree edges.
+ * @param  address of an vector for storing non_tree_edges, ear decomposition vector
  * @return vector of edge_offsets in bfs ordering.
  */
 vector<unsigned> *CsrGraph::get_spanning_tree(
