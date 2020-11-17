@@ -84,8 +84,6 @@ struct debugger {
 #define BLOCK_DEFAULT 1024
 #define CEIL(SIZE) ((int)ceil(((double)SIZE)/BLOCK_DEFAULT))
 
-typedef unsigned long long unsignedLL;
-
 extern debugger dbg;
 
 #ifdef VERBOSE
