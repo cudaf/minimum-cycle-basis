@@ -69,17 +69,12 @@ struct bicc_graph {
    * @param degree_threshold threshold.
    * @param component_number Component Number.
    * @param edge_list edge_list 
-   * 
    * @return count of edges pruned;
    */
-  int prune_edges(int degree_threshold, int component_number,
-      list<int> *edge_list,
-      unordered_map<unsigned long long, int> *edge_map,
-      unordered_map<int, int> &src_vtx_component) {
+  int prune_edges(int degree_threshold, int component_number, list<int> *edge_list,
+      unordered_map<unsigned long long, int> *edge_map, unordered_map<int, int> &src_vtx_component) {
     int count_edges_pruned = 0;
-
     unordered_map<unsigned, int> degree_nodes;
-
     unsigned src_vtx;
     unsigned dest_vtx;
 
@@ -89,7 +84,6 @@ struct bicc_graph {
       dest_vtx = c_graph->cols->at(*it);
 
       ////debug("edges for component,",component_number,"are",src_vtx + 1,dest_vtx + 1);
-
       degree_nodes[src_vtx]++;
       degree_nodes[dest_vtx]++;
     }
@@ -112,37 +106,29 @@ struct bicc_graph {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
 
           all_vertices_pruned = false;
-
           src_vtx = it->first;
-          for (int j = c_graph->rowOffsets->at(src_vtx);
-              j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
+          for (int j = c_graph->rowOffsets->at(src_vtx); j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
             dest_vtx = c_graph->cols->at(j);
 
             if (bicc_number[j] != component_number)
               continue;
 
             degree_nodes[dest_vtx]--;
-
             if (degree_nodes[dest_vtx] > degree_threshold)
               src_vtx_component[component_number] = dest_vtx;
 
-            int reverse_edge = edge_map->at(
-                merge(dest_vtx, src_vtx));
-
+            int reverse_edge = edge_map->at(merge(dest_vtx, src_vtx));
             bicc_number[reverse_edge] = -1;
             bicc_number[j] = -1;
 
             //debug("removed",src_vtx + 1,dest_vtx + 1);
             //debug("removed",dest_vtx + 1,src_vtx + 1);
-
             count_edges_pruned += 2;
           }
-
           degree_nodes[src_vtx] = 0;
         }
       }
     }
-
     degree_nodes.clear();
     return count_edges_pruned++;
   }
@@ -162,10 +148,8 @@ struct bicc_graph {
       unordered_map<int, list<int>*> &edge_list_component,
       unordered_map<int, int> &src_vtx_component) {
     for (int j = 0; j < Edges; j++) {
-      if ((bicc_number[j] >= component_range_start)
-          && (bicc_number[j] <= component_range_end)) {
-        if (edge_list_component.find(bicc_number[j])
-            == edge_list_component.end()) {
+      if ((bicc_number[j] >= component_range_start) && (bicc_number[j] <= component_range_end)) {
+        if (edge_list_component.find(bicc_number[j]) == edge_list_component.end()) {
           list<int> *temp = new list<int>();
           temp->push_back(j);
 
@@ -179,10 +163,8 @@ struct bicc_graph {
     }
 
     for (unordered_map<int, list<int>*>::iterator it =
-        edge_list_component.begin(); it != edge_list_component.end();
-        it++) {
-      for (list<int>::iterator ij = it->second->begin();
-          ij != it->second->end(); ij++) {
+        edge_list_component.begin(); it != edge_list_component.end(); it++) {
+      for (list<int>::iterator ij = it->second->begin(); ij != it->second->end(); ij++) {
         int edge_index = *ij;
         ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
       }
@@ -194,11 +176,9 @@ struct bicc_graph {
    * @brief Initially all edges of the graph belong to the same bicc. Hence bicc_number is initialized 
    * to 1.
    * @details [long description]
-   * 
    */
   void initialize_bicc_numbers() {
     assert(c_graph->rowOffsets->at(Nodes) == Edges);
-
     bicc_number.resize(Edges);
     for (int i = 0; i < Edges; i++)
       bicc_number[i] = 1;
@@ -217,16 +197,14 @@ struct bicc_graph {
    * @return [description]
    */
   double print_to_a_file(int &file_output_count, string outputDirName,
-      int global_nodes_count,
-      unordered_set<int> &finished_components) {
+      int global_nodes_count, unordered_set<int> &finished_components) {
     string statsFileName = outputDirName + "stats";
     //This is used to gather the edge list corresponding to each component in the graph.
     unordered_map<int, list<int> > edge_list;
     unordered_map<int, unordered_set<int> > count_nodes;
 
     for (int i = 0; i < Edges; i++) {
-      if (finished_components.find(bicc_number[i])
-          != finished_components.end()) {
+      if (finished_components.find(bicc_number[i]) != finished_components.end()) {
         int src_vtx = c_graph->rows->at(i);
         int dest_vtx = c_graph->cols->at(i);
 
@@ -258,19 +236,16 @@ struct bicc_graph {
       if (it->second.size() > 0) {
         ++file_output_count;
 
-        string outputfilePath = outputDirName
-            + std::to_string(file_output_count) + ".mtx";
+        string outputfilePath = outputDirName + std::to_string(file_output_count) + ".mtx";
 
         //debug(outputfilePath);
         unordered_set<int> articulation_points;
 
-        FileWriter fout(outputfilePath.c_str(), global_nodes_count,
-            it->second.size());
+        FileWriter fout(outputfilePath.c_str(), global_nodes_count, it->second.size());
 
         for (list<int>::iterator ij = it->second.begin();
             ij != it->second.end(); ij++) {
           int edge_index = *ij;
-
           int src_vtx = c_graph->rows->at(edge_index);
           int dest_vtx = c_graph->cols->at(edge_index);
           int weight = c_graph->weights->at(edge_index);
@@ -279,36 +254,29 @@ struct bicc_graph {
 
           if (is_articulation_point[src_vtx])
             articulation_points.insert(src_vtx);
-
           if (is_articulation_point[dest_vtx])
             articulation_points.insert(dest_vtx);
         }
 
         FILE *file_ref = fout.file;
-
         // write the info about Articulation Points here...
         fprintf(file_ref, "%d\n", articulation_points.size());
-
         for (unordered_set<int>::iterator ij =
             articulation_points.begin();
             ij != articulation_points.end(); ij++) {
           fprintf(file_ref, "%d\n", (*ij) + 1);
         }
-
         fout.close();
 
         //Entry into the stats file
         std::ofstream fstats(statsFileName.c_str(),
-            std::ios::out | std::ios::app);
+          std::ios::out | std::ios::app);
 
         fstats << file_output_count << " "
-            << count_nodes[component_number].size() << " "
-            << it->second.size() << std::endl;
-
+          << count_nodes[component_number].size() << " "
+          << it->second.size() << std::endl;
         fstats.close();
-
       }
     }
-
   }
 };
