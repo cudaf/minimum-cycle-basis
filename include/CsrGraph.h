@@ -91,6 +91,16 @@ public:
 		weight = weights->at(i);
 	}
 
+	unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
+		int a = 0;
+		int N = edges.size();
+		col = cols->at(edges.at(0));
+		row = rows->at(edges.at(edges.size() - 1));
+		for (int i=0; i<N; i++)
+			a += weights->at(edges.at(i));
+		return a;
+	}
+
 	//Calculate the degree of the vertices and create the rowOffset
 	void calculateDegreeandRowOffset() {
 		rowOffsets->resize(Nodes + 1);
@@ -137,30 +147,6 @@ public:
 #endif
 	}
 
-	//Print to a file.
-	void writeToFile(string &name, int verts) {
-		int N = rows->size();
-		if (degree->size() == 0) return;
-		FileWriter file(name.c_str(), verts, N/2);
-		for (int i=0; i<N; i++) {
-			int r = rows->at(i);
-			int c = cols->at(i);
-			int w = weights->at(i);
-			if (r>c) file.write_edge(r, c, w);
-		}
-		file.close();
-	}
-
-	unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
-		int a = 0;
-		int N = edges.size();
-		col = cols->at(edges.at(0));
-		row = rows->at(edges.at(edges.size() - 1));
-		for (int i=0; i<N; i++)
-			a += weights->at(edges.at(i));
-		return a;
-	}
-
 	void print() {
 		int N = rows->size();
 		printf("=================================================================================\n");
@@ -172,5 +158,18 @@ public:
 			if (r<c) printf("%d %d - %d\n", r+1, c+1, w);
 		}
 		printf("=================================================================================\n");
+	}
+
+	void writeToFile(string &name, int verts) {
+		int N = rows->size();
+		if (degree->size() == 0) return;
+		FileWriter file(name.c_str(), verts, N/2);
+		for (int i=0; i<N; i++) {
+			int r = rows->at(i);
+			int c = cols->at(i);
+			int w = weights->at(i);
+			if (r>c) file.write_edge(r, c, w);
+		}
+		file.close();
 	}
 };
