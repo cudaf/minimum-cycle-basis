@@ -1,6 +1,4 @@
-#ifndef _BICC_DFS_H
-#define _BICC_DFS_H
-
+#pragma once
 #include <atomic>
 #include <stack>
 #include <unordered_map>
@@ -13,8 +11,10 @@
 #include "dfs_helper.h"
 #include "bicc.h"
 
-inline unsigned long long merge(unsigned long long upper,
-    unsigned long long lower) {
+
+
+
+inline unsigned long long merge(unsigned long long upper, unsigned long long lower) {
   unsigned long long result = 0;
   result = ((upper << 32) | lower);
   return result;
@@ -43,14 +43,10 @@ std::unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
   for (int i = 0; i < graph->cols->size(); i++) {
     src = graph->rows->at(i);
     dest = graph->cols->at(i);
-
     result = merge(src, dest);
-
     custom_map->insert(std::make_pair(result, i));
   }
-
   edge_map = custom_map;
-
   return edge_map;
 
 }
@@ -63,7 +59,6 @@ struct DFS {
   dfs_helper *helper;
   int count_bridges, time;  //count indicates number of bridges
   std::unordered_map<unsigned long long, int> *edge_map;
-
   std::list<std::pair<int, std::list<int>*> > store_biconnected_edges;
   bool keep_bridges = true;
 
@@ -80,7 +75,6 @@ struct DFS {
     edge_map = bi_map;
     keep_bridges = keep_bridges_param;
     time = 0;
-
   }
 
   /**
@@ -88,15 +82,11 @@ struct DFS {
    * The component number is stored in the bicc_graph->bicc_number value. We skip edges which 
    * donot have the same component number.
    * 
-   * 
    * @param src Vertex to start dfs.
    */
   void dfs(unsigned src) {
-
     ////debug("Start Src : ",src + 1);
-
     unsigned dest;
-
     helper->parent[src] = -1;
     helper->_stack.push(src);
 
@@ -109,10 +99,8 @@ struct DFS {
 
         //Make the parent connection here and add the edge
         if (helper->discovery[src] != 1) {
-          int edge_index = edge_map->at(
-              merge(helper->parent[src], src));
+          int edge_index = edge_map->at(merge(helper->parent[src], src));
           bicc_edges->push_back(edge_index);
-
           ////debug("Tree Edge:",helper->parent[src] + 1,src + 1);
         }
       } else if (helper->status[src] == 1) //traverse the adjacencies
@@ -131,12 +119,10 @@ struct DFS {
           } else if ((dest != helper->parent[src])
               && (helper->discovery[dest] < helper->discovery[src])) {
 
-            helper->low[src] = std::min(helper->low[src],
-                helper->discovery[dest]);
+            helper->low[src] = std::min(helper->low[src], helper->discovery[dest]);
             bicc_edges->push_back(edge_map->at(merge(src, dest)));
 
             assert(edge_map->at(merge(src, dest)) < graph->Edges);
-
             ////debug("Back Edge:",src + 1,dest + 1);
           }
         }
@@ -146,8 +132,7 @@ struct DFS {
 
         //Here source is the destination. Parent[src] is the actual source.
         if (helper->discovery[src] != 1)
-          helper->low[helper->parent[src]] = std::min(
-              helper->low[src], helper->low[helper->parent[src]]);
+          helper->low[helper->parent[src]] = std::min(helper->low[src], helper->low[helper->parent[src]]);
 
         int _edge_src = helper->parent[src];
         int _edge_dest = src;
@@ -157,8 +142,7 @@ struct DFS {
         if (((helper->discovery[_edge_src] == 1)
             && (time - helper->discovery[_edge_src] >= 2))
             || ((helper->discovery[_edge_src] > 1)
-                && (helper->low[_edge_dest]
-                    >= helper->discovery[_edge_src]))) {
+                && (helper->low[_edge_dest] >= helper->discovery[_edge_src]))) {
           ////debug("Articulation Point Detected: src:",_edge_src + 1);
           graph->is_articulation_point[_edge_src] = true;
 
@@ -166,44 +150,32 @@ struct DFS {
             return;
 
           std::list<int> *edges_per_component = new std::list<int>();
-
           int edge_index = bicc_edges->back();
-
           assert(edge_index < graph->Edges);
-
           unsigned src_vtx = graph->c_graph->rows->at(edge_index);
           unsigned dest_vtx = graph->c_graph->cols->at(edge_index);
 
           while ((src_vtx != _edge_src) || (dest_vtx != _edge_dest)) {
             edges_per_component->push_back(edge_index);
-
             bicc_edges->pop_back();
 
             ////debug("Removed Edge,src:",src_vtx+1,",dest:",dest_vtx+1);
-
             if (bicc_edges->empty())
               break;
 
             edge_index = bicc_edges->back();
-
             assert(edge_index < graph->Edges);
-
             src_vtx = graph->c_graph->rows->at(edge_index);
             dest_vtx = graph->c_graph->cols->at(edge_index);
           }
 
           if (!bicc_edges->empty()) {
             edge_index = bicc_edges->back();
-
             assert(edge_index < graph->Edges);
-
             src_vtx = graph->c_graph->rows->at(edge_index);
             dest_vtx = graph->c_graph->cols->at(edge_index);
-
             edges_per_component->push_back(edge_index);
-
             bicc_edges->pop_back();
-
             ////debug("Removed Edge,src:",src_vtx+1,",dest:",dest_vtx+1);
           }
 
@@ -211,8 +183,7 @@ struct DFS {
           if (edges_per_component->size() > 1) {
             //Updated bcc_no for this bicc
             int bcc_no = ++(*new_component_number);
-            store_biconnected_edges.push_back(
-                std::make_pair(bcc_no, edges_per_component));
+            store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
 
             ////debug("New component number :",bcc_no);
           } else if (edges_per_component->size() == 1) {
@@ -221,14 +192,11 @@ struct DFS {
               edges_per_component->clear();
             else {
               int bcc_no = ++(*new_component_number);
-              store_biconnected_edges.push_back(
-                  std::make_pair(bcc_no,
-                      edges_per_component));
+              store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
             }
 
             graph->is_articulation_point[src_vtx] = true;
             graph->is_articulation_point[dest_vtx] = true;
-
             ////debug("Identified Bridge");
           }
         }
@@ -243,7 +211,6 @@ struct DFS {
 /**
  * @brief This method internally calls the core dfs routine in the csr_graph necessary for obtaining the biconnected
  * components. The biconnected component number for each edges are marked by keeping track of the edges.
- * 
  *  
  * @param src source vertex
  * @param bicc_number This value indicates the component number in the graph which is to be processed.
@@ -252,16 +219,11 @@ struct DFS {
  * @return count of new_bccs_formed.
  */
 int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
-    bicc_graph *graph, dfs_helper *helper,
-    std::unordered_map<unsigned long long, int> *edge_map,
-    std::unordered_map<int, std::list<int>*> &edge_list_component,
-    bool keep_bridges) {
+    bicc_graph *graph, dfs_helper *helper, std::unordered_map<unsigned long long, int> *edge_map,
+    std::unordered_map<int, std::list<int>*> &edge_list_component, bool keep_bridges) {
   int j = 1;
-
   std::list<int> *bicc_edges = new std::list<int>();
-
   helper->initialize_arrays();
-
   //////debug("New Component");
   //////debug("");
 
@@ -271,22 +233,17 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   dfs_worker->dfs(src);
 
   std::list<int> *edges_per_component = new std::list<int>();
-
   unsigned src_vtx = -1;
   unsigned dest_vtx = -1;
 
   while (!bicc_edges->empty()) {
     j = 1;
-
     int edge_index = bicc_edges->back();
-
     bicc_edges->pop_back();
-
     src_vtx = graph->c_graph->rows->at(edge_index);
     dest_vtx = graph->c_graph->cols->at(edge_index);
 
     ////debug("Removed Edge,src:",src_vtx+1,",dest:",dest_vtx+1);
-
     edges_per_component->push_back(edge_index);
   }
 
@@ -294,9 +251,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   if (edges_per_component->size() > 1) {
     //Updated bcc_no for this bicc
     int bcc_no = ++new_bicc_number;
-    dfs_worker->store_biconnected_edges.push_back(
-        std::make_pair(bcc_no, edges_per_component));
-
+    dfs_worker->store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
     ////debug("New component number :",bcc_no);
   } else if (edges_per_component->size() == 1) {
     dfs_worker->count_bridges++;
@@ -304,8 +259,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
       edges_per_component->clear();
     } else {
       int bcc_no = ++new_bicc_number;
-      dfs_worker->store_biconnected_edges.push_back(
-          std::make_pair(bcc_no, edges_per_component));
+      dfs_worker->store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
     }
 
     assert(src_vtx != -1);
@@ -313,7 +267,6 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
 
     dfs_worker->graph->is_articulation_point[src_vtx] = true;
     dfs_worker->graph->is_articulation_point[dest_vtx] = true;
-
     ////debug("Identified Bridge");
   }
 
@@ -325,37 +278,24 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
     std::list<int> *edge_lists = (*it).second;
 
     int _src_component = -1;
-
-    for (std::list<int>::iterator it = edge_lists->begin();
-        it != edge_lists->end(); it++) {
+    for (std::list<int>::iterator it = edge_lists->begin(); it != edge_lists->end(); it++) {
       int edge_index = *it;
-
       int src_vtx = dfs_worker->graph->c_graph->rows->at(edge_index);
       int dest_vtx = dfs_worker->graph->c_graph->cols->at(edge_index);
-
       _src_component = src_vtx;
 
       //APPLY TO EDGES in both directions. i.e. src_vtx => dest_vtx and dest_vtx => src_vtx
       dfs_worker->graph->bicc_number[edge_index] = component_number;
-      dfs_worker->graph->bicc_number[dfs_worker->edge_map->at(
-          merge(dest_vtx, src_vtx))] = component_number;
+      dfs_worker->graph->bicc_number[dfs_worker->edge_map->at(merge(dest_vtx, src_vtx))] = component_number;
     }
-
     //debug("Inside dfs",component_number,edge_list_component.size());
 
 #pragma omp critical
     {
       edge_list_component[component_number] = edge_lists;
     }
-
     assert(_src_component != -1);
-
   }
-
   dfs_worker->store_biconnected_edges.clear();
-
   return dfs_worker->count_bridges;
-
 }
-
-#endif
