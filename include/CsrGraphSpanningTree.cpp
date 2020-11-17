@@ -17,20 +17,15 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
     vector<unsigned> *ear_decomposition, int src) {
   struct DFS_HELPER {
     int Nodes;
-
     vector<unsigned> *spanning_tree;
     vector<bool> *visited;
     vector<unsigned> *ear_decomposition_internal;
-
     vector<unsigned> *rows_internal;
     vector<unsigned> *columns_internal;
     vector<unsigned> *rowOffsets_internal;
-
     vector<unsigned> **non_tree_edges_internal;
     vector<unsigned> *stack;
-
     vector<int> *parent;
-
     int ear_count;
 
     DFS_HELPER(vector<unsigned> **non_tree_edges,
@@ -41,7 +36,6 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
       visited = new vector<bool>();
       stack = new vector<unsigned>();
       parent = new vector<int>();
-
       Nodes = _nodes;
       ear_count = 0;
 
@@ -51,19 +45,15 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
       }
 
       non_tree_edges_internal = non_tree_edges;
-
       rows_internal = rows;
       columns_internal = columns;
       rowOffsets_internal = rowOffsets;
-
       ear_decomposition_internal = ear_decomposition;
-
       assert((ear_decomposition_internal->size() == Nodes + 1));
     }
 
     void dfs(unsigned row) {
       visited->at(row) = true;
-
       stack->push_back(row);
 
       for (unsigned offset = rowOffsets_internal->at(row);
@@ -76,10 +66,7 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
           dfs(column);
         } else {
           bool ear_incremented = false;
-
-          if (column == parent->at(row))
-            continue;
-
+          if (column == parent->at(row)) continue;
           (*non_tree_edges_internal)->push_back(offset);
 
           if (ear_decomposition_internal != NULL) {
@@ -103,12 +90,9 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
 
     vector<unsigned> *run_dfs(unsigned row) {
       dfs(row);
-
       assert(spanning_tree->size() == Nodes - 1);
-
       if (ear_decomposition_internal != NULL)
         ear_decomposition_internal->at(Nodes) = ear_count;
-
       return spanning_tree;
     }
 
@@ -120,10 +104,7 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
 
   };
 
-  DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets,
-      ear_decomposition, Nodes);
-
+  DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets, ear_decomposition, Nodes);
   vector<unsigned> *spanning_tree = helper.run_dfs(src);
-
   return spanning_tree;
 }
