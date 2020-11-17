@@ -23,8 +23,8 @@ const T* get_pointer_const(const T* data, int node, int nodes, int chunk_size, i
 }
 
 __device__ __forceinline__
-unsigned getBit(unsigned long long val, int pos) {
-  unsigned long long ret;
+unsigned getBit(uint64_t val, int pos) {
+  uint64_t ret;
   asm("bfe.u64 %0, %1, %2, 1;" : "=l"(ret) : "l"(val), "r"(pos));
   return (unsigned) ret;
 }
