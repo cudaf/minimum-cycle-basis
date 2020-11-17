@@ -138,12 +138,15 @@ public:
 	}
 
 	//Print to a file.
-	void PrintToFile(string &name, int verts) {
+	void writeToFile(string &name, int verts) {
+		int N = rows->size();
 		if (degree->size() == 0) return;
-		FileWriter file(name.c_str(), verts, rows->size()/2);
-		for (int i = 0; i < rows->size(); i++) {
-			if (rows->at(i) > cols->at(i))
-				file.write_edge(rows->at(i), cols->at(i), weights->at(i));
+		FileWriter file(name.c_str(), verts, N/2);
+		for (int i=0; i<N; i++) {
+			int r = rows->at(i);
+			int c = cols->at(i);
+			int w = weights->at(i);
+			if (r>c) file.write_edge(r, c, w);
 		}
 		file.close();
 	}
