@@ -3,13 +3,16 @@
 #include "Cycle.h"
 #include "CsrTree.h"
 
+using std::vector;
+
+
 struct isometric_cycle {
   int num_cycles;
   int *root;
   CycleStorage *storage;
-  std::vector<Cycle*> *list_cycles;
+  vector<Cycle*> *list_cycles;
 
-  isometric_cycle(int N, CycleStorage *store, std::vector<Cycle*> *list) {
+  isometric_cycle(int N, CycleStorage *store, vector<Cycle*> *list) {
     num_cycles = N;
     root = new int[num_cycles];
     for (int i = 0; i < num_cycles; i++)
@@ -51,7 +54,7 @@ struct isometric_cycle {
       Cycle *cle = list_cycles->at(i);
       assert(storage->list_trees[cle->tree->root] != NULL);
       assert(cle->ID < num_cycles);
-      std::vector<unsigned> *s_values = cle->tree->s_values;
+      vector<unsigned> *s_values = cle->tree->s_values;
 
       int row = cle->tree->parent_graph->rows->at(cle->non_tree_edge_index);
       int col = cle->tree->parent_graph->columns->at(cle->non_tree_edge_index);
@@ -72,8 +75,8 @@ struct isometric_cycle {
           }
         } else {
           int r1 = s_values->at(row);
-          std::vector<unsigned> *s_value_r1 = storage->get_s_value(r1);
-          std::vector<unsigned> *s_value_col = storage->get_s_value(col);
+          vector<unsigned> *s_value_r1 = storage->get_s_value(r1);
+          vector<unsigned> *s_value_col = storage->get_s_value(col);
 
           if ((s_value_r1 != NULL) && (src == s_value_r1->at(col))) {
             Cycle *match_cycle = storage->get_cycle(r1, row, col,
