@@ -9,7 +9,7 @@ using std::stack;
 
 
 struct BitVector {
-  fn_free_t fn_free;
+  fn_free_t freeFn;
   uint64_t *data;
   int capacity;
   int size;
@@ -19,14 +19,14 @@ struct BitVector {
     capacity = CEILDIV(n, 64);
     data = new uint64_t[capacity];
     memset(data, 0, capacity*sizeof(uint64_t));
-    fn_free = NULL;
+    freeFn = NULL;
   }
 
   BitVector(int &n, fn_alloc_t falloc, fn_free_t ffree) {
     capacity = CEILDIV(n, 64);
     data = (uint64_t*) falloc(capacity, 2);
     size = n;
-    fn_free = ffree;
+    freeFn = ffree;
   }
 
   void init() {
@@ -34,8 +34,8 @@ struct BitVector {
   }
 
   void free() {
-    if (!fn_free) delete[] data;
-    else fn_free((int*) data);
+    if (!freeFn) delete[] data;
+    else freeFn((int*) data);
   }
 
   inline int get_and_numbers(uint64_t &val1, uint64_t &val2) {
