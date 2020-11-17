@@ -42,44 +42,29 @@ int CompressedTrees::get_index(int original_node) {
 void CompressedTrees::copy(int index, vector<unsigned> *tree_edges,
     vector<int> *parent_edges, vector<int> *distances) {
   assert(index < fvs_size);
-
   int row_number = index / chunk_size;
   int col_number = index % chunk_size;
-
   int src = final_vertices[index];
-
   int row, col, offset;
-
   parent[row_number][col_number * original_nodes + src] = -1;
   distance[row_number][col_number * original_nodes + src] = 0;
 
   for (int i = 0; i < parent_edges->size(); i++) {
     offset = parent_edges->at(i);
-
     if (offset == -1) {
       assert(i == src);
       continue;
     }
-
     col = parent_graph->cols->at(offset);
-
     assert(col == i);
-
     parent[row_number][col_number * original_nodes + i] = offset;
-    distance[row_number][col_number * original_nodes + i] = distances->at(
-        i);
-
+    distance[row_number][col_number * original_nodes + i] = distances->at(i);
   }
 
   unsigned *node_rowoffsets, *node_columns;
   int *node_edgeoffsets, *node_parents, *node_distance;
-
-  get_node_arrays(&node_rowoffsets, &node_columns, &node_edgeoffsets,
-      &node_parents, &node_distance, index);
-
-  parent_graph->fill_tree_edges(node_rowoffsets, node_columns,
-      node_edgeoffsets, tree_edges, src);
-
+  get_node_arrays(&node_rowoffsets, &node_columns, &node_edgeoffsets, &node_parents, &node_distance, index);
+  parent_graph->fill_tree_edges(node_rowoffsets, node_columns, node_edgeoffsets, tree_edges, src);
 }
 
 void CompressedTrees::print_tree() {
@@ -89,11 +74,9 @@ void CompressedTrees::print_tree() {
       int edge_offset = parent[0][i * original_nodes + j];
       if (edge_offset != -1) {
         printf("%d - %d, %d\n", parent_graph->rows->at(edge_offset) + 1,
-            parent_graph->cols->at(edge_offset) + 1,
-            precompute_value[0][i * original_nodes + j]);
+            parent_graph->cols->at(edge_offset) + 1, precompute_value[0][i * original_nodes + j]);
       }
     }
-    printf(
-        "===============================================================================\n");
+    printf("===============================================================================\n");
   }
 }
