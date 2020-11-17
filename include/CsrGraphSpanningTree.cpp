@@ -14,8 +14,7 @@ using std::vector;
  * @param  address of an vector for storing non_tree_edges, ear decomposition vector
  * @return vector of edge_offsets in bfs ordering.
  */
-vector<unsigned> *CsrGraph::get_spanning_tree(
-    vector<unsigned> **non_tree_edges,
+vector<unsigned> *CsrGraph::get_spanning_tree(vector<unsigned> **non_tree_edges,
     vector<unsigned> *ear_decomposition, int src) {
   struct DFS_HELPER {
     int Nodes;
@@ -30,10 +29,8 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
     vector<int> *parent;
     int ear_count;
 
-    DFS_HELPER(vector<unsigned> **non_tree_edges,
-        vector<unsigned> *rows, vector<unsigned> *columns,
-        vector<unsigned> *rowOffsets,
-        vector<unsigned> *ear_decomposition, int _nodes) {
+    DFS_HELPER(vector<unsigned> **non_tree_edges, vector<unsigned> *rows, vector<unsigned> *columns,
+        vector<unsigned> *rowOffsets, vector<unsigned> *ear_decomposition, int _nodes) {
       spanning_tree = new vector<unsigned>();
       visited = new vector<bool>();
       stack = new vector<unsigned>();
@@ -72,14 +69,12 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
           (*non_tree_edges_internal)->push_back(offset);
 
           if (ear_decomposition_internal != NULL) {
-            for (vector<unsigned>::reverse_iterator it =
-                stack->rbegin(); it != stack->rend(); it++) {
+            for (auto it = stack->rbegin(); it != stack->rend(); it++) {
               if (ear_decomposition_internal->at(*it) == 0) {
-                ear_decomposition_internal->at(*it) = ear_count
-                    + 1;
+                ear_decomposition_internal->at(*it) = ear_count + 1;
                 ear_incremented = true;
-              } else
-                break;
+              }
+              else break;
             }
           }
           if (ear_incremented)
