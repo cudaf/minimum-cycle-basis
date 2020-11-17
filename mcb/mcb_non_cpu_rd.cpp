@@ -124,9 +124,7 @@ int main(int argc, char* argv[]) {
 
   for (int i = 0; i < chains->size(); i++) {
     unsigned row, col;
-    unsigned total_weight = graph->pathWeight(chains->at(i), row,
-        col);
-
+    unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
     std::vector<unsigned> new_edge = std::vector<unsigned>();
