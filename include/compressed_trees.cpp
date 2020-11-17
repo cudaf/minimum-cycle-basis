@@ -1,17 +1,15 @@
 #include "compressed_trees.h"
 
+
 int CompressedTrees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
-    int **csr_edge_offset, int **csr_parent, int **csr_distance,
-    int node_index) {
+    int **csr_edge_offset, int **csr_parent, int **csr_distance, int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
 
   *csr_rows = tree_rows[row_number] + (col_number * (original_nodes + 1));
   *csr_cols = tree_cols[row_number] + (col_number * original_nodes);
-
   *csr_edge_offset = edge_offset[row_number] + (col_number * original_nodes);
   *csr_parent = parent[row_number] + (col_number * original_nodes);
-
   *csr_distance = distance[row_number] + (col_number * original_nodes);
 }
 
@@ -23,21 +21,16 @@ int CompressedTrees::get_node_arrays_warp(unsigned **csr_rows,
 
   *csr_rows = tree_rows[row_number] + (col_number * (original_nodes + 1));
   *csr_cols = tree_cols[row_number] + (col_number * original_nodes);
-
   *csr_edge_offset = edge_offset[row_number] + (col_number * original_nodes);
   *csr_parent = parent[row_number] + (col_number * original_nodes);
-
   *csr_distance = distance[row_number] + (col_number * original_nodes);
   *csr_nodes_index = nodes_index[row_number] + (col_number * original_nodes);
 }
 
-int CompressedTrees::get_precompute_array(unsigned **precompute_tree,
-    int node_index) {
+int CompressedTrees::get_precompute_array(unsigned **precompute_tree, int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
-
-  *precompute_tree = precompute_value[row_number]
-      + (col_number * original_nodes);
+  *precompute_tree = precompute_value[row_number] + (col_number * original_nodes);
 }
 
 int CompressedTrees::get_index(int original_node) {
