@@ -6,10 +6,10 @@
 struct isometric_cycle {
   int num_cycles;
   int *root;
-  cycle_storage *storage;
+  CycleStorage *storage;
   std::vector<Cycle*> *list_cycles;
 
-  isometric_cycle(int N, cycle_storage *store, std::vector<Cycle*> *list) {
+  isometric_cycle(int N, CycleStorage *store, std::vector<Cycle*> *list) {
     num_cycles = N;
     root = new int[num_cycles];
     for (int i = 0; i < num_cycles; i++)

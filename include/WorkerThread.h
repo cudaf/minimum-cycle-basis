@@ -17,12 +17,12 @@ using std::queue;
 
 struct WorkerThread {
   Dijkstra *helper;
-  cycle_storage *storage;
+  CycleStorage *storage;
   int *fvs_array;
   CompressedTrees *trees;
   vector<unsigned> shortest_path_trees;
 
-  WorkerThread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, CompressedTrees *tr) {
+  WorkerThread(CsrGraphMulti *graph, CycleStorage *s, int *fvs_array, CompressedTrees *tr) {
     helper = new Dijkstra(graph->Nodes, graph, fvs_array);
     storage = s;
     this->fvs_array = fvs_array;

@@ -202,7 +202,7 @@ int main(int argc, char* argv[]) {
   CompressedTrees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array,
       reduced_graph, allocate_pinned_memory, free_pinned_memory);
 
-  cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
+  CycleStorage *storage = new CycleStorage(reduced_graph->Nodes);
   WorkerThread **multi_work = new WorkerThread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)

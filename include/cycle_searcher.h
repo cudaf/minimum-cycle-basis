@@ -24,7 +24,7 @@ struct CommonCycles {
   }
 };
 
-struct cycle_storage {
+struct CycleStorage {
   int Nodes;
   vector<unordered_map<uint64_t, CommonCycles*> > list_cycles;
 
@@ -35,12 +35,12 @@ struct cycle_storage {
     return value;
   }
 
-  cycle_storage(int N) {
+  CycleStorage(int N) {
     Nodes = N;
     list_cycles.resize(Nodes);
   }
 
-  ~cycle_storage() {
+  ~CycleStorage() {
     list_cycles.clear();
   }
 
