@@ -9,15 +9,15 @@ using std::unordered_map;
 class csr_multi_graph: public CsrGraph {
 protected:
   struct edge {
-    unsigned row;
-    unsigned col;
+    int row;
+    int col;
     int weight;
     int chain_index;
     struct edge *reverse_edge_ptr;
     int original_edge_index;
     int reverse_edge_index;
 
-    edge(unsigned r, unsigned c, int w, int ch_index, int orig_index) {
+    edge(int r, int c, int w, int ch_index, int orig_index) {
       row = r;
       col = c;
       weight = w;
@@ -133,11 +133,11 @@ public:
     combined.clear();
     //Now calculate the row_offset
     for (int i = 0; i < rows->size(); i++) {
-      unsigned curr_row = rows->at(i);
+      int curr_row = rows->at(i);
       rowOffsets->at(curr_row)++;
     }
 
-    unsigned prev = 0, current;
+    int prev = 0, current;
     for (int i = 0; i <= Nodes; i++) {
       current = rowOffsets->at(i);
       rowOffsets->at(i) = prev;
