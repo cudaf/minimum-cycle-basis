@@ -28,11 +28,14 @@
 #include "compressed_trees.h"
 #include "FVS.h"
 
+using std::string;
+using std::vector;
+
 
 debugger dbg;
 HostTimer globalTimer;
-std::string InputFileName;
-std::string OutputFileDirectory;
+string InputFileName;
+string OutputFileDirectory;
 double totalTime = 0;
 int num_threads;
 
@@ -51,7 +54,7 @@ int main(int argc, char* argv[]) {
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
-  std::string InputFilePath = InputFileName;
+  string InputFilePath = InputFileName;
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
   int v1, v2, Initial_Vertices, weight;
@@ -100,7 +103,7 @@ int main(int argc, char* argv[]) {
   initial_spanning_tree->print_tree_edges();
   initial_spanning_tree->print_non_tree_edges();
 
-  std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
+  vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   debug("Map of non-tree edges");
@@ -137,7 +140,7 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles(i, reduced_graph);
   }
 
-  std::vector<cycle*> list_cycle_vec;
+  vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
@@ -153,7 +156,7 @@ int main(int argc, char* argv[]) {
   sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
 
   printf("\nList Cycles Pre Isometric\n");
-  for (std::vector<cycle*>::iterator cycle = list_cycle_vec.begin();
+  for (vector<cycle*>::iterator cycle = list_cycle_vec.begin();
       cycle != list_cycle_vec.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
@@ -191,7 +194,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  std::vector<cycle*> final_mcb;
+  vector<cycle*> final_mcb;
   //Main Outer Loop of the Algorithm.
   for (int e = 0; e < num_non_tree_edges; e++) {
     debug("Si is as follows.", e);
