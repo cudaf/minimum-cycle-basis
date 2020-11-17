@@ -257,7 +257,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  gpu_task gpu_compute(&trees, (int*) trees.final_vertices,
+  GpuTask gpu_compute(&trees, (int*) trees.final_vertices,
       non_tree_edges_map, support_vectors, num_non_tree_edges);
   gpu_struct device_struct(non_tree_edges_map.size(), num_non_tree_edges,
       support_vectors[0]->capacity, gpu_compute.original_nodes,

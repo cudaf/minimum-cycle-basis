@@ -58,16 +58,16 @@ struct gpu_struct {
   void init_streams();
   void destroy_streams();
   void calculate_memory();
-  void initialize_memory(gpu_task *host_memory);
+  void initialize_memory(GpuTask *host_memory);
 
   float copy_support_vector(BitVector *vector);
-  void transfer_from_asynchronous(int stream_index, gpu_task *host_memory,int num_chunk);
-  float fetch(gpu_task *host_memory);
-  void transfer_to_asynchronous(int stream_index, gpu_task *host_memory,int num_chunk);
+  void transfer_from_asynchronous(int stream_index, GpuTask *host_memory,int num_chunk);
+  float fetch(GpuTask *host_memory);
+  void transfer_to_asynchronous(int stream_index, GpuTask *host_memory,int num_chunk);
 
   void Kernel_init_edges_helper(int start, int end, int stream_index);
   void Kernel_multi_search_helper(int start, int end, int stream_index);
   void clear_memory();
 
-  float process_shortest_path(gpu_task *host_memory,bool multiple_transfer);
+  float process_shortest_path(GpuTask *host_memory,bool multiple_transfer);
 };
