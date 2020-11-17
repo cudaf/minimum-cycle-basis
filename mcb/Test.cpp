@@ -127,10 +127,10 @@ int main(int argc, char* argv[]) {
 
   cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
 
-  worker_thread **multi_work = new worker_thread*[num_threads];
+  WorkerThread **multi_work = new WorkerThread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)
-    multi_work[i] = new worker_thread(reduced_graph, storage, fvs_array, &trees);
+    multi_work[i] = new WorkerThread(reduced_graph, storage, fvs_array, &trees);
 
   int count_cycles = 0;
   //produce shortest path trees across all the nodes.

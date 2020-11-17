@@ -15,21 +15,21 @@ using std::vector;
 using std::queue;
 
 
-struct worker_thread {
+struct WorkerThread {
   Dijkstra *helper;
   cycle_storage *storage;
   int *fvs_array;
   CompressedTrees *trees;
   vector<unsigned> shortest_path_trees;
 
-  worker_thread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, CompressedTrees *tr) {
+  WorkerThread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, CompressedTrees *tr) {
     helper = new Dijkstra(graph->Nodes, graph, fvs_array);
     storage = s;
     this->fvs_array = fvs_array;
     trees = tr;
   }
 
-  ~worker_thread() {
+  ~WorkerThread() {
     delete helper;
     shortest_path_trees.clear();
   }
