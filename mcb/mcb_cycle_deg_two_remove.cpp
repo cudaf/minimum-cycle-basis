@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
     info.setNumNodesRemoved(graph->Nodes - 1);
     info.setNumFinalCycles(1);
     info.setNumInitialCycles(1);
-    info.setTotalWeight(graph->get_total_weight());
+    info.setTotalWeight(graph->totalWeight());
     info.print_stats(argv[2]);
 
     return 0;
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
   int num_non_tree_edges = initial_spanning_tree->non_tree_edges->size();
 
   assert(num_non_tree_edges == edges - nodes + 1);
-  assert(graph->get_total_weight() == reduced_graph->get_total_weight());
+  assert(graph->totalWeight() == reduced_graph->totalWeight());
 
   std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);

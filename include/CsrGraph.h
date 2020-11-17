@@ -57,11 +57,12 @@ public:
 		return a;
 	}
 
-	int get_total_weight() {
-		int total_weight = 0;
-		for (int i = 0; i < rows->size(); i++)
-			total_weight += weights->at(i);
-		return (total_weight / 2);
+	int totalWeight() {
+		int a = 0;
+		int N = rows->size();
+		for (int i=0; i<N; i++)
+			a += weights->at(i);
+		return a/2;
 	}
 
 	void insert(int a, int b, int wt, bool direction) {
