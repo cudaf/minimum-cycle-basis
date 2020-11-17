@@ -52,7 +52,7 @@ public:
     //std::sort(non_tree_edges->begin(),non_tree_edges->end(),compare(parent_graph));
   }
 
-  void obtain_shortest_path_tree(dijkstra &helper, bool populate_non_tree_edges, int src) {
+  void obtain_shortest_path_tree(Dijkstra &helper, bool populate_non_tree_edges, int src) {
     if (populate_non_tree_edges)
       non_tree_edges = new vector<unsigned>();
 
