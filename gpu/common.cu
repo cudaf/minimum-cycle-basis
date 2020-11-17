@@ -1,6 +1,7 @@
 #include "common.cuh"
 #include "utils.h"
 
+
 cudaDeviceProp prop;
 int device_id;
 dim3 dimGrid;
@@ -32,11 +33,8 @@ extern "C" size_t configure_grid(int start, int end) {
 extern "C" unsigned *allocate_pinned_memory(int chunk, int nodes) {
   unsigned *pinned_memory;
 
-  CudaError(
-      cudaMallocHost((void **) &pinned_memory,
-          sizeof(unsigned) * chunk * nodes));
+  CudaError(cudaMallocHost((void **) &pinned_memory, sizeof(unsigned) * chunk * nodes));
   //pinned_memory = new unsigned[chunk * nodes];
-
   return pinned_memory;
 }
 
@@ -48,13 +46,9 @@ extern "C" void free_pinned_memory(unsigned *pinned_memory) {
 extern "C" size_t calculate_chunk_size(size_t num_nodes, size_t num_edges,
     size_t size_vector, size_t nstream) {
   size_t global_storage_bytes = prop.totalGlobalMem;
-  size_t static_storage_bytes = calculate_32bit(
-      num_edges) + calculate_64bit(size_vector);
-
-  size_t remaining_storage_bytes = global_storage_bytes
-      - static_storage_bytes;
+  size_t static_storage_bytes = calculate_32bit(num_edges) + calculate_64bit(size_vector);
+  size_t remaining_storage_bytes = global_storage_bytes - static_storage_bytes;
   size_t total_elem_avl = remaining_storage_bytes / 4;
-
   size_t max_chunk_size = total_elem_avl / (nstream * (num_nodes * 4 + 1));
 
   debug("global_storage (MB):", global_storage_bytes/(1024*1024));
