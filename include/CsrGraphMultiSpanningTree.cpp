@@ -1,5 +1,8 @@
 #include "CsrGraphMulti.h"
 
+using std::vector;
+
+
 /**
  * @brief
  * This method is used to obtain the spanning tree of a graph. The spanning tree contains
@@ -10,28 +13,28 @@
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-std::vector<unsigned> *csr_multi_graph::get_spanning_tree(
-    std::vector<unsigned> **non_tree_edges, int src) {
+vector<unsigned> *csr_multi_graph::get_spanning_tree(
+    vector<unsigned> **non_tree_edges, int src) {
   struct DFS_HELPER {
     int Nodes;
-    std::vector<unsigned> *spanning_tree;
-    std::vector<bool> *visited;
-    std::vector<unsigned char> *is_tree_edge;
-    std::vector<unsigned> *rows_internal;
-    std::vector<unsigned> *columns_internal;
-    std::vector<unsigned> *rowOffsets_internal;
-    std::vector<unsigned> **non_tree_edges_internal;
-    std::vector<unsigned> *reverse_edge_internal;
-    std::vector<int> *parent;
+    vector<unsigned> *spanning_tree;
+    vector<bool> *visited;
+    vector<unsigned char> *is_tree_edge;
+    vector<unsigned> *rows_internal;
+    vector<unsigned> *columns_internal;
+    vector<unsigned> *rowOffsets_internal;
+    vector<unsigned> **non_tree_edges_internal;
+    vector<unsigned> *reverse_edge_internal;
+    vector<int> *parent;
 
-    DFS_HELPER(std::vector<unsigned> **non_tree_edges,
-        std::vector<unsigned> *rows, std::vector<unsigned> *columns,
-        std::vector<unsigned> *rowOffsets,
-        std::vector<unsigned> *reverse_edge, int _nodes) {
-      spanning_tree = new std::vector<unsigned>();
-      visited = new std::vector<bool>();
-      parent = new std::vector<int>();
-      is_tree_edge = new std::vector<unsigned char>();
+    DFS_HELPER(vector<unsigned> **non_tree_edges,
+        vector<unsigned> *rows, vector<unsigned> *columns,
+        vector<unsigned> *rowOffsets,
+        vector<unsigned> *reverse_edge, int _nodes) {
+      spanning_tree = new vector<unsigned>();
+      visited = new vector<bool>();
+      parent = new vector<int>();
+      is_tree_edge = new vector<unsigned char>();
       Nodes = _nodes;
 
       for (int i = 0; i < Nodes; i++) {
@@ -98,7 +101,7 @@ std::vector<unsigned> *csr_multi_graph::get_spanning_tree(
 
     }
 
-    std::vector<unsigned> *run_dfs(unsigned row) {
+    vector<unsigned> *run_dfs(unsigned row) {
       dfs(row);
       assert(spanning_tree->size() == Nodes - 1);
       return spanning_tree;
@@ -112,6 +115,6 @@ std::vector<unsigned> *csr_multi_graph::get_spanning_tree(
   };
 
   DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets, reverse_edge, Nodes);
-  std::vector<unsigned> *spanning_tree = helper.run_dfs(src);
+  vector<unsigned> *spanning_tree = helper.run_dfs(src);
   return spanning_tree;
 }
