@@ -154,11 +154,11 @@ public:
   }
 
   void fill_tree_edges(unsigned *r, unsigned *c, int *e,
-      vector<unsigned> *tree_edges, unsigned src) {
+      vector<unsigned> *tree_edges, int src) {
     assert(tree_edges->size() + 1 == Nodes);
 
     vector<edge*> temporary_array;
-    unsigned row, col;
+    int row, col;
     for (int i = 0; i < tree_edges->size(); i++) {
       row = rows->at(tree_edges->at(i));
       col = cols->at(tree_edges->at(i));
@@ -173,7 +173,7 @@ public:
     }
 
     e[temporary_array.size()] = -1;
-    unsigned prev = 0, current;
+    int prev = 0, current;
     for (int i = 0; i <= Nodes; i++) {
       current = r[i];
       r[i] = prev;

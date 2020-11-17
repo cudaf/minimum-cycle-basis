@@ -54,13 +54,13 @@ vector<unsigned> *CsrGraph::get_spanning_tree(
       assert((ear_decomposition_internal->size() == Nodes + 1));
     }
 
-    void dfs(unsigned row) {
+    void dfs(int row) {
       visited->at(row) = true;
       stack->push_back(row);
 
-      for (unsigned offset = rowOffsets_internal->at(row);
+      for (int offset = rowOffsets_internal->at(row);
           offset < rowOffsets_internal->at(row + 1); offset++) {
-        unsigned column = columns_internal->at(offset);
+        int column = columns_internal->at(offset);
         if (!visited->at(column)) {
           visited->at(column) = true;
           spanning_tree->push_back(offset);
