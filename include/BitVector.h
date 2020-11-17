@@ -29,9 +29,6 @@ struct BitVector {
     fn_free = ffree;
   }
 
-  ~BitVector() {
-  }
-
   void init() {
     memset(data, 0, capacity*sizeof(uint64_t));
   }
