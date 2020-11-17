@@ -8,7 +8,7 @@ using std::vector;
 
 
 struct Cycle {
-  compressed_trees *trees;
+  CompressedTrees *trees;
   int root;
   int non_tree_edge_index;
   int total_length;
@@ -24,7 +24,7 @@ struct Cycle {
     }
   };
 
-  Cycle(compressed_trees *tr, int root, int index) {
+  Cycle(CompressedTrees *tr, int root, int index) {
     trees = tr;
     non_tree_edge_index = index;
     this->root = root;

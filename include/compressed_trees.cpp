@@ -1,6 +1,6 @@
 #include "compressed_trees.h"
 
-int compressed_trees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
+int CompressedTrees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
     int **csr_edge_offset, int **csr_parent, int **csr_distance,
     int node_index) {
   int row_number = node_index / chunk_size;
@@ -15,7 +15,7 @@ int compressed_trees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
   *csr_distance = distance[row_number] + (col_number * original_nodes);
 }
 
-int compressed_trees::get_node_arrays_warp(unsigned **csr_rows,
+int CompressedTrees::get_node_arrays_warp(unsigned **csr_rows,
     unsigned **csr_cols, int **csr_edge_offset, int **csr_parent,
     int **csr_distance, unsigned **csr_nodes_index, int node_index) {
   int row_number = node_index / chunk_size;
@@ -31,7 +31,7 @@ int compressed_trees::get_node_arrays_warp(unsigned **csr_rows,
   *csr_nodes_index = nodes_index[row_number] + (col_number * original_nodes);
 }
 
-int compressed_trees::get_precompute_array(unsigned **precompute_tree,
+int CompressedTrees::get_precompute_array(unsigned **precompute_tree,
     int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
@@ -40,11 +40,11 @@ int compressed_trees::get_precompute_array(unsigned **precompute_tree,
       + (col_number * original_nodes);
 }
 
-int compressed_trees::get_index(int original_node) {
+int CompressedTrees::get_index(int original_node) {
   return vertices_map[original_node];
 }
 
-void compressed_trees::copy(int index, std::vector<unsigned> *tree_edges,
+void CompressedTrees::copy(int index, std::vector<unsigned> *tree_edges,
     std::vector<int> *parent_edges, std::vector<int> *distances) {
   assert(index < fvs_size);
 
@@ -87,7 +87,7 @@ void compressed_trees::copy(int index, std::vector<unsigned> *tree_edges,
 
 }
 
-void compressed_trees::print_tree() {
+void CompressedTrees::print_tree() {
   for (int i = 0; i < chunk_size; i++) {
     printf("src = %d\n", final_vertices[i] + 1);
     for (int j = 0; j < original_nodes; j++) {

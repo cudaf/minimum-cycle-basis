@@ -11,10 +11,10 @@ struct gpu_task {
   int edge_size;
   int *fvs_array;
   int *non_tree_edges_array;
-  compressed_trees *host_tree;
+  CompressedTrees *host_tree;
   BitVector **support_vectors;
 
-  gpu_task(compressed_trees *ht, int *fvs,
+  gpu_task(CompressedTrees *ht, int *fvs,
       std::vector<int> &non_tree_edges_map, BitVector **s_vectors,
       int num_non_tree) {
     fvs_array = fvs;

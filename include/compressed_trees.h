@@ -6,7 +6,7 @@
 using std::vector;
 
 
-struct compressed_trees {
+struct CompressedTrees {
   int num_rows;
   int fvs_size;
   int original_nodes;
@@ -26,7 +26,7 @@ struct compressed_trees {
   void (*free_pinned_memory)(unsigned *);
   bool pinned_memory;
 
-  compressed_trees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph) {
+  CompressedTrees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph) {
     fvs_size = N;
     chunk_size = chunk;
     parent_graph = graph;
@@ -63,7 +63,7 @@ struct compressed_trees {
       }
   }
 
-  compressed_trees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph,
+  CompressedTrees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph,
       unsigned *(*mem_alloc)(int, int), void (*mem_free)(unsigned *)) {
     fvs_size = N;
     chunk_size = chunk;

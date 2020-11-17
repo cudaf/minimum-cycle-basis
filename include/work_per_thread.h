@@ -16,10 +16,10 @@ struct worker_thread {
   Dijkstra *helper;
   cycle_storage *storage;
   int *fvs_array;
-  compressed_trees *trees;
+  CompressedTrees *trees;
   std::vector<unsigned> shortest_path_trees;
 
-  worker_thread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, compressed_trees *tr) {
+  worker_thread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, CompressedTrees *tr) {
     helper = new Dijkstra(graph->Nodes, graph, fvs_array);
     storage = s;
     this->fvs_array = fvs_array;

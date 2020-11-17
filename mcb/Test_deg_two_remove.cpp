@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
   }
 
   //construct the initial
-  compressed_trees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array, reduced_graph);
+  CompressedTrees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array, reduced_graph);
   cycle_storage *storage = new cycle_storage(reduced_graph->Nodes);
   worker_thread **multi_work = new worker_thread*[num_threads];
 
