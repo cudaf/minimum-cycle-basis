@@ -170,7 +170,7 @@ void FVS::MGA() {
   int node_id;
 
   //if the test contains any cycle by excluding {F/vi} vertex, then remove vi from F.
-  for (std::list<int>::iterator it = FVS_SET.begin(); it != FVS_SET.end();) {
+  for (auto it = FVS_SET.begin(); it != FVS_SET.end();) {
     node_id = *it;
     is_vtx_in_fvs[node_id] = false;
     bool val = !test_fvs();
