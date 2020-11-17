@@ -12,11 +12,11 @@ using std::vector;
 class CsrGraph {
 protected:
   struct Edge {
-    unsigned row;
-    unsigned col;
+    int row;
+    int col;
     int weight;
 
-    Edge(unsigned &r, unsigned &c, int &w) {
+    Edge(int &r, int &c, int &w) {
       row = r;
       col = c;
       weight = w;
