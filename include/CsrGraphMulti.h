@@ -9,16 +9,16 @@ using std::make_pair;
 
 class CsrGraphMulti : public CsrGraph {
 protected:
-  struct edge {
+  struct Edge {
     int row;
     int col;
     int weight;
     int chain_index;
-    edge *reverse_edge_ptr;
+    Edge *reverse_edge_ptr;
     int original_edge_index;
     int reverse_edge_index;
 
-    edge(int r, int c, int w, int ch_index, int orig_index) {
+    Edge(int r, int c, int w, int ch_index, int orig_index) {
       row = r;
       col = c;
       weight = w;
@@ -28,7 +28,7 @@ protected:
   };
 
   struct compare {
-    bool operator()(const edge *a, const edge *b) const {
+    bool operator()(const Edge *a, const Edge *b) const {
       if (a->row == b->row)
         return (a->col < b->col);
       else
@@ -100,12 +100,12 @@ public:
 
     rowOffsets->at(Nodes) = 0;
     //Allocate a pair array for rows and columns array
-    vector<edge*> combined;
+    vector<Edge*> combined;
 
     //copy the elements from the row and column array
     for (int i = 0; i < rows->size(); i++)
       combined.push_back(
-          new edge(rows->at(i), cols->at(i), weights->at(i),
+          new Edge(rows->at(i), cols->at(i), weights->at(i),
               chains->at(i), edge_original_graph->at(i)));
 
     //assing the reverse_edge_pointers to the correct edge pointers.
@@ -158,12 +158,12 @@ public:
       vector<unsigned> *tree_edges, int src) {
     assert(tree_edges->size() + 1 == Nodes);
 
-    vector<edge*> temporary_array;
+    vector<Edge*> temporary_array;
     int row, col;
     for (int i = 0; i < tree_edges->size(); i++) {
       row = rows->at(tree_edges->at(i));
       col = cols->at(tree_edges->at(i));
-      temporary_array.push_back(new edge(row, col, 0, 0, (int) tree_edges->at(i)));
+      temporary_array.push_back(new Edge(row, col, 0, 0, (int) tree_edges->at(i)));
     }
 
     sort(temporary_array.begin(), temporary_array.end(), compare());
