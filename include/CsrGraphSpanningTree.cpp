@@ -1,6 +1,9 @@
 #include <stack>
 #include "CsrGraph.h"
 
+using std::vector;
+
+
 /**
  * @brief This method is used to obtain the spanning tree of a graph. The spanning tree contains edge offsets from the csr_graph
  * @details This method may also return the list of non_tree_edges and ear decomposition corresponding to every non-tree 
@@ -9,35 +12,35 @@
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-std::vector<unsigned> *CsrGraph::get_spanning_tree(
-    std::vector<unsigned> **non_tree_edges,
-    std::vector<unsigned> *ear_decomposition, int src) {
+vector<unsigned> *CsrGraph::get_spanning_tree(
+    vector<unsigned> **non_tree_edges,
+    vector<unsigned> *ear_decomposition, int src) {
   struct DFS_HELPER {
     int Nodes;
 
-    std::vector<unsigned> *spanning_tree;
-    std::vector<bool> *visited;
-    std::vector<unsigned> *ear_decomposition_internal;
+    vector<unsigned> *spanning_tree;
+    vector<bool> *visited;
+    vector<unsigned> *ear_decomposition_internal;
 
-    std::vector<unsigned> *rows_internal;
-    std::vector<unsigned> *columns_internal;
-    std::vector<unsigned> *rowOffsets_internal;
+    vector<unsigned> *rows_internal;
+    vector<unsigned> *columns_internal;
+    vector<unsigned> *rowOffsets_internal;
 
-    std::vector<unsigned> **non_tree_edges_internal;
-    std::vector<unsigned> *stack;
+    vector<unsigned> **non_tree_edges_internal;
+    vector<unsigned> *stack;
 
-    std::vector<int> *parent;
+    vector<int> *parent;
 
     int ear_count;
 
-    DFS_HELPER(std::vector<unsigned> **non_tree_edges,
-        std::vector<unsigned> *rows, std::vector<unsigned> *columns,
-        std::vector<unsigned> *rowOffsets,
-        std::vector<unsigned> *ear_decomposition, int _nodes) {
-      spanning_tree = new std::vector<unsigned>();
-      visited = new std::vector<bool>();
-      stack = new std::vector<unsigned>();
-      parent = new std::vector<int>();
+    DFS_HELPER(vector<unsigned> **non_tree_edges,
+        vector<unsigned> *rows, vector<unsigned> *columns,
+        vector<unsigned> *rowOffsets,
+        vector<unsigned> *ear_decomposition, int _nodes) {
+      spanning_tree = new vector<unsigned>();
+      visited = new vector<bool>();
+      stack = new vector<unsigned>();
+      parent = new vector<int>();
 
       Nodes = _nodes;
       ear_count = 0;
@@ -80,7 +83,7 @@ std::vector<unsigned> *CsrGraph::get_spanning_tree(
           (*non_tree_edges_internal)->push_back(offset);
 
           if (ear_decomposition_internal != NULL) {
-            for (std::vector<unsigned>::reverse_iterator it =
+            for (vector<unsigned>::reverse_iterator it =
                 stack->rbegin(); it != stack->rend(); it++) {
               if (ear_decomposition_internal->at(*it) == 0) {
                 ear_decomposition_internal->at(*it) = ear_count
@@ -98,7 +101,7 @@ std::vector<unsigned> *CsrGraph::get_spanning_tree(
       stack->pop_back();
     }
 
-    std::vector<unsigned> *run_dfs(unsigned row) {
+    vector<unsigned> *run_dfs(unsigned row) {
       dfs(row);
 
       assert(spanning_tree->size() == Nodes - 1);
@@ -120,7 +123,7 @@ std::vector<unsigned> *CsrGraph::get_spanning_tree(
   DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets,
       ear_decomposition, Nodes);
 
-  std::vector<unsigned> *spanning_tree = helper.run_dfs(src);
+  vector<unsigned> *spanning_tree = helper.run_dfs(src);
 
   return spanning_tree;
 }
