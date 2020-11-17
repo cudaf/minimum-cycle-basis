@@ -83,7 +83,7 @@ bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
   bfs_queue.push(node_id);
   bool global_break = false;
   visited[node_id] = 1;
-  vector<unsigned char> edge_status(input_graph->rows->size());
+  vector<uint8_t> edge_status(input_graph->rows->size());
 
   while (!bfs_queue.empty() && !global_break) {
     int nid = bfs_queue.front();

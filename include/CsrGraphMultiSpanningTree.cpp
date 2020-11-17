@@ -18,7 +18,7 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_e
     int Nodes;
     vector<unsigned> *spanning_tree;
     vector<bool> *visited;
-    vector<unsigned char> *is_tree_edge;
+    vector<uint8_t> *is_tree_edge;
     vector<unsigned> *rows_internal;
     vector<unsigned> *columns_internal;
     vector<unsigned> *rowOffsets_internal;
@@ -31,7 +31,7 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_e
       spanning_tree = new vector<unsigned>();
       visited = new vector<bool>();
       parent = new vector<int>();
-      is_tree_edge = new vector<unsigned char>();
+      is_tree_edge = new vector<uint8_t>();
       Nodes = _nodes;
 
       for (int i = 0; i < Nodes; i++) {

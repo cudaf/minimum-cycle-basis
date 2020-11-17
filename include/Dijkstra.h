@@ -118,7 +118,7 @@ struct Dijkstra {
   }
 
   void compute_non_tree_edges(vector<unsigned> **non_tree_edges) {
-    vector<unsigned char> is_tree_edge(graph->rows->size());
+    vector<uint8_t> is_tree_edge(graph->rows->size());
     for (int i = 0; i < tree_edges->size(); i++)
       is_tree_edge[tree_edges->at(i)] = 1;
 

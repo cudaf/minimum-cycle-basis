@@ -11,14 +11,14 @@ struct dfs_helper {
   int *discovery;
   int *parent;
   stack<unsigned> _stack;
-  unsigned char *status;
+  uint8_t *status;
 
   dfs_helper(int N) {
     Nodes = N;
     low = new int[Nodes];
     discovery = new int[Nodes];
     parent = new int[Nodes];
-    status = new unsigned char[Nodes];
+    status = new uint8_t[Nodes];
     initialize_arrays();
   }
 
