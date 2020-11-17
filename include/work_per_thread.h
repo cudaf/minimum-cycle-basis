@@ -9,7 +9,7 @@
 #include "Dijkstra.h"
 #include "BitVector.h"
 #include "cycle_searcher.h"
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 
 
 struct worker_thread {
