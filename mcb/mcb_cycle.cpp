@@ -221,7 +221,7 @@ int main(int argc, char* argv[]) {
 
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
-    unsigned src, edge_offset, reverse_edge, row, col, position, bit;
+    int src, edge_offset, reverse_edge, row, col, position, bit;
 
     int src_index;
 
@@ -236,9 +236,8 @@ int main(int argc, char* argv[]) {
       edge_offset = (*cycle)->non_tree_edge_index;
       bit = 0;
 
-      unsigned row, col;
-      row = reduced_graph->rows->at(edge_offset);
-      col = reduced_graph->cols->at(edge_offset);
+      int row = reduced_graph->rows->at(edge_offset);
+      int col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
         bit = support_vectors[e]->get(non_tree_edges_map[edge_offset]);
@@ -261,7 +260,7 @@ int main(int argc, char* argv[]) {
 
 #pragma omp parallel for
     for (int j = e + 1; j < num_non_tree_edges; j++) {
-      unsigned product = cycle_vector->dot_product(support_vectors[j]);
+      int product = cycle_vector->dot_product(support_vectors[j]);
       if (product == 1)
         support_vectors[j]->do_xor(support_vectors[e]);
     }

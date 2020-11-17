@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
 
   for (int i = 0; i < chains->size(); i++) {
     unsigned row, col;
-    unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
+    int total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
     vector<unsigned> new_edge = vector<unsigned>();
@@ -297,7 +297,7 @@ int main(int argc, char* argv[]) {
     unsigned *node_rowoffsets, *node_columns, *precompute_nodes,
         *nodes_index;
     int *node_edgeoffsets, *node_parents, *node_distance;
-    unsigned src, edge_offset, reverse_edge, row, col, position, bit;
+    int src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;
 
     for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
@@ -311,9 +311,8 @@ int main(int argc, char* argv[]) {
       edge_offset = (*cycle)->non_tree_edge_index;
       bit = 0;
 
-      unsigned row, col;
-      row = reduced_graph->rows->at(edge_offset);
-      col = reduced_graph->cols->at(edge_offset);
+      int row = reduced_graph->rows->at(edge_offset);
+      int col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
         bit = current_vector->get(non_tree_edges_map[edge_offset]);
@@ -342,7 +341,7 @@ int main(int argc, char* argv[]) {
   {
     #pragma omp master
     {
-      unsigned product = cycle_vector->dot_product(support_vectors[e + 1]);
+      int product = cycle_vector->dot_product(support_vectors[e + 1]);
       if (product == 1)
         support_vectors[e + 1]->do_xor(current_vector);
 
@@ -352,7 +351,7 @@ int main(int argc, char* argv[]) {
     }
     #pragma omp for
     for (int j = e + 2; j < num_non_tree_edges; j++) {
-      unsigned product = cycle_vector->dot_product(support_vectors[j]);
+      int product = cycle_vector->dot_product(support_vectors[j]);
       if (product == 1)
         support_vectors[j]->do_xor(current_vector);
     }
