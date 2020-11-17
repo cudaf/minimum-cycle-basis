@@ -1,5 +1,5 @@
 #pragma once
-#include "cycle_searcher.h"
+#include "CycleStorage.h"
 #include "Cycle.h"
 #include "CsrTree.h"
 

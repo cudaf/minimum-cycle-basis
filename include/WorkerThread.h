@@ -8,7 +8,7 @@
 #include "Cycle.h"
 #include "Dijkstra.h"
 #include "BitVector.h"
-#include "cycle_searcher.h"
+#include "CycleStorage.h"
 #include "CompressedTrees.h"
 
 using std::vector;
