@@ -11,6 +11,10 @@
 #include "dfs_helper.h"
 #include "bicc.h"
 
+using std::pair;
+using std::list;
+using std::unordered_map;
+
 
 inline uint64_t merge_32bits(uint64_t upper, uint64_t lower) {
   uint64_t result = 0;
@@ -24,11 +28,11 @@ struct Connected_Components {
   bicc_graph *graph;
   dfs_helper *helper;
   int count_components, time;  //count indicates number of bridges
-  std::unordered_map<unsigned long long, int> *edge_map;
-  std::list<std::pair<int, std::list<int>*> > store_biconnected_edges;
+  unordered_map<unsigned long long, int> *edge_map;
+  list<pair<int, list<int>*> > store_biconnected_edges;
 
   Connected_Components(int c_number, int *new_c_number, bicc_graph *gr,
-      dfs_helper *helper_struct, std::unordered_map<unsigned long long, int> *bi_map) {
+      dfs_helper *helper_struct, unordered_map<unsigned long long, int> *bi_map) {
     component_number = c_number;
     new_component_number = new_c_number;
     graph = gr;
@@ -66,7 +70,7 @@ struct Connected_Components {
  * @param edge_map mapping from <src,dest> ==> edge_index
  */
 int obtain_connected_components(int bicc_number, int &new_bicc_number,
-    bicc_graph *graph, dfs_helper *helper, std::unordered_map<unsigned long long, int> *edge_map) {
+    bicc_graph *graph, dfs_helper *helper, unordered_map<unsigned long long, int> *edge_map) {
   helper->initialize_arrays();
   Connected_Components component(bicc_number, &new_bicc_number, graph, helper, edge_map);
   debug("graph->nodes", graph->Nodes);
