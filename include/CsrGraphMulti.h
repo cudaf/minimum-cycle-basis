@@ -14,7 +14,7 @@ protected:
     int col;
     int weight;
     int chain_index;
-    struct edge *reverse_edge_ptr;
+    edge *reverse_edge_ptr;
     int original_edge_index;
     int reverse_edge_index;
 
