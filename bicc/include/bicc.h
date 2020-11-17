@@ -78,8 +78,7 @@ struct bicc_graph {
     unsigned src_vtx;
     unsigned dest_vtx;
 
-    for (list<int>::iterator it = edge_list->begin();
-        it != edge_list->end(); it++) {
+    for (auto it = edge_list->begin(); it != edge_list->end(); it++) {
       src_vtx = c_graph->rows->at(*it);
       dest_vtx = c_graph->cols->at(*it);
 
@@ -88,8 +87,7 @@ struct bicc_graph {
       degree_nodes[dest_vtx]++;
     }
 
-    // for(unordered_map<unsigned,int>::iterator it = degree_nodes.begin();
-    //   it!=degree_nodes.end();it++)
+    // for(auto it = degree_nodes.begin(); it!=degree_nodes.end();it++)
     // {
     //   ////debug("degree",it->first + 1,it->second);
     //   //it->second /= 2;
@@ -100,8 +98,7 @@ struct bicc_graph {
     while (!all_vertices_pruned) {
       all_vertices_pruned = true;
 
-      for (unordered_map<unsigned, int>::iterator it =
-          degree_nodes.begin(); it != degree_nodes.end(); it++) {
+      for (auto it = degree_nodes.begin(); it != degree_nodes.end(); it++) {
         if ((it->second <= degree_threshold) && (it->second > 0)) {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
 
@@ -162,9 +159,8 @@ struct bicc_graph {
       }
     }
 
-    for (unordered_map<int, list<int>*>::iterator it =
-        edge_list_component.begin(); it != edge_list_component.end(); it++) {
-      for (list<int>::iterator ij = it->second->begin(); ij != it->second->end(); ij++) {
+    for (auto it = edge_list_component.begin(); it != edge_list_component.end(); it++) {
+      for (auto ij = it->second->begin(); ij != it->second->end(); ij++) {
         int edge_index = *ij;
         ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
       }
@@ -229,8 +225,7 @@ struct bicc_graph {
       }
     }
 
-    for (unordered_map<int, list<int> >::iterator it =
-        edge_list.begin(); it != edge_list.end(); it++) {
+    for (auto it = edge_list.begin(); it != edge_list.end(); it++) {
       int component_number = it->first;
 
       if (it->second.size() > 0) {
@@ -243,8 +238,7 @@ struct bicc_graph {
 
         FileWriter fout(outputfilePath.c_str(), global_nodes_count, it->second.size());
 
-        for (list<int>::iterator ij = it->second.begin();
-            ij != it->second.end(); ij++) {
+        for (auto ij = it->second.begin(); ij != it->second.end(); ij++) {
           int edge_index = *ij;
           int src_vtx = c_graph->rows->at(edge_index);
           int dest_vtx = c_graph->cols->at(edge_index);
@@ -261,9 +255,7 @@ struct bicc_graph {
         FILE *file_ref = fout.file;
         // write the info about Articulation Points here...
         fprintf(file_ref, "%d\n", articulation_points.size());
-        for (unordered_set<int>::iterator ij =
-            articulation_points.begin();
-            ij != articulation_points.end(); ij++) {
+        for (auto ij = articulation_points.begin(); ij != articulation_points.end(); ij++) {
           fprintf(file_ref, "%d\n", (*ij) + 1);
         }
         fout.close();
