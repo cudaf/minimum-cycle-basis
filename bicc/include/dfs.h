@@ -277,8 +277,8 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
     list<int> *edge_lists = (*it).second;
 
     int _src_component = -1;
-    for (auto it = edge_lists->begin(); it != edge_lists->end(); it++) {
-      int edge_index = *it;
+    for (auto it : *edge_lists) {
+      int edge_index = it;
       int src_vtx = dfs_worker->graph->c_graph->rows->at(edge_index);
       int dest_vtx = dfs_worker->graph->c_graph->cols->at(edge_index);
       _src_component = src_vtx;
