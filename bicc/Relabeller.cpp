@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
   ArticulationPoints.clear();
 
   for (auto&& it : forward_order) {
-    fprintf(file, "%u %u\n", it->first + 1, it->second + 1);
+    fprintf(file, "%u %u\n", it.first+1, it.second+1);
   }
 
   fout.close();
