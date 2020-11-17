@@ -3,6 +3,9 @@
 #include <unordered_map>
 #include "CsrGraph.h"
 
+using std::vector;
+using std::unordered_map;
+
 
 class csr_multi_graph: public CsrGraph {
 protected:
@@ -34,14 +37,14 @@ protected:
     }
   };
 public:
-  std::vector<unsigned> *reverse_edge;
-  std::vector<int> *chains;
-  std::vector<int> *edge_original_graph;
+  vector<unsigned> *reverse_edge;
+  vector<int> *chains;
+  vector<int> *edge_original_graph;
   
   csr_multi_graph() {
-    reverse_edge = new std::vector<unsigned>();
-    chains = new std::vector<int>();
-    edge_original_graph = new std::vector<int>();
+    reverse_edge = new vector<unsigned>();
+    chains = new vector<int>();
+    edge_original_graph = new vector<int>();
   }
 
   ~csr_multi_graph() {
@@ -98,7 +101,7 @@ public:
 
     rowOffsets->at(Nodes) = 0;
     //Allocate a pair array for rows and columns array
-    std::vector<edge*> combined;
+    vector<edge*> combined;
 
     //copy the elements from the row and column array
     for (int i = 0; i < rows->size(); i++)
@@ -153,10 +156,10 @@ public:
   }
 
   void fill_tree_edges(unsigned *r, unsigned *c, int *e,
-      std::vector<unsigned> *tree_edges, unsigned src) {
+      vector<unsigned> *tree_edges, unsigned src) {
     assert(tree_edges->size() + 1 == Nodes);
 
-    std::vector<edge*> temporary_array;
+    vector<edge*> temporary_array;
     unsigned row, col;
     for (int i = 0; i < tree_edges->size(); i++) {
       row = rows->at(tree_edges->at(i));
@@ -184,14 +187,14 @@ public:
     temporary_array.clear();
   }
 
-  std::vector<unsigned> *get_spanning_tree(
-      std::vector<unsigned> **non_tree_edges, int src);
+  vector<unsigned> *get_spanning_tree(
+      vector<unsigned> **non_tree_edges, int src);
 
   static csr_multi_graph *get_modified_graph(CsrGraph *graph,
-      std::vector<unsigned> *remove_edge_list,
-      std::vector<std::vector<unsigned> > *edges_new_list,
+      vector<unsigned> *remove_edge_list,
+      vector<vector<unsigned> > *edges_new_list,
       int nodes_removed) {
-    std::vector<bool> filter_edges(graph->rows->size());
+    vector<bool> filter_edges(graph->rows->size());
     for (int i = 0; i < filter_edges.size(); i++)
       filter_edges[i] = false;
 
@@ -201,8 +204,8 @@ public:
       filter_edges[remove_edge_list->at(i)] = true;
 
     csr_multi_graph *new_reduced_graph = new csr_multi_graph();
-    std::unordered_map<unsigned, unsigned> *new_nodes =
-        new std::unordered_map<unsigned, unsigned>();
+    unordered_map<unsigned, unsigned> *new_nodes =
+        new unordered_map<unsigned, unsigned>();
 
     int new_node_count = 0;
     //This is for Relabelling vertices.
