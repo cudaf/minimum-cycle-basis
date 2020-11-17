@@ -5,6 +5,9 @@
 #include "utils.h"
 #include "FVS.h"
 
+using std::vector;
+using std::queue;
+
 
 FVS::FVS(csr_multi_graph *graph) {
   input_graph = new csr_multi_graph();
@@ -75,11 +78,11 @@ void FVS::pruning(int node_id) {
 }
 
 bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
-  std::queue<int> bfs_queue;
+  queue<int> bfs_queue;
   bfs_queue.push(node_id);
   bool global_break = false;
   visited[node_id] = 1;
-  std::vector<unsigned char> edge_status(input_graph->rows->size());
+  vector<unsigned char> edge_status(input_graph->rows->size());
 
   while (!bfs_queue.empty() && !global_break) {
     int nid = bfs_queue.front();
