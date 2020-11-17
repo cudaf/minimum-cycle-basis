@@ -1,17 +1,14 @@
-#ifndef _H_GPU_TASK
-#define _H_GPU_TASK
-
+#pragma once
 #include <vector>
-
 #include "compressed_trees.h"
 #include "BitVector.h"
+
 
 struct gpu_task {
   int fvs_size;
   int original_nodes;
   int num_non_tree_edges;
   int edge_size;
-
   int *fvs_array;
   int *non_tree_edges_array;
   compressed_trees *host_tree;
@@ -31,8 +28,5 @@ struct gpu_task {
   }
 
   ~gpu_task() {
-
   }
 };
-
-#endif
