@@ -2,8 +2,10 @@
 #include <queue>
 #include <vector>
 
-
+using std::pair;
 using std::vector;
+using std::priority_queue;
+using std::make_pair;
 
 
 struct edge_sorter {
@@ -33,11 +35,11 @@ struct dijkstra {
   int *fvs_array;
 
   struct Compare {
-    bool operator()(std::pair<int, int> &a, std::pair<int, int> &b) {
+    bool operator()(pair<int, int> &a, pair<int, int> &b) {
       return (a.second > b.second);
     }
   };
-  std::priority_queue<std::pair<int, int>, vector<std::pair<int, int>>, Compare> pq;
+  priority_queue<pair<int, int>, vector<pair<int, int>>, Compare> pq;
 
   dijkstra(int nodes, CsrGraphMulti *input_graph, int *fvs_array) {
     Nodes = nodes;
@@ -77,10 +79,10 @@ struct dijkstra {
     level[src] = 0;
     parent[src] = -1;
     edge_offsets[src] = -1;
-    pq.push(std::make_pair(src, 0));
+    pq.push(make_pair(src, 0));
 
     while (!pq.empty()) {
-      std::pair<int, int> val = pq.top();
+      pair<int, int> val = pq.top();
       pq.pop();
       if (in_tree[val.first])
         continue;
@@ -96,14 +98,13 @@ struct dijkstra {
           int edge_weight = graph->weights->at(offset);
           if (distance[column] == -1) {
             distance[column] = distance[val.first] + edge_weight;
-            pq.push(std::make_pair(column, distance[column]));
+            pq.push(make_pair(column, distance[column]));
             parent[column] = val.first;
             edge_offsets[column] = offset;
             level[column] = level[val.first] + 1;
-          } else if (distance[val.first] + edge_weight
-              < distance[column]) {
+          } else if (distance[val.first] + edge_weight < distance[column]) {
             distance[column] = distance[val.first] + edge_weight;
-            pq.push(std::make_pair(column, distance[column]));
+            pq.push(make_pair(column, distance[column]));
             parent[column] = val.first;
             edge_offsets[column] = offset;
             level[column] = level[val.first] + 1;
@@ -137,9 +138,8 @@ struct dijkstra {
     }
   }
 
-  void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols,
-      unsigned *csr_nodes_index, int *csr_edge_offset, int *csr_parent,
-      int *csr_distance, int src) {
+  void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols, unsigned *csr_nodes_index,
+      int *csr_edge_offset, int *csr_parent, int *csr_distance, int src) {
     vector<edge_sorter> edges;
     edges.push_back(edge_sorter(-1, 0));
 
@@ -190,41 +190,28 @@ struct dijkstra {
     orig_row = row = graph->rows->at(edge_offset);
     orig_col = col = graph->cols->at(edge_offset);
 
-    if ((fvs_array[row] >= 0) && (src > row))
-      return false;
-    if ((fvs_array[col] >= 0) && (src > col))
-      return false;
+    if ((fvs_array[row] >= 0) && (src > row)) return false;
+    if ((fvs_array[col] >= 0) && (src > col)) return false;
 
     while (level[row] != level[col]) {
-      if (level[row] < level[col])
-        col = parent[col];
-      else
-        row = parent[row];
-
-      if ((fvs_array[row] >= 0) && (src > row))
-        return false;
-      if ((fvs_array[col] >= 0) && (src > col))
-        return false;
+      if (level[row] < level[col]) col = parent[col];
+      else row = parent[row];
+      if ((fvs_array[row] >= 0) && (src > row)) return false;
+      if ((fvs_array[col] >= 0) && (src > col)) return false;
     }
 
-    if ((fvs_array[row] >= 0) && (src > row))
-      return false;
-    if ((fvs_array[col] >= 0) && (src > col))
-      return false;
+    if ((fvs_array[row] >= 0) && (src > row)) return false;
+    if ((fvs_array[col] >= 0) && (src > col)) return false;
 
     while (row != col) {
       row = parent[row];
       col = parent[col];
-
-      if ((fvs_array[row] >= 0) && (src > row))
-        return false;
-      if ((fvs_array[col] >= 0) && (src > col))
-        return false;
+      if ((fvs_array[row] >= 0) && (src > row)) return false;
+      if ((fvs_array[col] >= 0) && (src > col)) return false;
     }
 
     if (row == src) {
-      total_weight += distance[orig_row] + distance[orig_col]
-          + graph->weights->at(edge_offset);
+      total_weight += distance[orig_row] + distance[orig_col] + graph->weights->at(edge_offset);
     }
     return (row == src);
   }
