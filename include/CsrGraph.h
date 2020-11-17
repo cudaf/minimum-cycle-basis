@@ -59,7 +59,7 @@ public:
     int a = 0;
     int N = degree->size();
     for (int i=0; i<N; i++)
-      if (degree[i] == d) a++;
+      if (degree->at(i) == d) a++;
     return a;
   }
 
@@ -67,7 +67,7 @@ public:
     int a = 0;
     int N = rows->size();
     for (int i=0; i<N; i++)
-      a += weights[i];
+      a += weights->at(i);
     return a/2;
   }
 
@@ -84,9 +84,9 @@ public:
 
   inline void getEdge(int i, unsigned &row, unsigned &col, int &weight) {
     assert(i < rows->size());
-    row = rows[i];
-    col = cols[i];
-    weight = weights[i];
+    row = rows->at(i);
+    col = cols->at(i);
+    weight = weights->at(i);
   }
 
   unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
