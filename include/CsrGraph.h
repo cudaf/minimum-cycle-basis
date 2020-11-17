@@ -49,6 +49,14 @@ public:
 		weights = new vector<int>();
 	}
 
+	~CsrGraph() {
+		rowOffsets->clear();
+		columns->clear();
+		rows->clear();
+		degree->clear();
+		weights->clear();
+	}
+
 	int verticesOfDegree(int d) {
 		int a = 0;
 		int N = degree->size();
@@ -65,20 +73,11 @@ public:
 		return a/2;
 	}
 
-	void insert(int a, int b, int wt, bool direction) {
-		columns->push_back(b);
-		rows->push_back(a);
+	void insert(int r, int c, int wt, bool dir=false) {
+		rows->push_back(r);
+		columns->push_back(c);
 		weights->push_back(wt);
-		if (!direction)
-			insert(b, a, wt, true);
-	}
-
-	~CsrGraph() {
-		rowOffsets->clear();
-		columns->clear();
-		rows->clear();
-		degree->clear();
-		weights->clear();
+		if (!dir)	insert(c, r, wt, true);
 	}
 
 	vector<unsigned> *get_spanning_tree(
