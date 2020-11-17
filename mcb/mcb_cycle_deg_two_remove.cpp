@@ -32,12 +32,15 @@
 #include "gpu_task.h"
 #include <gpu/common.cuh>
 
+using std::string;
+using std::vector;
+
 
 debugger dbg;
 HostTimer globalTimer;
 
-std::string InputFileName;
-std::string OutputFileDirectory;
+string InputFileName;
+string OutputFileDirectory;
 
 stats info(true);
 
@@ -60,7 +63,7 @@ int main(int argc, char* argv[]) {
   //Open the FileReader class
   //Read the Inputfile.
   InputFileName = argv[1];
-  std::string InputFilePath = InputFileName;
+  string InputFilePath = InputFileName;
   FileReader Reader(InputFilePath.c_str());
 
   int v1, v2, Initial_Vertices, weight;
@@ -108,17 +111,17 @@ int main(int argc, char* argv[]) {
 
   init_cuda();
 
-  std::vector<std::vector<unsigned> > *chains = new std::vector<
-      std::vector<unsigned> >();
+  vector<vector<unsigned> > *chains = new vector<
+      vector<unsigned> >();
 
   int source_vertex;
 
-  std::vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
+  vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
       &chains, source_vertex);
   //initial_spanning_tree.populate_tree_edges(true,NULL,source_vertex);
 
-  std::vector<std::vector<unsigned> > *edges_new_list = new std::vector<
-      std::vector<unsigned> >();
+  vector<vector<unsigned> > *edges_new_list = new vector<
+      vector<unsigned> >();
 
   int nodes_removed = 0;
 
@@ -127,7 +130,7 @@ int main(int argc, char* argv[]) {
     unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
-    std::vector<unsigned> new_edge = std::vector<unsigned>();
+    vector<unsigned> new_edge = vector<unsigned>();
     new_edge.push_back(row);
     new_edge.push_back(col);
     new_edge.push_back(total_weight);
@@ -162,7 +165,7 @@ int main(int argc, char* argv[]) {
   assert(num_non_tree_edges == edges - nodes + 1);
   assert(graph->totalWeight() == reduced_graph->totalWeight());
 
-  std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
+  vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++)
@@ -229,7 +232,7 @@ int main(int argc, char* argv[]) {
   debug("Record time for collection of cycles.");
   globalTimer.start();
 
-  std::vector<cycle*> list_cycle_vec;
+  vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
@@ -269,7 +272,7 @@ int main(int argc, char* argv[]) {
   configure_grid(0, gpu_compute.fvs_size);
   //device_struct.calculate_memory();
 
-  std::vector<cycle*> final_mcb;
+  vector<cycle*> final_mcb;
   double precompute_time = 0;
   double cycle_inspection_time = 0;
   double hybrid_time = 0;
