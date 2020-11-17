@@ -6,20 +6,13 @@ template<typename T>
 __device__  __forceinline__
  const T* get_pointer_const(const T* data,
     int node_index, int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes)
-      + (node_index * num_nodes));
+  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
 }
 
 template<typename T>
 __device__  __forceinline__ T* get_pointer(T* data, int node_index,
     int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes)
-      + (node_index * num_nodes));
-}
-
-__device__ __forceinline__
-int get_ceil(float dividend, int divisor) {
-  return ((int) (ceilf(dividend / divisor)));
+  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
 }
 
 __device__ __forceinline__
