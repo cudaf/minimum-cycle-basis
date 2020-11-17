@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include <unordered_map>
 #include "CsrGraph.h"
 
@@ -14,7 +13,6 @@ protected:
     unsigned col;
     int weight;
     int chain_index;
-
     struct edge *reverse_edge_ptr;
     int original_edge_index;
     int reverse_edge_index;
