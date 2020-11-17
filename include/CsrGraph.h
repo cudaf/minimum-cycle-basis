@@ -59,14 +59,14 @@ public:
     int a = 0;
     int N = degree->size();
     for (int i=0; i<N; i++)
-      if (*degree[i] == d) a++;
+      if (degree->at(i) == d) a++;
     return a;
   }
 
   int totalWeight() {
     int a = 0;
-    int N = rows->size();
-    for (int i=0; i<N; i++)
+    int M = rows->size();
+    for (int i=0; i<M; i++)
       a += weights->at(i);
     return a/2;
   }
@@ -91,10 +91,10 @@ public:
 
   unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
     int a = 0;
-    int N = edges.size();
+    int M = edges.size();
     col = cols->at(edges.at(0));
     row = rows->at(edges.at(edges.size() - 1));
-    for (int i=0; i<N; i++)
+    for (int i=0; i<M; i++)
       a += weights->at(edges.at(i));
     return a;
   }
@@ -146,10 +146,10 @@ public:
   }
 
   void print() {
-    int N = rows->size();
+    int M = rows->size();
     printf("=================================================================================\n");
-    printf("Number of nodes = %d,edges = %d\n", Nodes, N/2);
-    for (int i=0; i<N; i++) {
+    printf("Number of nodes = %d,edges = %d\n", Nodes, M/2);
+    for (int i=0; i<M; i++) {
       int r = rows->at(i);
       int c = cols->at(i);
       int w = weights->at(i);
@@ -159,10 +159,10 @@ public:
   }
 
   void writeToFile(string &name, int verts) {
-    int N = rows->size();
+    int M = rows->size();
     if (degree->size() == 0) return;
-    FileWriter file(name.c_str(), verts, N/2);
-    for (int i=0; i<N; i++) {
+    FileWriter file(name.c_str(), verts, M/2);
+    for (int i=0; i<M; i++) {
       int r = rows->at(i);
       int c = cols->at(i);
       int w = weights->at(i);
