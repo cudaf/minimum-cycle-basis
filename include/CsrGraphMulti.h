@@ -4,9 +4,10 @@
 
 using std::vector;
 using std::unordered_map;
+using std::make_pair;
 
 
-class csr_multi_graph: public CsrGraph {
+class csr_multi_graph : public CsrGraph {
 protected:
   struct edge {
     int row;
@@ -211,11 +212,11 @@ public:
       if (!filter_edges.at(i)) {
         if (new_nodes->find(graph->rows->at(i)) == new_nodes->end())
           new_nodes->insert(
-              std::make_pair(graph->rows->at(i),
+              make_pair(graph->rows->at(i),
                   new_node_count++));
         if (new_nodes->find(graph->cols->at(i)) == new_nodes->end())
           new_nodes->insert(
-              std::make_pair(graph->cols->at(i),
+              make_pair(graph->cols->at(i),
                   new_node_count++));
       }
     }
@@ -224,11 +225,11 @@ public:
         (edges_new_list != NULL) && (i < edges_new_list->size()); i++) {
       if (new_nodes->find(edges_new_list->at(i)[0]) == new_nodes->end())
         new_nodes->insert(
-            std::make_pair(edges_new_list->at(i)[0],
+            make_pair(edges_new_list->at(i)[0],
                 new_node_count++));
       if (new_nodes->find(edges_new_list->at(i)[1]) == new_nodes->end())
         new_nodes->insert(
-            std::make_pair(edges_new_list->at(i)[1],
+            make_pair(edges_new_list->at(i)[1],
                 new_node_count++));
     }
 
