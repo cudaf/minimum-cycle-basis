@@ -11,6 +11,7 @@
 #include "dfs_helper.h"
 #include "bicc.h"
 
+using std::pair;
 using std::list;
 using std::unordered_map;
 
@@ -34,9 +35,7 @@ unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
   if (edge_map != NULL)
     return edge_map;
 
-  unordered_map<unsigned long long, int> *custom_map =
-      new unordered_map<unsigned long long, int>();
-
+  unordered_map<unsigned long long, int> *custom_map = new unordered_map<unsigned long long, int>();
   unsigned long long result;
   unsigned long long src;
   unsigned long long dest;
@@ -60,7 +59,7 @@ struct DFS {
   dfs_helper *helper;
   int count_bridges, time;  //count indicates number of bridges
   unordered_map<unsigned long long, int> *edge_map;
-  list<std::pair<int, list<int>*> > store_biconnected_edges;
+  list<pair<int, list<int>*> > store_biconnected_edges;
   bool keep_bridges = true;
 
   DFS(int c_number, int *new_c_number, bicc_graph *gr,
@@ -272,7 +271,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
   }
 
   //apply the component labels
-  for (list<std::pair<int, list<int>*> >::iterator it =
+  for (list<pair<int, list<int>*> >::iterator it =
       dfs_worker->store_biconnected_edges.begin();
       it != dfs_worker->store_biconnected_edges.end(); it++) {
     int component_number = (*it).first;
