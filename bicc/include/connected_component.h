@@ -38,10 +38,10 @@ struct Connected_Components {
     edge_map = bi_map;
   }
 
-  void dfs(unsigned src) {
+  void dfs(int src) {
     helper->low[src] = helper->discovery[src] = ++time;
     for (int j = graph->c_graph->rowOffsets->at(src); j < graph->c_graph->rowOffsets->at(src + 1); j++) {
-      unsigned dest = graph->c_graph->cols->at(j);
+      int dest = graph->c_graph->cols->at(j);
       if (helper->discovery[dest] == -1) {
         graph->bicc_number[j] = *new_component_number;
         graph->bicc_number[edge_map->at(merge_32bits(dest, src))] = *new_component_number;

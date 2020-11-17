@@ -75,8 +75,8 @@ struct bicc_graph {
       unordered_map<unsigned long long, int> *edge_map, unordered_map<int, int> &src_vtx_component) {
     int count_edges_pruned = 0;
     unordered_map<unsigned, int> degree_nodes;
-    unsigned src_vtx;
-    unsigned dest_vtx;
+    int src_vtx;
+    int dest_vtx;
 
     for (auto&& it : *edge_list) {
       src_vtx = c_graph->rows->at(it);
