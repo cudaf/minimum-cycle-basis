@@ -1,6 +1,5 @@
 #include "gpu_struct.cuh"
 #include "common.cuh"
-#include "pitch.h"
 
 
 template<typename T>
