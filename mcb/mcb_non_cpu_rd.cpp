@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
 
   int *fvs_array = fvs_helper.get_copy_fvs_array();
 
-  csr_tree *initial_spanning_tree = new csr_tree(reduced_graph);
+  CsrTree *initial_spanning_tree = new CsrTree(reduced_graph);
   initial_spanning_tree->populate_tree_edges(true, source_vertex);
 
   int num_non_tree_edges = initial_spanning_tree->non_tree_edges->size();

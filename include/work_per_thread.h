@@ -36,7 +36,7 @@ struct worker_thread {
     int src = trees->final_vertices[src_index];
     assert(src >= 0 && src < graph->Nodes);
     helper->reset();
-    csr_tree *sp_tree = new csr_tree(graph);
+    CsrTree *sp_tree = new CsrTree(graph);
 
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);
@@ -72,7 +72,7 @@ struct worker_thread {
     int src = trees->final_vertices[src_index];
     assert(src >= 0 && src < graph->Nodes);
     helper->reset();
-    csr_tree *sp_tree = new csr_tree(graph);
+    CsrTree *sp_tree = new CsrTree(graph);
 
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);

@@ -6,13 +6,12 @@
 using std::vector;
 
 
-class csr_tree {
+class CsrTree {
 public:
   int root;
   CsrGraphMulti *parent_graph;
   vector<unsigned> *tree_edges;
   vector<unsigned> *non_tree_edges = NULL;
-
   vector<int> *parent_edges;
   vector<int> *distance;
 
@@ -26,14 +25,14 @@ public:
     }
   };
 
-  csr_tree(CsrGraphMulti *graph) {
+  CsrTree(CsrGraphMulti *graph) {
     parent_graph = graph;
     assert(parent_graph != NULL);
     assert(parent_graph->rows->size() == parent_graph->cols->size());
     assert(parent_graph->rowOffsets->size() == parent_graph->Nodes + 1);
   }
 
-  ~csr_tree() {
+  ~CsrTree() {
     tree_edges->clear();
     non_tree_edges->clear();
     parent_edges->clear();
