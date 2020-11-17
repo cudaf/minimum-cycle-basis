@@ -23,10 +23,10 @@ struct list_common_cycles {
 
 struct cycle_storage {
   int Nodes;
-  vector<unordered_map<unsigned long long, list_common_cycles*> > list_cycles;
+  vector<unordered_map<uint64_t, list_common_cycles*> > list_cycles;
 
-  inline unsigned long long combine(unsigned u, unsigned v) {
-    unsigned long long value = u;
+  inline uint64_t combine(unsigned u, unsigned v) {
+    uint64_t value = u;
     value <<= 32;
     value = value | v;
     return value;
@@ -42,7 +42,7 @@ struct cycle_storage {
   }
 
   void add_cycle(unsigned root, unsigned u, unsigned v, cycle *cle) {
-    unsigned long long index = combine(std::min(u, v), std::max(u, v));
+    uint64_t index = combine(std::min(u, v), std::max(u, v));
     if (list_cycles[root].find(index) == list_cycles[root].end())
       list_cycles[root].insert(std::make_pair(index, new list_common_cycles(cle)));
     else
