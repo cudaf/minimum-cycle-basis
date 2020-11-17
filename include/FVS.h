@@ -2,7 +2,6 @@
 #include <list>
 #include "CsrGraphMulti.h"
 
-
 using std::list;
 
 
