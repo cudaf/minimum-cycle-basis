@@ -253,8 +253,8 @@ int main(int argc, char* argv[]) {
      * ====================================================================
      */
     for (int i = 0; i < num_threads; i++) {
-      for (auto it = list_finished_components[i].begin(); it != list_finished_components[i].end(); it++) {
-        finished_components.insert(*it);
+      for (auto&& it : list_finished_components[i]) {
+        finished_components.insert(it);
       }
       list_finished_components[i].clear();
     }
