@@ -98,12 +98,12 @@ struct bicc_graph {
     while (!all_vertices_pruned) {
       all_vertices_pruned = true;
 
-      for (auto it = degree_nodes.begin(); it != degree_nodes.end(); it++) {
-        if ((it->second <= degree_threshold) && (it->second > 0)) {
+      for (auto&& it : degree_nodes) {
+        if ((it.second <= degree_threshold) && (it.second > 0)) {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
 
           all_vertices_pruned = false;
-          src_vtx = it->first;
+          src_vtx = it.first;
           for (int j = c_graph->rowOffsets->at(src_vtx); j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
             dest_vtx = c_graph->cols->at(j);
 
