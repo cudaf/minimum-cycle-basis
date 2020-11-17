@@ -29,7 +29,7 @@
 #include "Stats.h"
 #include "FVS.h"
 #include "CompressedTrees.h"
-#include "gpu_task.h"
+#include "GpuTask.h"
 #include <gpu/common.cuh>
 
 using std::string;

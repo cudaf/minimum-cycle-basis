@@ -1,6 +1,6 @@
 #pragma once
 #include "utils.h"
-#include "gpu_task.h"
+#include "GpuTask.h"
 #include "BitVector.h"
 #include "GpuTimer.h"
 #include "Stats.h"
