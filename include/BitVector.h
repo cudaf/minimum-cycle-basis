@@ -38,7 +38,7 @@ struct BitVector {
 
   void free() {
     if (!fn_free) delete[] data;
-    else fn_free((unsigned*) data);
+    else fn_free((int*) data);
   }
 
   inline uint64_t get_or_number(int &offset, bool &val) {

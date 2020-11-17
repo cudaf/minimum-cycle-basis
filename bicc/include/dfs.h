@@ -25,7 +25,7 @@ inline uint64_t merge(uint64_t upper, uint64_t lower) {
 }
 
 /**
- * @brief This method is used to store an unordered_map<uint64_t,unsigned>
+ * @brief This method is used to store an unordered_map<uint64_t,int>
  * @details This unordered map is generated as src-dest and index of the edge .
  * 
  * @param graph c_graph representation

@@ -32,20 +32,20 @@ protected:
   };
 
 public:
-  vector<unsigned> *rows;
-  vector<unsigned> *cols;
+  vector<int> *rows;
+  vector<int> *cols;
   vector<int> *weights;
-  vector<unsigned> *degree;
-  vector<unsigned> *rowOffsets;
+  vector<int> *degree;
+  vector<int> *rowOffsets;
   int initial_edge_count;
   int Nodes;
 
   CsrGraph() {
-    rows = new vector<unsigned>();
-    cols = new vector<unsigned>();
+    rows = new vector<int>();
+    cols = new vector<int>();
     weights = new vector<int>();
-    degree = new vector<unsigned>();
-    rowOffsets = new vector<unsigned>();
+    degree = new vector<int>();
+    rowOffsets = new vector<int>();
   }
 
   ~CsrGraph() {
@@ -79,9 +79,9 @@ public:
     if (!dir)  insert(c, r, wt, true);
   }
 
-  vector<unsigned> *get_spanning_tree(vector<unsigned> **non_tree_edges,
-      vector<unsigned> *ear_decomposition, int src);
-  vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
+  vector<int> *get_spanning_tree(vector<int> **non_tree_edges,
+      vector<int> *ear_decomposition, int src);
+  vector<int> *mark_degree_two_chains(vector<vector<int> > **chain, int &src);
 
   inline void getEdge(int i, int &row, int &col, int &weight) {
     assert(i < rows->size());
@@ -90,7 +90,7 @@ public:
     weight = weights->at(i);
   }
 
-  int pathWeight(vector<unsigned> &edges, int &row, int &col) {
+  int pathWeight(vector<int> &edges, int &row, int &col) {
     int a = 0;
     int M = edges.size();
     col = cols->at(edges.at(0));

@@ -23,10 +23,10 @@ const T* get_pointer_const(const T* data, int node, int nodes, int chunk_size, i
 }
 
 __device__ __forceinline__
-unsigned getBit(uint64_t val, int pos) {
+int getBit(uint64_t val, int pos) {
   uint64_t ret;
   asm("bfe.u64 %0, %1, %2, 1;" : "=l"(ret) : "l"(val), "r"(pos));
-  return (unsigned) ret;
+  return (int) ret;
 }
 
 //return vertex outdegree
@@ -50,8 +50,8 @@ int getLaneId() {
 
 // Insert a single bit into 'val' at position 'pos'
 __device__ __forceinline__
-unsigned setBit(unsigned val, unsigned toInsert, int pos) {
-  unsigned ret;
+int setBit(int val, int toInsert, int pos) {
+  int ret;
   asm("bfi.b32 %0, %1, %2, %3, 1;" : "=r"(ret) : "r"(toInsert), "r"(val), "r"(pos));
   return ret;
 }

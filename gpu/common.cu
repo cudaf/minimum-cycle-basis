@@ -30,15 +30,15 @@ extern "C" size_t configure_grid(int start, int end) {
   return sources_to_store;
 }
 
-extern "C" unsigned *allocate_pinned_memory(int chunk, int nodes) {
-  unsigned *pinned_memory;
+extern "C" int *allocate_pinned_memory(int chunk, int nodes) {
+  int *pinned_memory;
 
-  CudaError(cudaMallocHost((void **) &pinned_memory, sizeof(unsigned) * chunk * nodes));
-  //pinned_memory = new unsigned[chunk * nodes];
+  CudaError(cudaMallocHost((void **) &pinned_memory, sizeof(int) * chunk * nodes));
+  //pinned_memory = new int[chunk * nodes];
   return pinned_memory;
 }
 
-extern "C" void free_pinned_memory(unsigned *pinned_memory) {
+extern "C" void free_pinned_memory(int *pinned_memory) {
   CudaError(cudaFreeHost(pinned_memory));
   //delete[] pinned_memory;
 }

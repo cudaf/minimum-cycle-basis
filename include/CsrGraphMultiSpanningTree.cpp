@@ -13,22 +13,22 @@ using std::vector;
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_edges, int src) {
+vector<int> *CsrGraphMulti::get_spanning_tree(vector<int> **non_tree_edges, int src) {
   struct DFS_HELPER {
     int Nodes;
-    vector<unsigned> *spanning_tree;
+    vector<int> *spanning_tree;
     vector<bool> *visited;
     vector<uint8_t> *is_tree_edge;
-    vector<unsigned> *rows_internal;
-    vector<unsigned> *columns_internal;
-    vector<unsigned> *rowOffsets_internal;
-    vector<unsigned> **non_tree_edges_internal;
-    vector<unsigned> *reverse_edge_internal;
+    vector<int> *rows_internal;
+    vector<int> *columns_internal;
+    vector<int> *rowOffsets_internal;
+    vector<int> **non_tree_edges_internal;
+    vector<int> *reverse_edge_internal;
     vector<int> *parent;
 
-    DFS_HELPER(vector<unsigned> **non_tree_edges, vector<unsigned> *rows, vector<unsigned> *columns,
-        vector<unsigned> *rowOffsets, vector<unsigned> *reverse_edge, int _nodes) {
-      spanning_tree = new vector<unsigned>();
+    DFS_HELPER(vector<int> **non_tree_edges, vector<int> *rows, vector<int> *columns,
+        vector<int> *rowOffsets, vector<int> *reverse_edge, int _nodes) {
+      spanning_tree = new vector<int>();
       visited = new vector<bool>();
       parent = new vector<int>();
       is_tree_edge = new vector<uint8_t>();
@@ -93,7 +93,7 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_e
 
     }
 
-    vector<unsigned> *run_dfs(int row) {
+    vector<int> *run_dfs(int row) {
       dfs(row);
       assert(spanning_tree->size() == Nodes - 1);
       return spanning_tree;
@@ -107,6 +107,6 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_e
   };
 
   DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets, reverse_edge, Nodes);
-  vector<unsigned> *spanning_tree = helper.run_dfs(src);
+  vector<int> *spanning_tree = helper.run_dfs(src);
   return spanning_tree;
 }

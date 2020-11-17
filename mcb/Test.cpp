@@ -202,7 +202,7 @@ int main(int argc, char* argv[]) {
       multi_work[i]->precompute_supportVec(non_tree_edges_map, *support_vectors[e]);
     }
 
-    unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
+    int *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;

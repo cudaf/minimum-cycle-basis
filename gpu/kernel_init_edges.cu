@@ -15,10 +15,10 @@ T* get_pointer(T* data, int node, int nodes, int chunk_size, int stream) {
 }
 
 __device__ __forceinline__
-unsigned getBit(uint64_t val, int pos) {
+int getBit(uint64_t val, int pos) {
   uint64_t ret;
   asm("bfe.u64 %0, %1, %2, 1;" : "=l"(ret) : "l"(val), "r"(pos));
-  return (unsigned) ret;
+  return (int) ret;
 }
 
 __global__

@@ -35,12 +35,12 @@ protected:
     }
   };
 public:
-  vector<unsigned> *reverse_edge;
+  vector<int> *reverse_edge;
   vector<int> *chains;
   vector<int> *edge_original_graph;
   
   CsrGraphMulti() {
-    reverse_edge = new vector<unsigned>();
+    reverse_edge = new vector<int>();
     chains = new vector<int>();
     edge_original_graph = new vector<int>();
   }
@@ -149,7 +149,7 @@ public:
 #endif
   }
 
-  void fill_tree_edges(unsigned *r, unsigned *c, int *e, vector<unsigned> *tree_edges, int src) {
+  void fill_tree_edges(int *r, int *c, int *e, vector<int> *tree_edges, int src) {
     assert(tree_edges->size() + 1 == Nodes);
 
     vector<Edge*> temporary_array;
@@ -180,10 +180,10 @@ public:
     temporary_array.clear();
   }
 
-  vector<unsigned> *get_spanning_tree(vector<unsigned> **non_tree_edges, int src);
+  vector<int> *get_spanning_tree(vector<int> **non_tree_edges, int src);
 
-  static CsrGraphMulti *get_modified_graph(CsrGraph *graph, vector<unsigned> *remove_edge_list,
-      vector<vector<unsigned> > *edges_new_list, int nodes_removed) {
+  static CsrGraphMulti *get_modified_graph(CsrGraph *graph, vector<int> *remove_edge_list,
+      vector<vector<int> > *edges_new_list, int nodes_removed) {
     vector<bool> filter_edges(graph->rows->size());
     for (int i = 0; i < filter_edges.size(); i++)
       filter_edges[i] = false;
@@ -192,7 +192,7 @@ public:
       filter_edges[remove_edge_list->at(i)] = true;
 
     CsrGraphMulti *new_reduced_graph = new CsrGraphMulti();
-    unordered_map<unsigned, unsigned> *new_nodes = new unordered_map<unsigned, unsigned>();
+    unordered_map<int, int> *new_nodes = new unordered_map<int, int>();
 
     int new_node_count = 0;
     //This is for Relabelling vertices.

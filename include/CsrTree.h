@@ -10,8 +10,8 @@ class CsrTree {
 public:
   int root;
   CsrGraphMulti *parent_graph;
-  vector<unsigned> *tree_edges;
-  vector<unsigned> *non_tree_edges = NULL;
+  vector<int> *tree_edges;
+  vector<int> *non_tree_edges = NULL;
   vector<int> *parent_edges;
   vector<int> *distance;
 
@@ -20,7 +20,7 @@ public:
     compare(CsrGraphMulti *graph) {
       parent_graph = graph;
     }
-    bool operator()(const unsigned &A, const unsigned &B) const {
+    bool operator()(const int &A, const int &B) const {
       return (parent_graph->weights->at(A) < parent_graph->weights->at(B));
     }
   };
@@ -46,7 +46,7 @@ public:
 
   void populate_tree_edges(bool populate_non_tree_edges, int &src) {
     if (populate_non_tree_edges)
-      non_tree_edges = new vector<unsigned>();
+      non_tree_edges = new vector<int>();
     root = src;
     tree_edges = parent_graph->get_spanning_tree(&non_tree_edges, src);
     //sort(non_tree_edges->begin(),non_tree_edges->end(),compare(parent_graph));
@@ -54,7 +54,7 @@ public:
 
   void obtain_shortest_path_tree(Dijkstra &helper, bool populate_non_tree_edges, int src) {
     if (populate_non_tree_edges)
-      non_tree_edges = new vector<unsigned>();
+      non_tree_edges = new vector<int>();
 
     root = src;
     helper.dijkstra_sp(src);

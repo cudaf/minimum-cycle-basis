@@ -107,14 +107,14 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  vector<vector<unsigned> > *chains = new vector<vector<unsigned> >();
+  vector<vector<int> > *chains = new vector<vector<int> >();
   int source_vertex;
 
-  vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
+  vector<int> *remove_edge_list = graph->mark_degree_two_chains(
       &chains, source_vertex);
   //initial_spanning_tree.populate_tree_edges(true,NULL,source_vertex);
 
-  vector<vector<unsigned> > *edges_new_list = new vector<vector<unsigned> >();
+  vector<vector<int> > *edges_new_list = new vector<vector<int> >();
   int nodes_removed = 0;
 
   for (int i = 0; i < chains->size(); i++) {
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
     int total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
-    vector<unsigned> new_edge = vector<unsigned>();
+    vector<int> new_edge = vector<int>();
     new_edge.push_back(row);
     new_edge.push_back(col);
     new_edge.push_back(total_weight);
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]) {
     //Record timings for cycle inspection steps.
     globalTimer.start();
 
-    unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
+    int *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;

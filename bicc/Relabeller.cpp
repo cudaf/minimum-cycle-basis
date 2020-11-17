@@ -32,7 +32,7 @@ HostTimer globalTimer;
 string InputFileName;
 string OutputFileName;
 double totalTime = 0;
-unordered_map<unsigned, unsigned> forward_order;
+unordered_map<int, int> forward_order;
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
   Reader.get_nodes_edges(nodes, edges);
   int count = 0;
 
-  vector<vector<unsigned> > edge_lists;
+  vector<vector<int> > edge_lists;
 
   for (int i = 0; i < edges; i++) {
     Reader.read_edge(v1, v2, weight);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
     if (forward_order.find(v2) == forward_order.end())
       forward_order[v2] = count++;
 
-    edge_lists.push_back(vector<unsigned>());
+    edge_lists.push_back(vector<int>());
     edge_lists[i].push_back(v1);
     edge_lists[i].push_back(v2);
     edge_lists[i].push_back(weight);

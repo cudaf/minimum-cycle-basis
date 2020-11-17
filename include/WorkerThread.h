@@ -20,7 +20,7 @@ struct WorkerThread {
   CycleStorage *storage;
   int *fvs_array;
   CompressedTrees *trees;
-  vector<unsigned> shortest_path_trees;
+  vector<int> shortest_path_trees;
 
   WorkerThread(CsrGraphMulti *graph, CycleStorage *s, int *fvs_array, CompressedTrees *tr) {
     helper = new Dijkstra(graph->Nodes, graph, fvs_array);
@@ -44,7 +44,7 @@ struct WorkerThread {
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);
     //compute the cycles;
-    vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
+    vector<int> *non_tree_edges = sp_tree->non_tree_edges;
     
     int total_weight, temp_weight;
     bool is_edge_cycle, temp_check;
@@ -80,7 +80,7 @@ struct WorkerThread {
     //compute shortest path spanning tree and also non-tree edges
     sp_tree->obtain_shortest_path_tree(*helper, true, src);
     //compute the cycles;
-    vector<unsigned> *non_tree_edges = sp_tree->non_tree_edges;
+    vector<int> *non_tree_edges = sp_tree->non_tree_edges;
 
     int total_weight, temp_weight;
     bool is_edge_cycle, temp_check;
@@ -101,7 +101,7 @@ struct WorkerThread {
     }
 
     shortest_path_trees.push_back(src);
-    unsigned *csr_rows, *csr_cols, *csr_nodes_index;
+    int *csr_rows, *csr_cols, *csr_nodes_index;
     int *csr_edge_offset, *csr_parent, *csr_distance;
 
     trees->get_node_arrays_warp(&csr_rows, &csr_cols, &csr_edge_offset,
@@ -125,7 +125,7 @@ struct WorkerThread {
     for (int i = 0; i < shortest_path_trees.size(); i++) {
       int src = shortest_path_trees[i];
       int src_index = trees->get_index(src);
-      unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
+      int *node_rowoffsets, *node_columns, *precompute_nodes;
       int *node_edgeoffsets, *node_parents, *node_distance;
 
       trees->get_node_arrays(&node_rowoffsets, &node_columns,
@@ -135,7 +135,7 @@ struct WorkerThread {
       CsrGraphMulti *graph = trees->parent_graph;
       precompute_nodes[src] = 0;
       int edge_offset, reverse_edge, row, column, position, bit;
-      queue<unsigned> q;
+      queue<int> q;
 
       q.push(src);
       while (!q.empty()) {

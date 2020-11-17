@@ -34,23 +34,23 @@ struct Cycle {
     return root;
   }
 
-  // set<unsigned> *get_edges()
+  // set<int> *get_edges()
   // {
-  //   set<unsigned> *edges = new set<unsigned>();
+  //   set<int> *edges = new set<int>();
   //   csr_multi_graph *parent_graph = tree->parent_graph;
-  //   unsigned row = parent_graph->rows->at(non_tree_edge_index);
-  //   unsigned col = parent_graph->columns->at(non_tree_edge_index);
+  //   int row = parent_graph->rows->at(non_tree_edge_index);
+  //   int col = parent_graph->columns->at(non_tree_edge_index);
   //   while(row != tree->root)
   //   {
-  //     unsigned edge_offset = tree->parent_edges->at(row);
-  //     unsigned reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
+  //     int edge_offset = tree->parent_edges->at(row);
+  //     int reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
   //     edges->insert(min(edge_offset,reverse_edge_offset));
   //     row = parent_graph->rows->at(edge_offset);
   //   }
   //   while(col != tree->root)
   //   {
-  //     unsigned edge_offset = tree->parent_edges->at(col);
-  //     unsigned reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
+  //     int edge_offset = tree->parent_edges->at(col);
+  //     int reverse_edge_offset = parent_graph->reverse_edge->at(edge_offset);
   //     edges->insert(min(edge_offset,reverse_edge_offset));
   //     col = parent_graph->rows->at(edge_offset);
   //   }
@@ -77,7 +77,7 @@ struct Cycle {
     if (non_tree_edges[non_tree_edge_index] >= 0)
       vector->set(non_tree_edges[non_tree_edge_index], true);
 
-    unsigned *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
+    int *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src_index = trees->get_index(root);
 
@@ -128,7 +128,7 @@ struct Cycle {
     if (non_tree_edges[non_tree_edge_index] >= 0)
       cycle_vector->set(non_tree_edges[non_tree_edge_index], true);
 
-    unsigned *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
+    int *node_rowoffsets, *node_columns, edge_offset, *nodes_index;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src_index = trees->get_index(root);
     trees->get_node_arrays_warp(&node_rowoffsets, &node_columns,

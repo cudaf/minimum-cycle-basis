@@ -30,7 +30,7 @@ struct Dijkstra {
   vector<int> edge_offsets;
   vector<int> level;
   vector<int> parent;
-  vector<unsigned> *tree_edges;
+  vector<int> *tree_edges;
   CsrGraphMulti *graph;
   int *fvs_array;
 
@@ -73,8 +73,8 @@ struct Dijkstra {
     tree_edges = NULL;
   }
 
-  void dijkstra_sp(unsigned src) {
-    tree_edges = new vector<unsigned>();
+  void dijkstra_sp(int src) {
+    tree_edges = new vector<int>();
     distance[src] = 0;
     level[src] = 0;
     parent[src] = -1;
@@ -117,7 +117,7 @@ struct Dijkstra {
 #endif
   }
 
-  void compute_non_tree_edges(vector<unsigned> **non_tree_edges) {
+  void compute_non_tree_edges(vector<int> **non_tree_edges) {
     vector<uint8_t> is_tree_edge(graph->rows->size());
     for (int i = 0; i < tree_edges->size(); i++)
       is_tree_edge[tree_edges->at(i)] = 1;
@@ -138,7 +138,7 @@ struct Dijkstra {
     }
   }
 
-  void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols, unsigned *csr_nodes_index,
+  void fill_tree_edges(int *csr_rows, int *csr_cols, int *csr_nodes_index,
       int *csr_edge_offset, int *csr_parent, int *csr_distance, int src) {
     vector<EdgeSorter> edges;
     edges.push_back(EdgeSorter(-1, 0));

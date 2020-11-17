@@ -3,7 +3,7 @@
 using std::vector;
 
 
-int CompressedTrees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
+int CompressedTrees::get_node_arrays(int **csr_rows, int **csr_cols,
     int **csr_edge_offset, int **csr_parent, int **csr_distance, int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
@@ -15,9 +15,9 @@ int CompressedTrees::get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
   *csr_distance = distance[row_number] + (col_number * original_nodes);
 }
 
-int CompressedTrees::get_node_arrays_warp(unsigned **csr_rows,
-    unsigned **csr_cols, int **csr_edge_offset, int **csr_parent,
-    int **csr_distance, unsigned **csr_nodes_index, int node_index) {
+int CompressedTrees::get_node_arrays_warp(int **csr_rows,
+    int **csr_cols, int **csr_edge_offset, int **csr_parent,
+    int **csr_distance, int **csr_nodes_index, int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
 
@@ -29,7 +29,7 @@ int CompressedTrees::get_node_arrays_warp(unsigned **csr_rows,
   *csr_nodes_index = nodes_index[row_number] + (col_number * original_nodes);
 }
 
-int CompressedTrees::get_precompute_array(unsigned **precompute_tree, int node_index) {
+int CompressedTrees::get_precompute_array(int **precompute_tree, int node_index) {
   int row_number = node_index / chunk_size;
   int col_number = node_index % chunk_size;
   *precompute_tree = precompute_value[row_number] + (col_number * original_nodes);
@@ -39,7 +39,7 @@ int CompressedTrees::get_index(int original_node) {
   return vertices_map[original_node];
 }
 
-void CompressedTrees::copy(int index, vector<unsigned> *tree_edges,
+void CompressedTrees::copy(int index, vector<int> *tree_edges,
     vector<int> *parent_edges, vector<int> *distances) {
   assert(index < fvs_size);
   int row_number = index / chunk_size;
@@ -61,7 +61,7 @@ void CompressedTrees::copy(int index, vector<unsigned> *tree_edges,
     distance[row_number][col_number * original_nodes + i] = distances->at(i);
   }
 
-  unsigned *node_rowoffsets, *node_columns;
+  int *node_rowoffsets, *node_columns;
   int *node_edgeoffsets, *node_parents, *node_distance;
   get_node_arrays(&node_rowoffsets, &node_columns, &node_edgeoffsets, &node_parents, &node_distance, index);
   parent_graph->fill_tree_edges(node_rowoffsets, node_columns, node_edgeoffsets, tree_edges, src);

@@ -10,7 +10,7 @@ struct dfs_helper {
   int *low;
   int *discovery;
   int *parent;
-  stack<unsigned> _stack;
+  stack<int> _stack;
   uint8_t *status;
 
   dfs_helper(int N) {

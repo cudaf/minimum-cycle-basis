@@ -14,25 +14,25 @@ using std::vector;
  * @param address of an vector for storing non_tree_edges, ear decomposition vector
  * @return vector of edge_offsets in bfs ordering.
  */
-vector<unsigned> *CsrGraph::mark_degree_two_chains(
-    vector<vector<unsigned> > **chain, int &src) {
+vector<int> *CsrGraph::mark_degree_two_chains(
+    vector<vector<int> > **chain, int &src) {
   struct DFS_HELPER {
     int Nodes;
-    vector<unsigned> *edge_removal_list;
+    vector<int> *edge_removal_list;
     vector<bool> *visited;
-    vector<vector<unsigned> > **chains_internal;
-    vector<unsigned> *rows_internal;
-    vector<unsigned> *columns_internal;
-    vector<unsigned> *rowOffsets_internal;
-    vector<unsigned> *degree_internal;
+    vector<vector<int> > **chains_internal;
+    vector<int> *rows_internal;
+    vector<int> *columns_internal;
+    vector<int> *rowOffsets_internal;
+    vector<int> *degree_internal;
     vector<int> *parent;
-    vector<unsigned> *temp_vector;
+    vector<int> *temp_vector;
 
-    DFS_HELPER(vector<unsigned> *rows, vector<unsigned> *columns,
-        vector<unsigned> *rowOffsets,
-        vector<unsigned> *degree,
-        vector<vector<unsigned> > **chain, int _nodes) {
-      edge_removal_list = new vector<unsigned>();
+    DFS_HELPER(vector<int> *rows, vector<int> *columns,
+        vector<int> *rowOffsets,
+        vector<int> *degree,
+        vector<vector<int> > **chain, int _nodes) {
+      edge_removal_list = new vector<int>();
       visited = new vector<bool>();
       parent = new vector<int>();
       temp_vector = NULL;
@@ -80,7 +80,7 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
           edge_removal_list->push_back(offset);
         } else if ((degree_internal->at(row) == 2)) {
           //debug(row+1,column+1,"row");
-          temp_vector = new vector<unsigned>();
+          temp_vector = new vector<int>();
           temp_vector->push_back(offset);
           edge_removal_list->push_back(offset);
         } else if ((degree_internal->at(column) == 2)) {
@@ -96,7 +96,7 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
       }
     }
 
-    vector<unsigned> *run_dfs(int &src) {
+    vector<int> *run_dfs(int &src) {
       for (int i = 0; i < Nodes; i++) {
         if (degree_internal->at(i) > 2) {
           src = i;
@@ -114,6 +114,6 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
   };
 
   DFS_HELPER helper(rows, cols, rowOffsets, degree, chain, Nodes);
-  vector<unsigned> *edge_removal_list = helper.run_dfs(src);
+  vector<int> *edge_removal_list = helper.run_dfs(src);
   return edge_removal_list;
 }

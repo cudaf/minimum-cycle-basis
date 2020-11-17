@@ -224,7 +224,7 @@ int main(int argc, char* argv[]) {
     //Record timings for cycle inspection steps.
     globalTimer.start();
 
-    unsigned *node_rowoffsets, *node_columns, *precompute_nodes;
+    int *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src, edge_offset, reverse_edge, row, col, position, bit;
 

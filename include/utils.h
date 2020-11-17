@@ -13,8 +13,8 @@ using std::cerr;
 using std::endl;
 
 
-typedef unsigned* (*fn_alloc_t)(int, int);
-typedef void  (*fn_free_t)(unsigned*);
+typedef int* (*fn_alloc_t)(int, int);
+typedef void  (*fn_free_t)(int*);
 
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define RESET   "\033[0m"
