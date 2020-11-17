@@ -29,16 +29,16 @@ inline uint64_t merge(uint64_t upper, uint64_t lower) {
  * @details This unordered map is generated as src-dest and index of the edge .
  * @param graph c_graph representation
  */
-unordered_map<uint64_t, int>* create_map(CsrGraph *graph) {
+unordered_map<uint64_t, int>* create_map(CsrGraph *g) {
   auto a = new unordered_map<uint64_t, int>();
-  for (int i = 0; i < graph->cols->size(); i++) {
-    uint64_t row = graph->rows->at(i);
-    uint64_t col = graph->cols->at(i);
-    uint64_t res = merge(row, col);
-    a->insert(make_pair(res, i));
+  int M = g->rows->size();
+  for (int i=0; i<M; i++) {
+    uint64_t r = g->rows->at(i);
+    uint64_t c = g->cols->at(i);
+    uint64_t rc = merge(r, c);
+    a->insert(make_pair(rc, i));
   }
   return a;
-
 }
 
 struct DFS {
