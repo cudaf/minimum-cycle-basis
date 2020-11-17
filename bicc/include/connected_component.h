@@ -12,8 +12,8 @@
 #include "bicc.h"
 
 
-inline unsigned long long merge_32bits(unsigned long long upper, unsigned long long lower) {
-  unsigned long long result = 0;
+inline uint64_t merge_32bits(uint64_t upper, uint64_t lower) {
+  uint64_t result = 0;
   result = ((upper << 32) | lower);
   return result;
 }

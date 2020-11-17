@@ -16,8 +16,8 @@ using std::list;
 using std::unordered_map;
 
 
-inline unsigned long long merge(unsigned long long upper, unsigned long long lower) {
-  unsigned long long result = 0;
+inline uint64_t merge(uint64_t upper, uint64_t lower) {
+  uint64_t result = 0;
   result = ((upper << 32) | lower);
   return result;
 }
@@ -36,9 +36,9 @@ unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
     return edge_map;
 
   unordered_map<unsigned long long, int> *custom_map = new unordered_map<unsigned long long, int>();
-  unsigned long long result;
-  unsigned long long src;
-  unsigned long long dest;
+  uint64_t result;
+  uint64_t src;
+  uint64_t dest;
 
   for (int i = 0; i < graph->cols->size(); i++) {
     src = graph->rows->at(i);
