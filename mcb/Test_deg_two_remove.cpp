@@ -28,10 +28,14 @@
 #include "compressed_trees.h"
 #include "FVS.h"
 
+using std::string;
+using std::vector;
+
+
 debugger dbg;
 HostTimer globalTimer;
-std::string InputFileName;
-std::string OutputFileDirectory;
+string InputFileName;
+string OutputFileDirectory;
 double totalTime = 0;
 int num_threads;
 
@@ -51,7 +55,7 @@ int main(int argc, char* argv[]) {
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
-  std::string InputFilePath = InputFileName;
+  string InputFilePath = InputFileName;
 
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
@@ -80,17 +84,13 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  std::vector<std::vector<unsigned> > *chains = new std::vector<
-      std::vector<unsigned> >();
+  vector<vector<unsigned> > *chains = new vector<vector<unsigned> >();
   debug("Input File Reading Complete...\n");
 
   int source_vertex;
-  std::vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
-      &chains, source_vertex);
+  vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(&chains, source_vertex);
   //initial_spanning_tree.populate_tree_edges(true,NULL,souce_vertex);
-
-  std::vector<std::vector<unsigned> > *edges_new_list = new std::vector<
-      std::vector<unsigned> >();
+  vector<vector<unsigned> > *edges_new_list = new vector<vector<unsigned> >();
 
   int nodes_removed = 0;
 
@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     unsigned total_weight = graph->pathWeight(chains->at(i), row, col);
     nodes_removed += chains->at(i).size() - 1;
 
-    std::vector<unsigned> new_edge = std::vector<unsigned>();
+    vector<unsigned> new_edge = vector<unsigned>();
     new_edge.push_back(row);
     new_edge.push_back(col);
     new_edge.push_back(total_weight);
@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 
   initial_spanning_tree->print_tree_edges();
   initial_spanning_tree->print_non_tree_edges();
-  std::vector<int> non_tree_edges_map(reduced_graph->rows->size());
+  vector<int> non_tree_edges_map(reduced_graph->rows->size());
   std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   debug("Map of non-tree edges");
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles(i, reduced_graph);
   }
 
-  std::vector<cycle*> list_cycle_vec;
+  vector<cycle*> list_cycle_vec;
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
@@ -186,7 +186,7 @@ int main(int argc, char* argv[]) {
 
   printf("Number of initial cycles = %d\n", list_cycle_vec.size());
   printf("\nList Cycles Pre Isometric\n");
-  for (std::vector<cycle*>::iterator cycle = list_cycle_vec.begin();
+  for (vector<cycle*>::iterator cycle = list_cycle_vec.begin();
       cycle != list_cycle_vec.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
     support_vectors[i]->set(i, true);
   }
 
-  std::vector<cycle*> final_mcb;
+  vector<cycle*> final_mcb;
   //Main Outer Loop of the Algorithm.
   for (int e = 0; e < num_non_tree_edges; e++) {
     debug("Si is as follows.", e);
