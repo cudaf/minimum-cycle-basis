@@ -1,12 +1,15 @@
 #include <stack>
 #include "CsrGraph.h"
 
+
 /**
- * @brief This method is used to mark the degree 2 chains of a graph for removal.
- * @details This method uses the ear-decomposition of the nodes to obtain the end points of a chain.
- *          The first node and the last node of the vectors are the end points of the chain.
- *  
- * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
+ * @brief
+ * This method is used to mark the degree 2 chains of a graph for removal.
+ * @details
+ * This method uses the ear-decomposition of the nodes to obtain the end
+ * points of a chain. The first node and the last node of the vectors are
+ * the end points of the chain.
+ * @param address of an vector for storing non_tree_edges, ear decomposition vector
  * @return vector of edge_offsets in bfs ordering.
  */
 std::vector<unsigned> *CsrGraph::mark_degree_two_chains(
