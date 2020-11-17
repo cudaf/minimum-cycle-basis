@@ -41,14 +41,6 @@ struct BitVector {
     else fn_free((int*) data);
   }
 
-  inline uint64_t get_or_number(int &offset, bool &val) {
-    uint64_t initial_value = val;
-    if (val == false)
-      return initial_value;
-    initial_value <<= offset;
-    return initial_value;
-  }
-
   inline int get_and_numbers(uint64_t &val1, uint64_t &val2) {
     uint64_t temp = (val1 & val2);
     int count = 0;
