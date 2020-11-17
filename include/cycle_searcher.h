@@ -44,8 +44,7 @@ struct cycle_storage {
   void add_cycle(unsigned root, unsigned u, unsigned v, cycle *cle) {
     unsigned long long index = combine(std::min(u, v), std::max(u, v));
     if (list_cycles[root].find(index) == list_cycles[root].end())
-      list_cycles[root].insert(
-          std::make_pair(index, new list_common_cycles(cle)));
+      list_cycles[root].insert(std::make_pair(index, new list_common_cycles(cle)));
     else
       list_cycles[root][index]->add_cycle(cle);
   }
