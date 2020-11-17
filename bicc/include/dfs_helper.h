@@ -1,4 +1,7 @@
 #pragma once
+#include <stack>
+
+using std::stack;
 
 
 struct dfs_helper {
@@ -7,7 +10,7 @@ struct dfs_helper {
   int *low;
   int *discovery;
   int *parent;
-  std::stack<unsigned> _stack;
+  stack<unsigned> _stack;
   unsigned char *status;
 
   dfs_helper(int N) {
