@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
   }
   debug("Number of nodes removed = ", nodes_removed);
 
-  csr_multi_graph *reduced_graph = csr_multi_graph::get_modified_graph(graph,
+  CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
       remove_edge_list, edges_new_list, nodes_removed);
 
   //Node Validity

@@ -19,7 +19,7 @@ struct worker_thread {
   compressed_trees *trees;
   std::vector<unsigned> shortest_path_trees;
 
-  worker_thread(csr_multi_graph *graph, cycle_storage *s, int *fvs_array, compressed_trees *tr) {
+  worker_thread(CsrGraphMulti *graph, cycle_storage *s, int *fvs_array, compressed_trees *tr) {
     helper = new dijkstra(graph->Nodes, graph, fvs_array);
     storage = s;
     this->fvs_array = fvs_array;
@@ -31,7 +31,7 @@ struct worker_thread {
     shortest_path_trees.clear();
   }
 
-  int produce_sp_tree_and_cycles(int src_index, csr_multi_graph *graph) {
+  int produce_sp_tree_and_cycles(int src_index, CsrGraphMulti *graph) {
     assert(src_index >= 0 && src_index < trees->fvs_size);
     int src = trees->final_vertices[src_index];
     assert(src >= 0 && src < graph->Nodes);
@@ -67,7 +67,7 @@ struct worker_thread {
     return count_cycle;
   }
 
-  int produce_sp_tree_and_cycles_warp(int src_index, csr_multi_graph *graph) {
+  int produce_sp_tree_and_cycles_warp(int src_index, CsrGraphMulti *graph) {
     assert(src_index >= 0 && src_index < trees->fvs_size);
     int src = trees->final_vertices[src_index];
     assert(src >= 0 && src < graph->Nodes);
@@ -129,7 +129,7 @@ struct worker_thread {
           &node_edgeoffsets, &node_parents, &node_distance, src_index);
       trees->get_precompute_array(&precompute_nodes, src_index);
 
-      csr_multi_graph *graph = trees->parent_graph;
+      CsrGraphMulti *graph = trees->parent_graph;
       precompute_nodes[src] = 0;
       int edge_offset, reverse_edge, row, column, position, bit;
       std::queue<unsigned> q;

@@ -9,8 +9,8 @@ using std::vector;
 using std::queue;
 
 
-FVS::FVS(csr_multi_graph *graph) {
-  input_graph = new csr_multi_graph();
+FVS::FVS(CsrGraphMulti *graph) {
+  input_graph = new CsrGraphMulti();
   input_graph->copy(*graph);
   assert(input_graph->Nodes == graph->Nodes);
   assert(input_graph->rows->size() == graph->rows->size());

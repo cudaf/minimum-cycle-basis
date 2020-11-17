@@ -9,7 +9,7 @@ using std::vector;
 class csr_tree {
 public:
   int root;
-  csr_multi_graph *parent_graph;
+  CsrGraphMulti *parent_graph;
   vector<unsigned> *tree_edges;
   vector<unsigned> *non_tree_edges = NULL;
 
@@ -17,7 +17,7 @@ public:
   vector<int> *distance;
 
   struct compare {
-    csr_multi_graph *parent_graph;
+    CsrGraphMulti *parent_graph;
     compare(csr_multi_graph *graph) {
       parent_graph = graph;
     }

@@ -7,7 +7,7 @@ using std::unordered_map;
 using std::make_pair;
 
 
-class csr_multi_graph : public CsrGraph {
+class CsrGraphMulti : public CsrGraph {
 protected:
   struct edge {
     int row;
@@ -40,19 +40,19 @@ public:
   vector<int> *chains;
   vector<int> *edge_original_graph;
   
-  csr_multi_graph() {
+  CsrGraphMulti() {
     reverse_edge = new vector<unsigned>();
     chains = new vector<int>();
     edge_original_graph = new vector<int>();
   }
 
-  ~csr_multi_graph() {
+  ~CsrGraphMulti() {
     reverse_edge->clear();
     chains->clear();
     edge_original_graph->clear();
   }
 
-  void copy(const csr_multi_graph& other) {
+  void copy(const CsrGraphMulti& other) {
     this->Nodes = other.Nodes;
     this->initial_edge_count = other.initial_edge_count;
 
@@ -189,7 +189,7 @@ public:
   vector<unsigned> *get_spanning_tree(
       vector<unsigned> **non_tree_edges, int src);
 
-  static csr_multi_graph *get_modified_graph(CsrGraph *graph,
+  static CsrGraphMulti *get_modified_graph(CsrGraph *graph,
       vector<unsigned> *remove_edge_list,
       vector<vector<unsigned> > *edges_new_list,
       int nodes_removed) {
@@ -202,7 +202,7 @@ public:
         i++)
       filter_edges[remove_edge_list->at(i)] = true;
 
-    csr_multi_graph *new_reduced_graph = new csr_multi_graph();
+    CsrGraphMulti *new_reduced_graph = new CsrGraphMulti();
     unordered_map<unsigned, unsigned> *new_nodes =
         new unordered_map<unsigned, unsigned>();
 

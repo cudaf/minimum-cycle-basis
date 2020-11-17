@@ -19,14 +19,14 @@ struct compressed_trees {
   unsigned **precompute_value; //This is used to store the precomputed value corresponding to each tree.
   unsigned **nodes_index; //This is used to store the index of the nodes corresponding to ith position.
   unsigned **test_temp;
-  csr_multi_graph *parent_graph;
+  CsrGraphMulti *parent_graph;
   unsigned *final_vertices;  //contains the final fvs vertices.
   int *vertices_map; //contains the index of the fvs vertices and -1 if the vertex doesn't belong to fvs.
   unsigned *(*pinned_memory_allocator)(int, int);
   void (*free_pinned_memory)(unsigned *);
   bool pinned_memory;
 
-  compressed_trees(int chunk, int N, int *fvs_array, csr_multi_graph *graph) {
+  compressed_trees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph) {
     fvs_size = N;
     chunk_size = chunk;
     parent_graph = graph;
@@ -63,7 +63,7 @@ struct compressed_trees {
       }
   }
 
-  compressed_trees(int chunk, int N, int *fvs_array, csr_multi_graph *graph,
+  compressed_trees(int chunk, int N, int *fvs_array, CsrGraphMulti *graph,
       unsigned *(*mem_alloc)(int, int), void (*mem_free)(unsigned *)) {
     fvs_size = N;
     chunk_size = chunk;

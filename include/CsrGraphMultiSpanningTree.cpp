@@ -13,7 +13,7 @@ using std::vector;
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-vector<unsigned> *csr_multi_graph::get_spanning_tree(
+vector<unsigned> *CsrGraphMulti::get_spanning_tree(
     vector<unsigned> **non_tree_edges, int src) {
   struct DFS_HELPER {
     int Nodes;

@@ -6,7 +6,7 @@ using std::list;
 
 
 struct FVS {
-  csr_multi_graph *input_graph;
+  CsrGraphMulti *input_graph;
   double *W;
   int Nodes;
   bool *node_status;  //Whether this node is present in the graph.
@@ -14,7 +14,7 @@ struct FVS {
   bool *is_vtx_in_fvs; //is a vertex part of FVS.
   list<int> FVS_SET; //list of vertices in the FVS.
 
-  FVS(csr_multi_graph *graph);
+  FVS(CsrGraphMulti *graph);
 
   ~FVS() {
     delete[] W;

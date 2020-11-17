@@ -29,7 +29,7 @@ struct dijkstra {
   vector<int> level;
   vector<int> parent;
   vector<unsigned> *tree_edges;
-  csr_multi_graph *graph;
+  CsrGraphMulti *graph;
   int *fvs_array;
 
   struct Compare {
@@ -39,7 +39,7 @@ struct dijkstra {
   };
   std::priority_queue<std::pair<int, int>, vector<std::pair<int, int>>, Compare> pq;
 
-  dijkstra(int nodes, csr_multi_graph *input_graph, int *fvs_array) {
+  dijkstra(int nodes, CsrGraphMulti *input_graph, int *fvs_array) {
     Nodes = nodes;
     graph = input_graph;
     distance.resize(nodes);
