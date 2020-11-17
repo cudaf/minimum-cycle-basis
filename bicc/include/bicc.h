@@ -238,8 +238,8 @@ struct bicc_graph {
 
         FileWriter fout(outputfilePath.c_str(), global_nodes_count, it->second.size());
 
-        for (auto ij = it->second.begin(); ij != it->second.end(); ij++) {
-          int edge_index = *ij;
+        for (auto&& ij : it->second) {
+          int edge_index = ij;
           int src_vtx = c_graph->rows->at(edge_index);
           int dest_vtx = c_graph->cols->at(edge_index);
           int weight = c_graph->weights->at(edge_index);
