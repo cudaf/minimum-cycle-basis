@@ -28,7 +28,7 @@
 #include "cycle_searcher.h"
 #include "stats.h"
 #include "FVS.h"
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 #include "gpu_task.h"
 #include <gpu/common.cuh>
 

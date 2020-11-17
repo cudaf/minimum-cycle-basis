@@ -25,7 +25,7 @@
 #include "BitVector.h"
 #include "work_per_thread.h"
 #include "cycle_searcher.h"
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 #include "FVS.h"
 
 using std::string;

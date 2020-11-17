@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 #include "BitVector.h"
 
 

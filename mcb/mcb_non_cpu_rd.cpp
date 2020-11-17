@@ -29,7 +29,7 @@
 #include "cycle_searcher.h"
 #include "stats.h"
 #include "FVS.h"
-#include "compressed_trees.h"
+#include "CompressedTrees.h"
 
 using std::string;
 using std::vector;
