@@ -100,7 +100,7 @@ struct dijkstra {
 
       for (unsigned offset = graph->rowOffsets->at(val.first);
           offset < graph->rowOffsets->at(val.first + 1); offset++) {
-        unsigned column = graph->columns->at(offset);
+        unsigned column = graph->cols->at(offset);
         if (!in_tree[column]) {
           int edge_weight = graph->weights->at(offset);
           if (distance[column] == -1) {
@@ -157,7 +157,7 @@ struct dijkstra {
     for (int i = 0; i < tree_edges->size(); i++) {
       int offset = tree_edges->at(i);
       int row = graph->rows->at(offset);
-      int col = graph->columns->at(offset);
+      int col = graph->cols->at(offset);
 
       edges.push_back(edge_sorter(offset, level[col]));
     }
@@ -178,7 +178,7 @@ struct dijkstra {
         csr_distance[src] = 0;
       } else {
         int row = graph->rows->at(edges[i].edge_offsets);
-        int col = graph->columns->at(edges[i].edge_offsets);
+        int col = graph->cols->at(edges[i].edge_offsets);
 
         csr_nodes_index[col] = i;
         csr_cols[i] = csr_nodes_index[row];
@@ -207,7 +207,7 @@ struct dijkstra {
     total_weight = 0;
 
     orig_row = row = graph->rows->at(edge_offset);
-    orig_col = col = graph->columns->at(edge_offset);
+    orig_col = col = graph->cols->at(edge_offset);
 
     if ((fvs_array[row] >= 0) && (src > row))
       return false;

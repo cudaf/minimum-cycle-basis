@@ -126,7 +126,7 @@ std::vector<unsigned> *csr_multi_graph::get_spanning_tree(
 
   };
 
-  DFS_HELPER helper(non_tree_edges, rows, columns, rowOffsets, reverse_edge,
+  DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets, reverse_edge,
       Nodes);
 
   std::vector<unsigned> *spanning_tree = helper.run_dfs(src);

@@ -85,7 +85,7 @@ struct cycle {
     BitVector *vector = new BitVector(num_elements);
 
     unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
-    unsigned col = trees->parent_graph->columns->at(non_tree_edge_index);
+    unsigned col = trees->parent_graph->cols->at(non_tree_edge_index);
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)
@@ -111,7 +111,7 @@ struct cycle {
       if (trees->parent_graph->rows->at(edge_offset) != row)
         row = trees->parent_graph->rows->at(edge_offset);
       else
-        row = trees->parent_graph->columns->at(edge_offset);
+        row = trees->parent_graph->cols->at(edge_offset);
 
       assert(row != -1);
     }
@@ -126,7 +126,7 @@ struct cycle {
       if (trees->parent_graph->rows->at(edge_offset) != col)
         col = trees->parent_graph->rows->at(edge_offset);
       else
-        col = trees->parent_graph->columns->at(edge_offset);
+        col = trees->parent_graph->cols->at(edge_offset);
 
       assert(col != -1);
     }
@@ -147,7 +147,7 @@ struct cycle {
     cycle_vector->init();
 
     unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
-    unsigned col = trees->parent_graph->columns->at(non_tree_edge_index);
+    unsigned col = trees->parent_graph->cols->at(non_tree_edge_index);
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)
@@ -173,7 +173,7 @@ struct cycle {
       if (trees->parent_graph->rows->at(edge_offset) != row)
         row = trees->parent_graph->rows->at(edge_offset);
       else
-        row = trees->parent_graph->columns->at(edge_offset);
+        row = trees->parent_graph->cols->at(edge_offset);
 
       assert(row != -1);
     }
@@ -188,7 +188,7 @@ struct cycle {
       if (trees->parent_graph->rows->at(edge_offset) != col)
         col = trees->parent_graph->rows->at(edge_offset);
       else
-        col = trees->parent_graph->columns->at(edge_offset);
+        col = trees->parent_graph->cols->at(edge_offset);
 
       assert(col != -1);
     }
@@ -200,7 +200,7 @@ struct cycle {
     printf("Root is %u\n", root + 1);
     printf("Edge is %u - %u\n",
         trees->parent_graph->rows->at(non_tree_edge_index) + 1,
-        trees->parent_graph->columns->at(non_tree_edge_index) + 1);
+        trees->parent_graph->cols->at(non_tree_edge_index) + 1);
     printf("Total weight = %d\n", total_length);
     printf(
         "=================================================================================\n");
@@ -209,7 +209,7 @@ struct cycle {
   void print_line() {
     printf("{%u,(%u - %u)} ", root + 1,
         trees->parent_graph->rows->at(non_tree_edge_index) + 1,
-        trees->parent_graph->columns->at(non_tree_edge_index) + 1);
+        trees->parent_graph->cols->at(non_tree_edge_index) + 1);
   }
 
 };

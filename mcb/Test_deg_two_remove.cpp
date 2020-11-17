@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
     printf("%d : %u - %u\n", i,
         reduced_graph->rows->at(
             initial_spanning_tree->non_tree_edges->at(i)) + 1,
-        reduced_graph->columns->at(
+        reduced_graph->cols->at(
             initial_spanning_tree->non_tree_edges->at(i)) + 1);
   }
 
@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
       cycle != list_cycle_vec.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
-        reduced_graph->columns->at((*cycle)->non_tree_edge_index) + 1,
+        reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
         (*cycle)->total_length);
   }
 
@@ -241,7 +241,7 @@ int main(int argc, char* argv[]) {
       cycle != list_cycle.end(); cycle++) {
     printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
         reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
-        reduced_graph->columns->at((*cycle)->non_tree_edge_index) + 1,
+        reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
         (*cycle)->total_length);
   }
   printf("\n");
@@ -290,7 +290,7 @@ int main(int argc, char* argv[]) {
 
       unsigned row, col;
       row = reduced_graph->rows->at(edge_offset);
-      col = reduced_graph->columns->at(edge_offset);
+      col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
         bit = support_vectors[e]->get(

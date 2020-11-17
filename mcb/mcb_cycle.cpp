@@ -266,7 +266,7 @@ int main(int argc, char* argv[]) {
 
       unsigned row, col;
       row = reduced_graph->rows->at(edge_offset);
-      col = reduced_graph->columns->at(edge_offset);
+      col = reduced_graph->cols->at(edge_offset);
 
       if (non_tree_edges_map[edge_offset] >= 0) {
         bit = support_vectors[e]->get(

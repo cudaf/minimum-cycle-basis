@@ -52,7 +52,7 @@ struct Connected_Components {
     helper->low[src] = helper->discovery[src] = ++time;
     for (int j = graph->c_graph->rowOffsets->at(src);
         j < graph->c_graph->rowOffsets->at(src + 1); j++) {
-      unsigned dest = graph->c_graph->columns->at(j);
+      unsigned dest = graph->c_graph->cols->at(j);
       if (helper->discovery[dest] == -1) {
         graph->bicc_number[j] = *new_component_number;
         graph->bicc_number[edge_map->at(merge_32bits(dest, src))] =

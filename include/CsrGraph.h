@@ -33,17 +33,17 @@ protected:
 	};
 
 public:
-	int Nodes;
-	int initial_edge_count;
-	vector<unsigned> *rowOffsets;
-	vector<unsigned> *columns;
 	vector<unsigned> *rows;
-	vector<unsigned> *degree;
+	vector<unsigned> *cols;
 	vector<int> *weights;
+	vector<unsigned> *degree;
+	vector<unsigned> *rowOffsets;
+	int initial_edge_count;
+	int Nodes;
 
 	CsrGraph() {
 		rowOffsets = new vector<unsigned>();
-		columns = new vector<unsigned>();
+		cols = new vector<unsigned>();
 		rows = new vector<unsigned>();
 		degree = new vector<unsigned>();
 		weights = new vector<int>();
@@ -51,7 +51,7 @@ public:
 
 	~CsrGraph() {
 		rowOffsets->clear();
-		columns->clear();
+		cols->clear();
 		rows->clear();
 		degree->clear();
 		weights->clear();
@@ -75,7 +75,7 @@ public:
 
 	void insert(int r, int c, int wt, bool dir=false) {
 		rows->push_back(r);
-		columns->push_back(c);
+		cols->push_back(c);
 		weights->push_back(wt);
 		if (!dir)	insert(c, r, wt, true);
 	}
@@ -89,7 +89,7 @@ public:
 	inline void get_edge_endpoints(unsigned &row, unsigned &col, int &weight,	unsigned &index) {
 		assert(index < rows->size());
 		row = rows->at(index);
-		col = columns->at(index);
+		col = cols->at(index);
 		weight = weights->at(index);
 	}
 
@@ -107,15 +107,15 @@ public:
 		//copy the elements from the row and column array
 		for (int i = 0; i < rows->size(); i++)
 			combined.push_back(
-					new Edge(rows->at(i), columns->at(i), weights->at(i)));
+					new Edge(rows->at(i), cols->at(i), weights->at(i)));
 		//Sort the elements first by row, then by column
 		std::sort(combined.begin(), combined.end(), compare());
 		//copy back the elements into row and columns
 		for (int i = 0; i < rows->size(); i++) {
 			rows->at(i) = combined[i]->row;
-			columns->at(i) = combined[i]->col;
+			cols->at(i) = combined[i]->col;
 			weights->at(i) = combined[i]->weight;
-			assert(rows->at(i) != columns->at(i));
+			assert(rows->at(i) != cols->at(i));
 		}
 		for (int i = 0; i < rows->size(); i++)
 			delete combined[i];
@@ -144,8 +144,8 @@ public:
 		if (degree->size() == 0) return;
 		FileWriter file(name.c_str(), verts, rows->size()/2);
 		for (int i = 0; i < rows->size(); i++) {
-			if (rows->at(i) > columns->at(i))
-				file.write_edge(rows->at(i), columns->at(i), weights->at(i));
+			if (rows->at(i) > cols->at(i))
+				file.write_edge(rows->at(i), cols->at(i), weights->at(i));
 		}
 		file.close();
 	}
@@ -154,7 +154,7 @@ public:
 		unsigned edge_weight = 0;
 		for (int i = 0; i < edges_list.size(); i++)
 			edge_weight += weights->at(edges_list.at(i));
-		col = columns->at(edges_list.at(0));
+		col = cols->at(edges_list.at(0));
 		row = rows->at(edges_list.at(edges_list.size() - 1));
 		return edge_weight;
 	}
@@ -163,8 +163,8 @@ public:
 		printf("=================================================================================\n");
 		printf("Number of nodes = %d,edges = %d\n", Nodes, rows->size() / 2);
 		for (int i = 0; i < rows->size(); i++) {
-			if (rows->at(i) < columns->at(i))
-				printf("%u %u - %u\n", rows->at(i) + 1, columns->at(i) + 1, weights->at(i));
+			if (rows->at(i) < cols->at(i))
+				printf("%u %u - %u\n", rows->at(i) + 1, cols->at(i) + 1, weights->at(i));
 		}
 		printf("=================================================================================\n");
 	}

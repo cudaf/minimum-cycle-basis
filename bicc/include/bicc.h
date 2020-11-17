@@ -87,7 +87,7 @@ struct bicc_graph {
     for (std::list<int>::iterator it = edge_list->begin();
         it != edge_list->end(); it++) {
       src_vtx = c_graph->rows->at(*it);
-      dest_vtx = c_graph->columns->at(*it);
+      dest_vtx = c_graph->cols->at(*it);
 
       ////debug("edges for component,",component_number,"are",src_vtx + 1,dest_vtx + 1);
 
@@ -117,7 +117,7 @@ struct bicc_graph {
           src_vtx = it->first;
           for (int j = c_graph->rowOffsets->at(src_vtx);
               j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
-            dest_vtx = c_graph->columns->at(j);
+            dest_vtx = c_graph->cols->at(j);
 
             if (bicc_number[j] != component_number)
               continue;
@@ -175,7 +175,7 @@ struct bicc_graph {
           edge_list_component[bicc_number[j]]->push_back(j);
 
         //add to src_vtx_component
-        src_vtx_component[bicc_number[j]] = c_graph->columns->at(j);
+        src_vtx_component[bicc_number[j]] = c_graph->cols->at(j);
       }
     }
 
@@ -229,7 +229,7 @@ struct bicc_graph {
       if (finished_components.find(bicc_number[i])
           != finished_components.end()) {
         int src_vtx = c_graph->rows->at(i);
-        int dest_vtx = c_graph->columns->at(i);
+        int dest_vtx = c_graph->cols->at(i);
 
         if (count_nodes.find(bicc_number[i]) == count_nodes.end()) {
           count_nodes[bicc_number[i]] = std::unordered_set<int>();
@@ -273,7 +273,7 @@ struct bicc_graph {
           int edge_index = *ij;
 
           int src_vtx = c_graph->rows->at(edge_index);
-          int dest_vtx = c_graph->columns->at(edge_index);
+          int dest_vtx = c_graph->cols->at(edge_index);
           int weight = c_graph->weights->at(edge_index);
 
           fout.write_edge(src_vtx, dest_vtx, weight);

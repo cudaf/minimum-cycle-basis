@@ -117,7 +117,7 @@ std::vector<unsigned> *CsrGraph::get_spanning_tree(
 
   };
 
-  DFS_HELPER helper(non_tree_edges, rows, columns, rowOffsets,
+  DFS_HELPER helper(non_tree_edges, rows, cols, rowOffsets,
       ear_decomposition, Nodes);
 
   std::vector<unsigned> *spanning_tree = helper.run_dfs(src);

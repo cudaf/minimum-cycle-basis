@@ -28,7 +28,7 @@ public:
   csr_tree(csr_multi_graph *graph) {
     parent_graph = graph;
     assert(parent_graph != NULL);
-    assert(parent_graph->rows->size() == parent_graph->columns->size());
+    assert(parent_graph->rows->size() == parent_graph->cols->size());
     assert(parent_graph->rowOffsets->size() == parent_graph->Nodes + 1);
   }
 
@@ -95,7 +95,7 @@ public:
     for (int i = 0; i < tree_edges->size(); i++) {
       unsigned edge = tree_edges->at(i);
       row = parent_graph->rows->at(i);
-      col = parent_graph->columns->at(i);
+      col = parent_graph->cols->at(i);
 
       v->at(col) = row;
     }
@@ -108,7 +108,7 @@ public:
     printf("Printing Spanning Tree Edges,count = %d\n", tree_edges->size());
     for (int i = 0; i < tree_edges->size(); i++)
       printf("%u %u %d\n", parent_graph->rows->at(tree_edges->at(i)) + 1,
-          parent_graph->columns->at(tree_edges->at(i)) + 1,
+          parent_graph->cols->at(tree_edges->at(i)) + 1,
           parent_graph->weights->at(tree_edges->at(i)));
     printf(
         "=================================================================================\n");
@@ -123,7 +123,7 @@ public:
     printf("Printing Non-Tree Edges,count = %d\n", non_tree_edges->size());
     for (int i = 0; i < non_tree_edges->size(); i++)
       printf("%u %u\n", parent_graph->rows->at(non_tree_edges->at(i)) + 1,
-          parent_graph->columns->at(non_tree_edges->at(i)) + 1);
+          parent_graph->cols->at(non_tree_edges->at(i)) + 1);
     printf(
         "=================================================================================\n");
   }

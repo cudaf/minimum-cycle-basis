@@ -57,7 +57,7 @@ public:
 
     for (int i = 0; i < other.rows->size(); i++) {
       this->rows->push_back(other.rows->at(i));
-      this->columns->push_back(other.columns->at(i));
+      this->cols->push_back(other.cols->at(i));
       this->weights->push_back(other.weights->at(i));
       this->reverse_edge->push_back(other.reverse_edge->at(i));
     }
@@ -74,7 +74,7 @@ public:
 
   void insert(int a, int b, int wt, int chain_index, int edge_index,
       bool direction) {
-    columns->push_back(b);
+    cols->push_back(b);
     rows->push_back(a);
     weights->push_back(wt);
     chains->push_back(chain_index);
@@ -110,7 +110,7 @@ public:
     //copy the elements from the row and column array
     for (int i = 0; i < rows->size(); i++)
       combined.push_back(
-          new edge(rows->at(i), columns->at(i), weights->at(i),
+          new edge(rows->at(i), cols->at(i), weights->at(i),
               chains->at(i), edge_original_graph->at(i)));
 
     //assing the reverse_edge_pointers to the correct edge pointers.
@@ -126,7 +126,7 @@ public:
     //copy back the elements into row and columns
     for (int i = 0; i < rows->size(); i++) {
       rows->at(i) = combined[i]->row;
-      columns->at(i) = combined[i]->col;
+      cols->at(i) = combined[i]->col;
       weights->at(i) = combined[i]->weight;
       chains->at(i) = combined[i]->chain_index;
       edge_original_graph->at(i) = combined[i]->original_edge_index;
@@ -185,7 +185,7 @@ public:
     unsigned row, col;
     for (int i = 0; i < tree_edges->size(); i++) {
       row = rows->at(tree_edges->at(i));
-      col = columns->at(tree_edges->at(i));
+      col = cols->at(tree_edges->at(i));
 
       temporary_array.push_back(
           new edge(row, col, 0, 0, (int) tree_edges->at(i)));
@@ -252,9 +252,9 @@ public:
           new_nodes->insert(
               std::make_pair(graph->rows->at(i),
                   new_node_count++));
-        if (new_nodes->find(graph->columns->at(i)) == new_nodes->end())
+        if (new_nodes->find(graph->cols->at(i)) == new_nodes->end())
           new_nodes->insert(
-              std::make_pair(graph->columns->at(i),
+              std::make_pair(graph->cols->at(i),
                   new_node_count++));
       }
     }
@@ -283,9 +283,9 @@ public:
     //add the old edges
     for (int i = 0; i < graph->rows->size(); i++) {
       if (!filter_edges.at(i)) {
-        if (graph->rows->at(i) < graph->columns->at(i))
+        if (graph->rows->at(i) < graph->cols->at(i))
           new_reduced_graph->insert(new_nodes->at(graph->rows->at(i)),
-              new_nodes->at(graph->columns->at(i)),
+              new_nodes->at(graph->cols->at(i)),
               graph->weights->at(i), -1, i, false);
       }
     }

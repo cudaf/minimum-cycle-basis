@@ -40,9 +40,9 @@ std::unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
   unsigned long long src;
   unsigned long long dest;
 
-  for (int i = 0; i < graph->columns->size(); i++) {
+  for (int i = 0; i < graph->cols->size(); i++) {
     src = graph->rows->at(i);
-    dest = graph->columns->at(i);
+    dest = graph->cols->at(i);
 
     result = merge(src, dest);
 
@@ -122,7 +122,7 @@ struct DFS {
           if (graph->bicc_number[i] != component_number)
             continue;
 
-          dest = graph->c_graph->columns->at(i);
+          dest = graph->c_graph->cols->at(i);
 
           if (helper->status[dest] == 0) {
             helper->parent[dest] = src;
@@ -172,7 +172,7 @@ struct DFS {
           assert(edge_index < graph->Edges);
 
           unsigned src_vtx = graph->c_graph->rows->at(edge_index);
-          unsigned dest_vtx = graph->c_graph->columns->at(edge_index);
+          unsigned dest_vtx = graph->c_graph->cols->at(edge_index);
 
           while ((src_vtx != _edge_src) || (dest_vtx != _edge_dest)) {
             edges_per_component->push_back(edge_index);
@@ -189,7 +189,7 @@ struct DFS {
             assert(edge_index < graph->Edges);
 
             src_vtx = graph->c_graph->rows->at(edge_index);
-            dest_vtx = graph->c_graph->columns->at(edge_index);
+            dest_vtx = graph->c_graph->cols->at(edge_index);
           }
 
           if (!bicc_edges->empty()) {
@@ -198,7 +198,7 @@ struct DFS {
             assert(edge_index < graph->Edges);
 
             src_vtx = graph->c_graph->rows->at(edge_index);
-            dest_vtx = graph->c_graph->columns->at(edge_index);
+            dest_vtx = graph->c_graph->cols->at(edge_index);
 
             edges_per_component->push_back(edge_index);
 
@@ -283,7 +283,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
     bicc_edges->pop_back();
 
     src_vtx = graph->c_graph->rows->at(edge_index);
-    dest_vtx = graph->c_graph->columns->at(edge_index);
+    dest_vtx = graph->c_graph->cols->at(edge_index);
 
     ////debug("Removed Edge,src:",src_vtx+1,",dest:",dest_vtx+1);
 
@@ -331,7 +331,7 @@ int dfs_bicc_initializer(unsigned src, int bicc_number, int &new_bicc_number,
       int edge_index = *it;
 
       int src_vtx = dfs_worker->graph->c_graph->rows->at(edge_index);
-      int dest_vtx = dfs_worker->graph->c_graph->columns->at(edge_index);
+      int dest_vtx = dfs_worker->graph->c_graph->cols->at(edge_index);
 
       _src_component = src_vtx;
 

@@ -73,7 +73,7 @@ struct worker_thread {
 
         storage->add_cycle(src,
             helper->graph->rows->at(non_tree_edges->at(i)),
-            helper->graph->columns->at(non_tree_edges->at(i)), cle);
+            helper->graph->cols->at(non_tree_edges->at(i)), cle);
 
         count_cycle++;
       }
@@ -124,7 +124,7 @@ struct worker_thread {
 
         storage->add_cycle(src,
             helper->graph->rows->at(non_tree_edges->at(i)),
-            helper->graph->columns->at(non_tree_edges->at(i)), cle);
+            helper->graph->cols->at(non_tree_edges->at(i)), cle);
 
         count_cycle++;
       }

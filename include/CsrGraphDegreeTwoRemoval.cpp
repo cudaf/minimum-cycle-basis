@@ -118,7 +118,7 @@ std::vector<unsigned> *CsrGraph::mark_degree_two_chains(
 
   };
 
-  DFS_HELPER helper(rows, columns, rowOffsets, degree, chain, Nodes);
+  DFS_HELPER helper(rows, cols, rowOffsets, degree, chain, Nodes);
 
   std::vector<unsigned> *edge_removal_list = helper.run_dfs(src);
 

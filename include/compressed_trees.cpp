@@ -66,7 +66,7 @@ void compressed_trees::copy(int index, std::vector<unsigned> *tree_edges,
 			continue;
 		}
 
-		col = parent_graph->columns->at(offset);
+		col = parent_graph->cols->at(offset);
 
 		assert(col == i);
 
@@ -94,7 +94,7 @@ void compressed_trees::print_tree() {
 			int edge_offset = parent[0][i * original_nodes + j];
 			if (edge_offset != -1) {
 				printf("%d - %d, %d\n", parent_graph->rows->at(edge_offset) + 1,
-						parent_graph->columns->at(edge_offset) + 1,
+						parent_graph->cols->at(edge_offset) + 1,
 						precompute_value[0][i * original_nodes + j]);
 			}
 		}

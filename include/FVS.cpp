@@ -66,7 +66,7 @@ void FVS::pruning(int node_id) {
     for (int i = input_graph->rowOffsets->at(first_element);
         i < input_graph->rowOffsets->at(first_element + 1); i++) {
       row = input_graph->rows->at(i);
-      col = input_graph->columns->at(i);
+      col = input_graph->cols->at(i);
 
       if (node_status[col] == 1) {
         input_graph->degree->at(col)--;if
@@ -109,7 +109,7 @@ bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
 
     for (int i = input_graph->rowOffsets->at(nid);
         i < input_graph->rowOffsets->at(nid + 1); i++) {
-      col = input_graph->columns->at(i);
+      col = input_graph->cols->at(i);
       if (is_vtx_in_fvs[col] == 1)
         continue;
       else if (!visited[col]) {
