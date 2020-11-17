@@ -1,5 +1,6 @@
 #include "gpu_struct.cuh"
 #include "common.cuh"
+#include "utils.h"
 
 
 //Get block of data from pitched pointer and pitch size
@@ -103,7 +104,7 @@ void gpu_struct::Kernel_multi_search_helper(int start, int end, int stream_index
   int total_length = end - start;
 
   __kernel_multi_search_shuffle_based<<<
-      (int) ceil((double) total_length / 16), 512, 0,
+      CEILDIV(total_length, 16), 512, 0,
       streams[stream_index]>>>(d_row_offset, d_columns, original_nodes,
       d_precompute_array, start, end, chunk_size, stream_index);
 }

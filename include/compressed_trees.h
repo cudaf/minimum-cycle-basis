@@ -32,7 +32,7 @@ struct compressed_trees {
     parent_graph = graph;
     original_nodes = graph->Nodes;
     pinned_memory = false;
-    int r = (int) ceil((double) N / chunk_size);
+    int r = CEILDIV(N, chunk_size);
     num_rows = r;
     tree_rows = new unsigned*[num_rows];
     tree_cols = new unsigned*[num_rows];
@@ -72,7 +72,7 @@ struct compressed_trees {
     pinned_memory = true;
     pinned_memory_allocator = mem_alloc;
     free_pinned_memory = mem_free;
-    int r = (int) ceil((double) N / chunk_size);
+    int r = CEILDIV(N, chunk_size);
     num_rows = r;
     tree_rows = new unsigned*[num_rows];
     tree_cols = new unsigned*[num_rows];

@@ -177,9 +177,9 @@ int main(int argc, char* argv[]) {
   }
 
   chunk_size = 720;
-  nstreams = (int)ceil((double)fvs_helper.get_num_elements()/ chunk_size);
+  nstreams = CEILDIV(fvs_helper.get_num_elements(), chunk_size);
   int max_chunk_size = calculate_chunk_size(reduced_graph->Nodes, non_tree_edges_map.size(),
-      (int) (ceil((double) num_non_tree_edges / 64)), nstreams);
+      CEILDIV(num_non_tree_edges, 64), nstreams);
   bool multiple_transfers = true;
 
   if(chunk_size <= max_chunk_size)
