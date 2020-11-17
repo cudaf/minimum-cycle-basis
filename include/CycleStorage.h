@@ -44,7 +44,7 @@ struct CycleStorage {
     list_cycles.clear();
   }
 
-  void add_cycle(int root, int u, int v, Cycle *cle) {
+  void add(int root, int u, int v, Cycle *cle) {
     uint64_t index = combine(min(u, v), max(u, v));
     if (list_cycles[root].find(index) == list_cycles[root].end())
       list_cycles[root].insert(make_pair(index, new CommonCycles(cle)));
