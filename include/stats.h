@@ -1,9 +1,8 @@
-#ifndef _STATS_H
-#define _STATS_H
-
+#pragma once
 #include <iostream>
 #include <cstdio>
 #include <unistd.h>
+
 
 struct stats {
   int num_nodes_removed;
@@ -64,7 +63,6 @@ struct stats {
     variable_memory_usage = 0;
 
     gpu_timings = 0;
-
     load_entire_memory = true;
   }
 
@@ -255,18 +253,15 @@ struct stats {
 
   void print_stats(char *output_file) {
     bool file_exist = false;
-
     if (access(output_file, F_OK) != -1) {
       file_exist = true;
     } else {
       file_exist = false;
     }
-
     FILE *fout = fopen(output_file, "a");
     debug("print_stats: writing to file", output_file);
 
     if (!file_exist) {
-
       if (!is_gpu_timings)
         fprintf(fout,
           "Total_Nodes,"
@@ -334,9 +329,6 @@ struct stats {
           cycle_inspection_time, gpu_timings, independence_test_time,
           time_construction_trees + time_collect_cycles, total_time,
           total_time + time_construction_trees + time_collect_cycles);
-
     fclose(fout);
   }
 };
-
-#endif
