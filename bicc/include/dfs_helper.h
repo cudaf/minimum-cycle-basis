@@ -1,27 +1,21 @@
-#ifndef DFS_HELPER_H
-#define DFS_HELPER_H
+#pragma once
+
 
 struct dfs_helper {
   const int NIL = -1;
-
   int Nodes;
-
   int *low;
   int *discovery;
   int *parent;
-
   std::stack<unsigned> _stack;
-
   unsigned char *status;
 
   dfs_helper(int N) {
     Nodes = N;
-
     low = new int[Nodes];
     discovery = new int[Nodes];
     parent = new int[Nodes];
     status = new unsigned char[Nodes];
-
     initialize_arrays();
   }
 
@@ -42,10 +36,7 @@ struct dfs_helper {
     delete[] discovery;
     delete[] parent;
     delete[] status;
-
     while (!_stack.empty())
       _stack.pop();
   }
 };
-
-#endif
