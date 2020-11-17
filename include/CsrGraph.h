@@ -7,6 +7,7 @@
 
 using std::string;
 using std::vector;
+using std::sort;
 
 
 class CsrGraph {
@@ -115,7 +116,7 @@ public:
       combined.push_back(
           new Edge(rows->at(i), cols->at(i), weights->at(i)));
     //Sort the elements first by row, then by column
-    std::sort(combined.begin(), combined.end(), compare());
+    sort(combined.begin(), combined.end(), compare());
     //copy back the elements into row and columns
     for (int i = 0; i < rows->size(); i++) {
       rows->at(i) = combined[i]->row;

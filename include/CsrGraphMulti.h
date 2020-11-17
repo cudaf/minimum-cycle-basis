@@ -5,6 +5,7 @@
 using std::vector;
 using std::unordered_map;
 using std::make_pair;
+using std::sort;
 
 
 class CsrGraphMulti : public CsrGraph {
@@ -107,7 +108,7 @@ public:
       combined[i]->reverse_edge_ptr = combined[reverse_edge->at(i)];
 
     //Sort the elements first by row, then by column
-    std::sort(combined.begin(), combined.end(), compare());
+    sort(combined.begin(), combined.end(), compare());
     for (int i = 0; i < rows->size(); i++)
       combined[i]->reverse_edge_ptr->reverse_edge_index = i;
 
