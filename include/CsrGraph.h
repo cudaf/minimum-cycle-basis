@@ -82,7 +82,7 @@ public:
       vector<unsigned> *ear_decomposition, int src);
   vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
 
-  inline void getEdge(int i, unsigned &row, unsigned &col, int &weight) {
+  inline void getEdge(int i, int &row, int &col, int &weight) {
     assert(i < rows->size());
     row = rows->at(i);
     col = cols->at(i);
