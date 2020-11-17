@@ -89,7 +89,7 @@ public:
     weight = weights->at(i);
   }
 
-  unsigned pathWeight(vector<unsigned> &edges, unsigned &row, unsigned &col) {
+  int pathWeight(vector<unsigned> &edges, int &row, int &col) {
     int a = 0;
     int M = edges.size();
     col = cols->at(edges.at(0));
