@@ -29,7 +29,9 @@
 #include "FVS.h"
 
 using std::string;
+using std::list;
 using std::vector;
+using std::fill;
 
 
 debugger dbg;
@@ -104,7 +106,7 @@ int main(int argc, char* argv[]) {
   initial_spanning_tree->print_non_tree_edges();
 
   vector<int> non_tree_edges_map(reduced_graph->rows->size());
-  std::fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
+  fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
 
   debug("Map of non-tree edges");
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++) {
@@ -141,7 +143,7 @@ int main(int argc, char* argv[]) {
   }
 
   vector<Cycle*> list_cycle_vec;
-  std::list<Cycle*> list_cycle;
+  list<Cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
     for (auto&& it : storage->list_cycles[j]) {
