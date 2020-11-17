@@ -49,12 +49,12 @@ public:
 		weights = new vector<int>();
 	}
 
-	int get_num_degree_two_vertices() {
-		int num = 0;
-		for (int i = 0; i < degree->size(); i++)
-			if (degree->at(i) == 2)
-				num++;
-		return num;
+	int countVerticesOfDegree(int d) {
+		int a = 0;
+		int N = degree->size();
+		for (int i=0; i<N; i++)
+			if (degree->at(i) == d) a++;
+		return a;
 	}
 
 	int get_total_weight() {
