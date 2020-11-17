@@ -255,8 +255,8 @@ struct bicc_graph {
         FILE *file_ref = fout.file;
         // write the info about Articulation Points here...
         fprintf(file_ref, "%d\n", articulation_points.size());
-        for (auto ij = articulation_points.begin(); ij != articulation_points.end(); ij++) {
-          fprintf(file_ref, "%d\n", (*ij) + 1);
+        for (auto&& ij : articulation_points) {
+          fprintf(file_ref, "%d\n", ij+1);
         }
         fout.close();
 
