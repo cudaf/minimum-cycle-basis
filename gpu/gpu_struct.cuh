@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "gpu_task.h"
 #include "BitVector.h"
-#include "gputimer.h"
+#include "GpuTimer"
 #include "Stats.h"
 
 #include <stdio.h>
