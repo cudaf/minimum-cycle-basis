@@ -71,7 +71,7 @@ public:
       distance->push_back(helper.distance[i]);
   }
 
-  inline void get_edge_endpoints(unsigned &row, unsigned &col, int &weight, unsigned &offset) {
+  inline void get_edge_endpoints(int &row, int &col, int &weight, int &offset) {
     parent_graph->getEdge(offset, row, col, weight);
   }
 
