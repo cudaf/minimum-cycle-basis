@@ -116,12 +116,9 @@ int main(int argc, char* argv[]) {
 
   int source_vertex;
 
-  vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(
-      &chains, source_vertex);
+  vector<unsigned> *remove_edge_list = graph->mark_degree_two_chains(&chains, source_vertex);
   //initial_spanning_tree.populate_tree_edges(true,NULL,source_vertex);
-
-  vector<vector<unsigned> > *edges_new_list = new vector<
-      vector<unsigned> >();
+  vector<vector<unsigned> > *edges_new_list = new vector<vector<unsigned> >();
 
   int nodes_removed = 0;
 
@@ -209,8 +206,7 @@ int main(int argc, char* argv[]) {
   worker_thread **multi_work = new worker_thread*[num_threads];
 
   for (int i = 0; i < num_threads; i++)
-    multi_work[i] = new worker_thread(reduced_graph, storage, fvs_array,
-        &trees);
+    multi_work[i] = new worker_thread(reduced_graph, storage, fvs_array, &trees);
 
   //Record time for producing SP trees.
   debug("Record time for producing SP trees.");
@@ -223,8 +219,7 @@ int main(int argc, char* argv[]) {
 #pragma omp parallel for reduction(+:count_cycles)
   for (int i = 0; i < trees.fvs_size; ++i) {
     int threadId = omp_get_thread_num();
-    count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i,
-        reduced_graph);
+    count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
   info.setTimeConstructionTrees(globalTimer.elapsed());
 
