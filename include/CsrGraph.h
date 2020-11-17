@@ -59,7 +59,7 @@ public:
     int a = 0;
     int N = degree->size();
     for (int i=0; i<N; i++)
-      if (degree->at(i) == d) a++;
+      if (degree[i] == d) a++;
     return a;
   }
 
