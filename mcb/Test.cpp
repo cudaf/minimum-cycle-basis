@@ -209,8 +209,7 @@ int main(int argc, char* argv[]) {
     unsigned src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;
 
-    for (std::list<cycle*>::iterator cycle = list_cycle.begin();
-        cycle != list_cycle.end(); cycle++) {
+    for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
       src = (*cycle)->get_root();
       src_index = trees.vertices_map[src];
 
