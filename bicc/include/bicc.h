@@ -159,9 +159,9 @@ struct bicc_graph {
       }
     }
 
-    for (auto it = edge_list_component.begin(); it != edge_list_component.end(); it++) {
-      for (auto ij = it->second->begin(); ij != it->second->end(); ij++) {
-        int edge_index = *ij;
+    for (auto&& it : edge_list_component) {
+      for (auto&& ij : it.second) {
+        int edge_index = ij;
         ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
       }
     }
