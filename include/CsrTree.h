@@ -18,7 +18,7 @@ public:
 
   struct compare {
     CsrGraphMulti *parent_graph;
-    compare(csr_multi_graph *graph) {
+    compare(CsrGraphMulti *graph) {
       parent_graph = graph;
     }
     bool operator()(const unsigned &A, const unsigned &B) const {
@@ -26,7 +26,7 @@ public:
     }
   };
 
-  csr_tree(csr_multi_graph *graph) {
+  csr_tree(CsrGraphMulti *graph) {
     parent_graph = graph;
     assert(parent_graph != NULL);
     assert(parent_graph->rows->size() == parent_graph->cols->size());
