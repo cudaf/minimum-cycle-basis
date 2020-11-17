@@ -78,11 +78,11 @@ public:
   vector<int> *get_parent_edges() {
     vector<int> *v = new vector<int>();
     assert(tree_edges != NULL);
-    unsigned row, col;
+    int row, col;
     v->at(root) = -1;
 
     for (int i = 0; i < tree_edges->size(); i++) {
-      unsigned edge = tree_edges->at(i);
+      int edge = tree_edges->at(i);
       row = parent_graph->rows->at(i);
       col = parent_graph->cols->at(i);
       v->at(col) = row;

@@ -10,7 +10,7 @@ using std::vector;
 struct cycle {
   compressed_trees *trees;
   int root;
-  unsigned non_tree_edge_index;
+  int non_tree_edge_index;
   int total_length;
   int ID;
 
@@ -24,13 +24,13 @@ struct cycle {
     }
   };
 
-  cycle(compressed_trees *tr, int root, unsigned index) {
+  cycle(compressed_trees *tr, int root, int index) {
     trees = tr;
     non_tree_edge_index = index;
     this->root = root;
   }
 
-  unsigned get_root() {
+  int get_root() {
     return root;
   }
 
@@ -70,8 +70,8 @@ struct cycle {
    */
   BitVector *get_cycle_vector(vector<int> &non_tree_edges, int num_elements) {
     BitVector *vector = new BitVector(num_elements);
-    unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
-    unsigned col = trees->parent_graph->cols->at(non_tree_edge_index);
+    int row = trees->parent_graph->rows->at(non_tree_edge_index);
+    int col = trees->parent_graph->cols->at(non_tree_edge_index);
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)
@@ -123,8 +123,8 @@ struct cycle {
    */
   void *get_cycle_vector(vector<int> &non_tree_edges, int num_elements, BitVector *cycle_vector) {
     cycle_vector->init();
-    unsigned row = trees->parent_graph->rows->at(non_tree_edge_index);
-    unsigned col = trees->parent_graph->cols->at(non_tree_edge_index);
+    int row = trees->parent_graph->rows->at(non_tree_edge_index);
+    int col = trees->parent_graph->cols->at(non_tree_edge_index);
 
     //set flag for the current edge
     if (non_tree_edges[non_tree_edge_index] >= 0)

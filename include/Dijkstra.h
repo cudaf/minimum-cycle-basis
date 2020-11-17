@@ -89,9 +89,9 @@ struct dijkstra {
       }
 
       in_tree[val.first] = true;
-      for (unsigned offset = graph->rowOffsets->at(val.first);
+      for (int offset = graph->rowOffsets->at(val.first);
           offset < graph->rowOffsets->at(val.first + 1); offset++) {
-        unsigned column = graph->cols->at(offset);
+        int column = graph->cols->at(offset);
         if (!in_tree[column]) {
           int edge_weight = graph->weights->at(offset);
           if (distance[column] == -1) {
@@ -139,7 +139,7 @@ struct dijkstra {
 
   void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols,
       unsigned *csr_nodes_index, int *csr_edge_offset, int *csr_parent,
-      int *csr_distance, unsigned src) {
+      int *csr_distance, int src) {
     vector<edge_sorter> edges;
     edges.push_back(edge_sorter(-1, 0));
 
@@ -174,7 +174,7 @@ struct dijkstra {
       }
     }
 
-    unsigned prev = 0, temp;
+    int prev = 0, temp;
     for (int i = 0; i <= Nodes; i++) {
       temp = csr_rows[i];
       csr_rows[i] = prev;
@@ -184,7 +184,7 @@ struct dijkstra {
     edges.clear();
   }
 
-  bool is_edge_cycle(unsigned edge_offset, int &total_weight, unsigned src) {
+  bool is_edge_cycle(int edge_offset, int &total_weight, int src) {
     int row, col, orig_row, orig_col;
     total_weight = 0;
     orig_row = row = graph->rows->at(edge_offset);
