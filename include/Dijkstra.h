@@ -3,6 +3,9 @@
 #include <vector>
 
 
+using std::vector;
+
+
 struct edge_sorter {
   int edge_offsets;
   int level;
@@ -20,12 +23,12 @@ struct edge_sorter {
 
 struct dijkstra {
   int Nodes;
-  std::vector<int> distance;
-  std::vector<bool> in_tree;
-  std::vector<int> edge_offsets;
-  std::vector<int> level;
-  std::vector<int> parent;
-  std::vector<unsigned> *tree_edges;
+  vector<int> distance;
+  vector<bool> in_tree;
+  vector<int> edge_offsets;
+  vector<int> level;
+  vector<int> parent;
+  vector<unsigned> *tree_edges;
   csr_multi_graph *graph;
   int *fvs_array;
 
@@ -34,7 +37,7 @@ struct dijkstra {
       return (a.second > b.second);
     }
   };
-  std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, Compare> pq;
+  std::priority_queue<std::pair<int, int>, vector<std::pair<int, int>>, Compare> pq;
 
   dijkstra(int nodes, csr_multi_graph *input_graph, int *fvs_array) {
     Nodes = nodes;
@@ -69,7 +72,7 @@ struct dijkstra {
   }
 
   void dijkstra_sp(unsigned src) {
-    tree_edges = new std::vector<unsigned>();
+    tree_edges = new vector<unsigned>();
     distance[src] = 0;
     level[src] = 0;
     parent[src] = -1;
@@ -113,8 +116,8 @@ struct dijkstra {
 #endif
   }
 
-  void compute_non_tree_edges(std::vector<unsigned> **non_tree_edges) {
-    std::vector<unsigned char> is_tree_edge(graph->rows->size());
+  void compute_non_tree_edges(vector<unsigned> **non_tree_edges) {
+    vector<unsigned char> is_tree_edge(graph->rows->size());
     for (int i = 0; i < tree_edges->size(); i++)
       is_tree_edge[tree_edges->at(i)] = 1;
 
@@ -137,7 +140,7 @@ struct dijkstra {
   void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols,
       unsigned *csr_nodes_index, int *csr_edge_offset, int *csr_parent,
       int *csr_distance, unsigned src) {
-    std::vector<edge_sorter> edges;
+    vector<edge_sorter> edges;
     edges.push_back(edge_sorter(-1, 0));
 
     for (int i = 0; i < tree_edges->size(); i++) {
