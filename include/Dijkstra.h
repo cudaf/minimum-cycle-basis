@@ -8,22 +8,22 @@ using std::priority_queue;
 using std::make_pair;
 
 
-struct edge_sorter {
+struct EdgeSorter {
   int edge_offsets;
   int level;
 
-  edge_sorter(int e, int l) :
+  EdgeSorter(int e, int l) :
       edge_offsets(e), level(l) {
   }
 
   struct compare {
-    bool operator()(const edge_sorter &a, const edge_sorter &b) {
+    bool operator()(const EdgeSorter &a, const EdgeSorter &b) {
       return (a.level < b.level);
     }
   };
 };
 
-struct dijkstra {
+struct Dijkstra {
   int Nodes;
   vector<int> distance;
   vector<bool> in_tree;
@@ -41,7 +41,7 @@ struct dijkstra {
   };
   priority_queue<pair<int, int>, vector<pair<int, int>>, Compare> pq;
 
-  dijkstra(int nodes, CsrGraphMulti *input_graph, int *fvs_array) {
+  Dijkstra(int nodes, CsrGraphMulti *input_graph, int *fvs_array) {
     Nodes = nodes;
     graph = input_graph;
     distance.resize(nodes);
@@ -54,7 +54,7 @@ struct dijkstra {
     for (int i = 0; i < nodes; i++)
       distance[i] = -1;
   }
-  ~dijkstra() {
+  ~Dijkstra() {
     distance.clear();
     in_tree.clear();
     parent.clear();
@@ -140,17 +140,17 @@ struct dijkstra {
 
   void fill_tree_edges(unsigned *csr_rows, unsigned *csr_cols, unsigned *csr_nodes_index,
       int *csr_edge_offset, int *csr_parent, int *csr_distance, int src) {
-    vector<edge_sorter> edges;
-    edges.push_back(edge_sorter(-1, 0));
+    vector<EdgeSorter> edges;
+    edges.push_back(EdgeSorter(-1, 0));
 
     for (int i = 0; i < tree_edges->size(); i++) {
       int offset = tree_edges->at(i);
       int row = graph->rows->at(offset);
       int col = graph->cols->at(offset);
-      edges.push_back(edge_sorter(offset, level[col]));
+      edges.push_back(EdgeSorter(offset, level[col]));
     }
 
-    sort(edges.begin(), edges.end(), edge_sorter::compare());
+    sort(edges.begin(), edges.end(), EdgeSorter::compare());
     assert(edges.size() == Nodes);
 
     //edges array
