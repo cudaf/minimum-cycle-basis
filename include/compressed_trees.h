@@ -102,89 +102,89 @@ struct compressed_trees {
 
     tree_rows = new unsigned*[num_rows];
     tree_cols = new unsigned*[num_rows];
-  	edge_offset = new int*[num_rows];
-		parent = new int*[num_rows];
-		distance = new int*[num_rows];
-		nodes_index = new unsigned*[num_rows];
+    edge_offset = new int*[num_rows];
+    parent = new int*[num_rows];
+    distance = new int*[num_rows];
+    nodes_index = new unsigned*[num_rows];
 
-		precompute_value = new unsigned*[num_rows];
-		test_temp = new unsigned*[num_rows];
+    precompute_value = new unsigned*[num_rows];
+    test_temp = new unsigned*[num_rows];
 
-		for (int i = 0; i < num_rows; i++) {
-			tree_rows[i] = pinned_memory_allocator(chunk, original_nodes + 1);
-			tree_cols[i] = pinned_memory_allocator(chunk, original_nodes);
-			edge_offset[i] = (int*) pinned_memory_allocator(chunk,
-					original_nodes);
+    for (int i = 0; i < num_rows; i++) {
+      tree_rows[i] = pinned_memory_allocator(chunk, original_nodes + 1);
+      tree_cols[i] = pinned_memory_allocator(chunk, original_nodes);
+      edge_offset[i] = (int*) pinned_memory_allocator(chunk,
+          original_nodes);
 
-			parent[i] = new int[chunk * original_nodes];
-			distance[i] = new int[chunk * original_nodes];
-			nodes_index[i] = new unsigned[chunk * original_nodes];
+      parent[i] = new int[chunk * original_nodes];
+      distance[i] = new int[chunk * original_nodes];
+      nodes_index[i] = new unsigned[chunk * original_nodes];
 
-			precompute_value[i] = pinned_memory_allocator(chunk,
-					original_nodes);
+      precompute_value[i] = pinned_memory_allocator(chunk,
+          original_nodes);
 
-			memset(tree_rows[i], 0,
-					sizeof(unsigned) * chunk * (original_nodes + 1));
+      memset(tree_rows[i], 0,
+          sizeof(unsigned) * chunk * (original_nodes + 1));
 
-		}
+    }
 
-		final_vertices = new unsigned[fvs_size];
+    final_vertices = new unsigned[fvs_size];
 
-		vertices_map = fvs_array;
+    vertices_map = fvs_array;
 
-		for (int i = 0; i < original_nodes; i++)
-			if (vertices_map[i] != -1) {
-				assert(vertices_map[i] < fvs_size);
-				final_vertices[vertices_map[i]] = i;
-			}
+    for (int i = 0; i < original_nodes; i++)
+      if (vertices_map[i] != -1) {
+        assert(vertices_map[i] < fvs_size);
+        final_vertices[vertices_map[i]] = i;
+      }
 
-	}
+  }
 
-	void clear_memory() {
-		for (int i = 0; i < num_rows; i++) {
-			if (pinned_memory) {
-				free_pinned_memory(tree_rows[i]);
-				free_pinned_memory(tree_cols[i]);
-				free_pinned_memory((unsigned *) edge_offset[i]);
-				free_pinned_memory(precompute_value[i]);
-			} else {
-				delete[] tree_rows[i];
-				delete[] tree_cols[i];
-				delete[] edge_offset[i];
-				delete[] precompute_value[i];
-			}
+  void clear_memory() {
+    for (int i = 0; i < num_rows; i++) {
+      if (pinned_memory) {
+        free_pinned_memory(tree_rows[i]);
+        free_pinned_memory(tree_cols[i]);
+        free_pinned_memory((unsigned *) edge_offset[i]);
+        free_pinned_memory(precompute_value[i]);
+      } else {
+        delete[] tree_rows[i];
+        delete[] tree_cols[i];
+        delete[] edge_offset[i];
+        delete[] precompute_value[i];
+      }
 
-			delete[] parent[i];
-			delete[] distance[i];
-			delete[] nodes_index[i];
-		}
+      delete[] parent[i];
+      delete[] distance[i];
+      delete[] nodes_index[i];
+    }
 
-		delete[] tree_rows;
-		delete[] tree_cols;
-		delete[] parent;
-		delete[] edge_offset;
-		delete[] precompute_value;
-		delete[] distance;
-		delete[] final_vertices;
-		delete[] nodes_index;
-	}
+    delete[] tree_rows;
+    delete[] tree_cols;
+    delete[] parent;
+    delete[] edge_offset;
+    delete[] precompute_value;
+    delete[] distance;
+    delete[] final_vertices;
+    delete[] nodes_index;
+  }
 
-	int get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
-			int **csr_edge_offset, int **csr_parent, int **csr_distance,
-			int node_index);
+  int get_node_arrays(unsigned **csr_rows, unsigned **csr_cols,
+      int **csr_edge_offset, int **csr_parent, int **csr_distance,
+      int node_index);
 
-	int get_node_arrays_warp(unsigned **csr_rows, unsigned **csr_cols,
-			int **csr_edge_offset, int **csr_parent, int **csr_distance,
-			unsigned **csr_nodes_index, int node_index);
+  int get_node_arrays_warp(unsigned **csr_rows, unsigned **csr_cols,
+      int **csr_edge_offset, int **csr_parent, int **csr_distance,
+      unsigned **csr_nodes_index, int node_index);
 
-	int get_precompute_array(unsigned **precompute_tree, int node_index);
+  int get_precompute_array(unsigned **precompute_tree, int node_index);
 
-	int get_index(int original_node);
+  int get_index(int original_node);
 
-	void copy(int index, std::vector<unsigned> *tree_edges,
-			std::vector<int> *parent_edges, std::vector<int> *distances);
+  void copy(int index, std::vector<unsigned> *tree_edges,
+      std::vector<int> *parent_edges, std::vector<int> *distances);
 
-	void print_tree();
+  void print_tree();
 };
 
 #endif
