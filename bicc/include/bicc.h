@@ -78,9 +78,9 @@ struct bicc_graph {
     unsigned src_vtx;
     unsigned dest_vtx;
 
-    for (auto it = edge_list->begin(); it != edge_list->end(); it++) {
-      src_vtx = c_graph->rows->at(*it);
-      dest_vtx = c_graph->cols->at(*it);
+    for (auto it : edge_list) {
+      src_vtx = c_graph->rows->at(it);
+      dest_vtx = c_graph->cols->at(it);
 
       ////debug("edges for component,",component_number,"are",src_vtx + 1,dest_vtx + 1);
       degree_nodes[src_vtx]++;
