@@ -37,6 +37,7 @@ public:
   std::vector<unsigned> *reverse_edge;
   std::vector<int> *chains;
   std::vector<int> *edge_original_graph;
+  
   csr_multi_graph() {
     reverse_edge = new std::vector<unsigned>();
     chains = new std::vector<int>();
@@ -66,7 +67,6 @@ public:
 
     for (int i = 0; i < other.rowOffsets->size(); i++)
       this->rowOffsets->push_back(other.rowOffsets->at(i));
-
     return;
   }
 
@@ -82,15 +82,11 @@ public:
       reverse_edge->push_back(rows->size());
     else
       reverse_edge->push_back(rows->size() - 2);
-
     if (!direction)
       insert(b, a, wt, chain_index, edge_index, true);
   }
+
   //Calculate the degree of the vertices and create the rowOffset
-  /**
-   * @brief [brief description]
-   * @details [long description]
-   */
   void calculateDegreeandRowOffset() {
     rowOffsets->resize(Nodes + 1);
     degree->resize(Nodes);
@@ -101,7 +97,6 @@ public:
     }
 
     rowOffsets->at(Nodes) = 0;
-
     //Allocate a pair array for rows and columns array
     std::vector<edge*> combined;
 
@@ -117,7 +112,6 @@ public:
 
     //Sort the elements first by row, then by column
     std::sort(combined.begin(), combined.end(), compare());
-
     for (int i = 0; i < rows->size(); i++)
       combined[i]->reverse_edge_ptr->reverse_edge_index = i;
 
@@ -128,9 +122,7 @@ public:
       weights->at(i) = combined[i]->weight;
       chains->at(i) = combined[i]->chain_index;
       edge_original_graph->at(i) = combined[i]->original_edge_index;
-
       assert(combined[i]->reverse_edge_index < rows->size());
-
       reverse_edge->at(i) = combined[i]->reverse_edge_index;
     }
 
@@ -139,14 +131,12 @@ public:
 
     combined.clear();
     //Now calculate the row_offset
-
     for (int i = 0; i < rows->size(); i++) {
       unsigned curr_row = rows->at(i);
-
-      rowOffsets->at(curr_row)++;}
+      rowOffsets->at(curr_row)++;
+    }
 
     unsigned prev = 0, current;
-
     for (int i = 0; i <= Nodes; i++) {
       current = rowOffsets->at(i);
       rowOffsets->at(i) = prev;
@@ -156,25 +146,12 @@ public:
     for (int i = 0; i < Nodes; i++) {
       degree->at(i) = rowOffsets->at(i + 1) - rowOffsets->at(i);
     }
-
     assert(rowOffsets->at(Nodes) == rows->size());
-
 #ifdef INFO
     printf("row_offset size = %d,columns size = %d\n",rowOffsets->size(),columns->size());
 #endif
-
   }
 
-  /**
-   * @brief [brief description]
-   * @details [long description]
-   *
-   * @param r [description]
-   * @param c [description]
-   * @param e [description]
-   * @param tree_edges [description]
-   * @param src [description]
-   */
   void fill_tree_edges(unsigned *r, unsigned *c, int *e,
       std::vector<unsigned> *tree_edges, unsigned src) {
     assert(tree_edges->size() + 1 == Nodes);
@@ -184,12 +161,10 @@ public:
     for (int i = 0; i < tree_edges->size(); i++) {
       row = rows->at(tree_edges->at(i));
       col = cols->at(tree_edges->at(i));
-
-      temporary_array.push_back(
-          new edge(row, col, 0, 0, (int) tree_edges->at(i)));
+      temporary_array.push_back(new edge(row, col, 0, 0, (int) tree_edges->at(i)));
     }
-    sort(temporary_array.begin(), temporary_array.end(), compare());
 
+    sort(temporary_array.begin(), temporary_array.end(), compare());
     for (int i = 0; i < temporary_array.size(); i++) {
       r[temporary_array[i]->row]++;
       c[i] = temporary_array[i]->col;
@@ -197,9 +172,7 @@ public:
     }
 
     e[temporary_array.size()] = -1;
-
     unsigned prev = 0, current;
-
     for (int i = 0; i <= Nodes; i++) {
       current = r[i];
       r[i] = prev;
@@ -208,19 +181,9 @@ public:
 
     for (int i = 0; i < temporary_array.size(); i++)
       delete temporary_array[i];
-
     temporary_array.clear();
   }
 
-  /**
-   * @brief [brief description]
-   * @details [long description]
-   *
-   * @param non_tree_edges [description]
-   * @param src [description]
-   *
-   * @return [description]
-   */
   std::vector<unsigned> *get_spanning_tree(
       std::vector<unsigned> **non_tree_edges, int src);
 
@@ -238,7 +201,6 @@ public:
       filter_edges[remove_edge_list->at(i)] = true;
 
     csr_multi_graph *new_reduced_graph = new csr_multi_graph();
-
     std::unordered_map<unsigned, unsigned> *new_nodes =
         new std::unordered_map<unsigned, unsigned>();
 
@@ -289,11 +251,8 @@ public:
     }
 
     new_nodes->clear();
-
     new_reduced_graph->calculateDegreeandRowOffset();
-
     filter_edges.clear();
-
     return new_reduced_graph;
   }
 };
