@@ -25,10 +25,8 @@ protected:
 
   struct compare {
     bool operator()(const Edge *a, const Edge *b) const {
-      if (a->row == b->row)
-        return (a->col < b->col);
-      else
-        return (a->row < b->row);
+      if (a->row == b->row) return (a->col < b->col);
+      else return (a->row < b->row);
     }
   };
 
