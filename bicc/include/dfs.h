@@ -27,29 +27,17 @@ inline uint64_t merge(uint64_t upper, uint64_t lower) {
 /**
  * @brief This method is used to store an unordered_map<uint64_t,int>
  * @details This unordered map is generated as src-dest and index of the edge .
- * 
  * @param graph c_graph representation
- * @return [description]
  */
-unordered_map<uint64_t, int> *create_map(CsrGraph *graph) {
-  unordered_map<uint64_t, int> *edge_map = NULL;
-
-  if (edge_map != NULL)
-    return edge_map;
-
-  unordered_map<uint64_t, int> *custom_map = new unordered_map<uint64_t, int>();
-  uint64_t result;
-  uint64_t src;
-  uint64_t dest;
-
+unordered_map<uint64_t, int>* create_map(CsrGraph *graph) {
+  auto a = new unordered_map<uint64_t, int>();
   for (int i = 0; i < graph->cols->size(); i++) {
-    src = graph->rows->at(i);
-    dest = graph->cols->at(i);
-    result = merge(src, dest);
-    custom_map->insert(make_pair(result, i));
+    uint64_t row = graph->rows->at(i);
+    uint64_t col = graph->cols->at(i);
+    uint64_t res = merge(row, col);
+    a->insert(make_pair(res, i));
   }
-  edge_map = custom_map;
-  return edge_map;
+  return a;
 
 }
 
