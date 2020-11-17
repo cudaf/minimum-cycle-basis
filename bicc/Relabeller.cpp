@@ -22,14 +22,17 @@
 #include "CsrGraph.h"
 #include "CsrTree.h"
 
+using std::string;
+using std::vector;
+using std::unordered_map;
+
 
 debugger dbg;
 HostTimer globalTimer;
-std::string InputFileName;
-std::string OutputFileName;
+string InputFileName;
+string OutputFileName;
 double totalTime = 0;
-std::unordered_map<unsigned, unsigned> forward_order;
-
+unordered_map<unsigned, unsigned> forward_order;
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
@@ -47,7 +50,7 @@ int main(int argc, char* argv[]) {
   omp_set_num_threads(num_threads);
 
   //Open the FileReader class
-  std::string InputFilePath = InputFileName;
+  string InputFilePath = InputFileName;
   //Read the Inputfile.
   FileReader Reader(InputFilePath.c_str());
 
@@ -57,7 +60,7 @@ int main(int argc, char* argv[]) {
   Reader.get_nodes_edges(nodes, edges);
   int count = 0;
 
-  std::vector<std::vector<unsigned> > edge_lists;
+  vector<vector<unsigned> > edge_lists;
 
   for (int i = 0; i < edges; i++) {
     Reader.read_edge(v1, v2, weight);
@@ -67,13 +70,13 @@ int main(int argc, char* argv[]) {
     if (forward_order.find(v2) == forward_order.end())
       forward_order[v2] = count++;
 
-    edge_lists.push_back(std::vector<unsigned>());
+    edge_lists.push_back(vector<unsigned>());
     edge_lists[i].push_back(v1);
     edge_lists[i].push_back(v2);
     edge_lists[i].push_back(weight);
 
   }
-  std::vector<int> ArticulationPoints;
+  vector<int> ArticulationPoints;
   FILE *input_file = Reader.file;
   int count_ap = 0, curr_ap;
   fscanf(input_file, "%d", &count_ap);
@@ -101,7 +104,7 @@ int main(int argc, char* argv[]) {
   fprintf(file, "%d\n", forward_order.size());
   ArticulationPoints.clear();
 
-  for (std::unordered_map<unsigned, unsigned>::iterator it =
+  for (unordered_map<unsigned, unsigned>::iterator it =
       forward_order.begin(); it != forward_order.end(); it++) {
     fprintf(file, "%u %u\n", it->first + 1, it->second + 1);
   }
