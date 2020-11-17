@@ -73,13 +73,6 @@ public:
 			insert(b, a, wt, true);
 	}
 
-	void insert(int a, int b, bool direction) {
-		columns->push_back(b);
-		rows->push_back(a);
-		if (!direction)
-			insert(b, a, true);
-	}
-
 	~CsrGraph() {
 		rowOffsets->clear();
 		columns->clear();
