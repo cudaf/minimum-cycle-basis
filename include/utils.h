@@ -1,16 +1,12 @@
-#ifndef __UTIL_H
-#define __UTIL_H
-
+#pragma once
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <assert.h>
 
 #ifdef __NVCC__
-
 #include <cuda_runtime.h>
 #include <cuda.h>
-
 #endif
 
 typedef unsigned* (*fn_alloc_t)(int, int);
@@ -58,7 +54,6 @@ inline int ceildiv(int x, int y) {
 
 
 #ifdef __NVCC__
-
 #define CudaError(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
     true) {
@@ -71,7 +66,6 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
     exit(code);
   }
 }
-
 #endif
 
 struct debugger {
@@ -91,5 +85,3 @@ extern debugger dbg;
 #else
 #define debug(args...)            {}
 #endif 
-
-#endif
