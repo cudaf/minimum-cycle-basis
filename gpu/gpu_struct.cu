@@ -1,18 +1,12 @@
 #include "common.cuh"
 
+
 void gpu_struct::init_memory_setup() {
   CudaError(cudaMalloc(&d_non_tree_edges, to_byte_32bit(num_edges)));
-  CudaError(
-      cudaMalloc(&d_edge_offsets,
-          to_byte_32bit(chunk_size * original_nodes * nstreams)));
-  CudaError(
-      cudaMalloc(&d_row_offset,
-          to_byte_32bit(
-              chunk_size * (original_nodes + 1) * nstreams)));
-  CudaError(cudaMalloc(&d_columns,
-  to_byte_32bit(chunk_size * original_nodes) * nstreams));
-  CudaError(cudaMalloc(&d_precompute_array,
-  to_byte_32bit(chunk_size * original_nodes) * nstreams));
+  CudaError(cudaMalloc(&d_edge_offsets, to_byte_32bit(chunk_size * original_nodes * nstreams)));
+  CudaError(cudaMalloc(&d_row_offset, to_byte_32bit(chunk_size * (original_nodes + 1) * nstreams)));
+  CudaError(cudaMalloc(&d_columns, to_byte_32bit(chunk_size * original_nodes) * nstreams));
+  CudaError(cudaMalloc(&d_precompute_array, to_byte_32bit(chunk_size * original_nodes) * nstreams));
   CudaError(cudaMalloc(&d_si_vector, to_byte_64bit(size_vector)));
 }
 
@@ -23,7 +17,6 @@ void gpu_struct::clear_memory() {
   CudaError(cudaFree(d_columns));
   CudaError(cudaFree(d_precompute_array));
   CudaError(cudaFree(d_si_vector));
-
   destroy_streams();
 }
 
@@ -36,7 +29,6 @@ void gpu_struct::init_streams() {
 void gpu_struct::destroy_streams() {
   for (int i = 0; i < nstreams; i++)
     CudaError(cudaStreamDestroy(streams[i]));
-
   free(streams);
 }
 
@@ -47,21 +39,15 @@ void gpu_struct::calculate_memory() {
   int total_memory_bytes = 0;
   int static_memory_bytes = 0;
   int variable_memory_bytes = 0;
-
   float size_in_mb = 1024 * 1024;
 
   static_memory_bytes += to_byte_32bit(num_edges);
   static_memory_bytes += to_byte_64bit(size_vector);
 
-  variable_memory_bytes += to_byte_32bit(
-      chunk_size * original_nodes * nstreams);
-  variable_memory_bytes += to_byte_32bit(
-      chunk_size * (original_nodes + 1) * nstreams);
-  variable_memory_bytes += to_byte_32bit(
-      chunk_size * original_nodes * nstreams);
-  variable_memory_bytes += to_byte_32bit(
-      chunk_size * original_nodes * nstreams);
-
+  variable_memory_bytes += to_byte_32bit(chunk_size * original_nodes * nstreams);
+  variable_memory_bytes += to_byte_32bit(chunk_size * (original_nodes + 1) * nstreams);
+  variable_memory_bytes += to_byte_32bit(chunk_size * original_nodes * nstreams);
+  variable_memory_bytes += to_byte_32bit(chunk_size * original_nodes * nstreams);
   total_memory_bytes += static_memory_bytes + variable_memory_bytes;
 
   info->setTotalMemoryUsage((double)total_memory_bytes / size_in_mb);
@@ -71,7 +57,6 @@ void gpu_struct::calculate_memory() {
   printf("Static Memory = %lf mb\n", static_memory_bytes / size_in_mb);
   printf("Variable Memory = %lf mb\n", variable_memory_bytes / size_in_mb);
   printf("total_memory_bytes = %lf mb\n", total_memory_bytes / size_in_mb);
-
 }
 
 void gpu_struct::initialize_memory(gpu_task *host_memory) {
@@ -105,7 +90,6 @@ float gpu_struct::copy_support_vector(BitVector *vector) {
   CudaError(
       cudaMemcpy(d_si_vector, vector->data,
           to_byte_64bit(size_vector), cudaMemcpyHostToDevice));
-
   timer.stop();
   return timer.elapsed();
 }
