@@ -3,6 +3,9 @@
 #include "CsrGraphMulti.h"
 
 
+using std::list;
+
+
 struct FVS {
   csr_multi_graph *input_graph;
   double *W;
@@ -10,7 +13,7 @@ struct FVS {
   bool *node_status;  //Whether this node is present in the graph.
   bool *edge_status; //whether this edge is not associated with any deleted edges
   bool *is_vtx_in_fvs; //is a vertex part of FVS.
-  std::list<int> FVS_SET; //list of vertices in the FVS.
+  list<int> FVS_SET; //list of vertices in the FVS.
 
   FVS(csr_multi_graph *graph);
 
