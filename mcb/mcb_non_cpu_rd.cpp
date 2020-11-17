@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 
   Reader.close();
 
-  if (graph->verticesOfDegree() == graph->Nodes) {
+  if (graph->verticesOfDegree(2) == graph->Nodes) {
     info.setCycleNumFVS(1);
     info.setNumNodesRemoved(graph->Nodes - 1);
     info.setNumFinalCycles(1);
