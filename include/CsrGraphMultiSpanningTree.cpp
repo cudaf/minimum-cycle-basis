@@ -13,8 +13,7 @@ using std::vector;
  * @param  address of an vector for storing non_tree_edges,ear decomposition vector;
  * @return vector of edge_offsets in bfs ordering.
  */
-vector<unsigned> *CsrGraphMulti::get_spanning_tree(
-    vector<unsigned> **non_tree_edges, int src) {
+vector<unsigned> *CsrGraphMulti::get_spanning_tree(vector<unsigned> **non_tree_edges, int src) {
   struct DFS_HELPER {
     int Nodes;
     vector<unsigned> *spanning_tree;
@@ -27,10 +26,8 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(
     vector<unsigned> *reverse_edge_internal;
     vector<int> *parent;
 
-    DFS_HELPER(vector<unsigned> **non_tree_edges,
-        vector<unsigned> *rows, vector<unsigned> *columns,
-        vector<unsigned> *rowOffsets,
-        vector<unsigned> *reverse_edge, int _nodes) {
+    DFS_HELPER(vector<unsigned> **non_tree_edges, vector<unsigned> *rows, vector<unsigned> *columns,
+        vector<unsigned> *rowOffsets, vector<unsigned> *reverse_edge, int _nodes) {
       spanning_tree = new vector<unsigned>();
       visited = new vector<bool>();
       parent = new vector<int>();
@@ -55,8 +52,7 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(
     void dfs(int row) {
       visited->at(row) = true;
 
-      for (int offset = rowOffsets_internal->at(row);
-          offset < rowOffsets_internal->at(row + 1); offset++) {
+      for (int offset = rowOffsets_internal->at(row); offset < rowOffsets_internal->at(row + 1); offset++) {
         int column = columns_internal->at(offset);
         if (!visited->at(column)) {
           visited->at(column) = true;
@@ -78,10 +74,8 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(
             else {
               is_tree_edge->at(offset) = 2;
               is_tree_edge->at(reverse_index) = 2;
-              if (row < column)
-                (*non_tree_edges_internal)->push_back(offset);
-              else
-                (*non_tree_edges_internal)->push_back(reverse_index);
+              if (row < column) (*non_tree_edges_internal)->push_back(offset);
+              else (*non_tree_edges_internal)->push_back(reverse_index);
               continue;
             }
           } else if (is_tree_edge->at(offset) == 0) {
@@ -89,10 +83,8 @@ vector<unsigned> *CsrGraphMulti::get_spanning_tree(
             is_tree_edge->at(offset) = 2;
             is_tree_edge->at(reverse_index) = 2;
 
-            if (row < column)
-              (*non_tree_edges_internal)->push_back(offset);
-            else
-              (*non_tree_edges_internal)->push_back(reverse_index);
+            if (row < column) (*non_tree_edges_internal)->push_back(offset);
+            else (*non_tree_edges_internal)->push_back(reverse_index);
             continue;
           } else
             continue;
