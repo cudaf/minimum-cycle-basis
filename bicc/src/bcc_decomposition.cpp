@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
     list<int> list_finished_components[num_threads]; //This list is used to hold the finished component numbers for num_threads
     component_list.clear();
 
-    for (auto it : edge_list_component) {
+    for (auto&& it : edge_list_component) {
       int edge_end_point = graph->c_graph->rows->at(it.second->front());
       src_vtx_component[it.first] = edge_end_point;
       component_list.push_back(it.first);
