@@ -23,7 +23,7 @@ struct list_common_cycles {
 
 struct cycle_storage {
   int Nodes;
-  vector<unordered_map<unsigned long long, list_common_cycles*> > list_cycles;
+  vector<unordered_map<uint64_t, list_common_cycles*> > list_cycles;
 
   inline uint64_t combine(unsigned u, unsigned v) {
     uint64_t value = u;
