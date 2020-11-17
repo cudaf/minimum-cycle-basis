@@ -18,19 +18,14 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
     vector<vector<unsigned> > **chain, int &src) {
   struct DFS_HELPER {
     int Nodes;
-
     vector<unsigned> *edge_removal_list;
     vector<bool> *visited;
-
     vector<vector<unsigned> > **chains_internal;
-
     vector<unsigned> *rows_internal;
     vector<unsigned> *columns_internal;
     vector<unsigned> *rowOffsets_internal;
     vector<unsigned> *degree_internal;
-
     vector<int> *parent;
-
     vector<unsigned> *temp_vector;
 
     DFS_HELPER(vector<unsigned> *rows, vector<unsigned> *columns,
@@ -40,16 +35,13 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
       edge_removal_list = new vector<unsigned>();
       visited = new vector<bool>();
       parent = new vector<int>();
-
       temp_vector = NULL;
-
       Nodes = _nodes;
 
       for (int i = 0; i < Nodes; i++) {
         parent->push_back(-1);
         visited->push_back(false);
       }
-
       rows_internal = rows;
       columns_internal = columns;
       rowOffsets_internal = rowOffsets;
@@ -62,7 +54,6 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
       for (unsigned offset = rowOffsets_internal->at(row);
           offset < rowOffsets_internal->at(row + 1); offset++) {
         unsigned column = columns_internal->at(offset);
-
         //printf("dfs visit = %d - %d \n",row + 1,column + 1);
 
         if (!visited->at(column)) {
@@ -120,12 +111,9 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
       visited->clear();
       parent->clear();
     }
-
   };
 
   DFS_HELPER helper(rows, cols, rowOffsets, degree, chain, Nodes);
-
   vector<unsigned> *edge_removal_list = helper.run_dfs(src);
-
   return edge_removal_list;
 }
