@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     //debug(row+1,col+1,total_weight);
   }
 
-  assert(nodes_removed == graph->verticesOfDegree());
+  assert(nodes_removed == graph->verticesOfDegree(2));
 
   //Record the number of nodes removed in the graph.
   info.setNumNodesRemoved(nodes_removed);
