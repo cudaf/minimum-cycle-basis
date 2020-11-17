@@ -78,7 +78,7 @@ struct bicc_graph {
     unsigned src_vtx;
     unsigned dest_vtx;
 
-    for (auto&& it : edge_list) {
+    for (auto&& it : *edge_list) {
       src_vtx = c_graph->rows->at(it);
       dest_vtx = c_graph->cols->at(it);
 
