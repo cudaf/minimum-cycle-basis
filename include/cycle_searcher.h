@@ -7,6 +7,9 @@
 
 using std::vector;
 using std::unordered_map;
+using std::make_pair;
+using std::min;
+using std::max;
 
 
 struct CommonCycles {
@@ -42,9 +45,9 @@ struct cycle_storage {
   }
 
   void add_cycle(int root, int u, int v, Cycle *cle) {
-    uint64_t index = combine(std::min(u, v), std::max(u, v));
+    uint64_t index = combine(min(u, v), max(u, v));
     if (list_cycles[root].find(index) == list_cycles[root].end())
-      list_cycles[root].insert(std::make_pair(index, new CommonCycles(cle)));
+      list_cycles[root].insert(make_pair(index, new CommonCycles(cle)));
     else
       list_cycles[root][index]->add_cycle(cle);
   }
