@@ -80,10 +80,8 @@ public:
 		if (!dir)	insert(c, r, wt, true);
 	}
 
-	vector<unsigned> *get_spanning_tree(
-			vector<unsigned> **non_tree_edges,
+	vector<unsigned> *get_spanning_tree(vector<unsigned> **non_tree_edges,
 			vector<unsigned> *ear_decomposition, int src);
-
 	vector<unsigned> *mark_degree_two_chains(vector<vector<unsigned> > **chain, int &src);
 
 	inline void getEdge(int i, unsigned &row, unsigned &col, int &weight) {
