@@ -39,7 +39,7 @@ debugger dbg;
 HostTimer globalTimer;
 string InputFileName;
 string OutputFileDirectory;
-stats info(false);
+Stats info(false);
 int num_threads;
 
 int main(int argc, char* argv[]) {

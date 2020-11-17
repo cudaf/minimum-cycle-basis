@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 
-struct stats {
+struct Stats {
   int num_nodes_removed;
   int num_initial_cycles;
   int num_nodes;
@@ -37,7 +37,7 @@ struct stats {
   double gpu_timings;
   bool load_entire_memory;
 
-  stats(bool is_gpu) {
+  Stats(bool is_gpu) {
 
     is_gpu_timings = is_gpu;
     num_nodes_removed = 0;

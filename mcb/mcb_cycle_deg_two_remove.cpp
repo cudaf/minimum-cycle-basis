@@ -42,7 +42,7 @@ HostTimer globalTimer;
 string InputFileName;
 string OutputFileDirectory;
 
-stats info(true);
+Stats info(true);
 
 int num_threads;
 

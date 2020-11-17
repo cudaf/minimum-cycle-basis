@@ -33,11 +33,11 @@ struct gpu_struct {
   int nstreams;
   cudaStream_t* streams;
 
-  stats *info;
+  Stats *info;
   uint64_t *d_si_vector;
 
   gpu_struct(int num_edges, int num_non_tree_edges, int size_vector,
-      int original_nodes, int fvs_size, int chunk_size, int nstreams, stats *info) {
+      int original_nodes, int fvs_size, int chunk_size, int nstreams, Stats *info) {
     this->num_non_tree_edges = num_non_tree_edges;
     this->num_edges = num_edges;
     this->size_vector = size_vector;
