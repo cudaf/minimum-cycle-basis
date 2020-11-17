@@ -164,7 +164,7 @@ public:
 		printf("Number of nodes = %d,edges = %d\n", Nodes, rows->size() / 2);
 		for (int i = 0; i < rows->size(); i++) {
 			if (rows->at(i) < cols->at(i))
-				printf("%u %u - %u\n", rows->at(i) + 1, cols->at(i) + 1, weights->at(i));
+				printf("%d %d - %d\n", rows->at(i)+1, cols->at(i)+1, weights->at(i));
 		}
 		printf("=================================================================================\n");
 	}
