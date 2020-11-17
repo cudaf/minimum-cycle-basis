@@ -173,11 +173,11 @@ int main(int argc, char* argv[]) {
   list_cycle_vec.clear();
 
   printf("\nList Cycles Post Isometric\n");
-  for (auto cycle = list_cycle.begin(); cycle != list_cycle.end(); cycle++) {
-    printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
-        reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
-        reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
-        (*cycle)->total_length);
+  for (auto&& cycle : list_cycle.begin()) {
+    printf("%u-(%u - %u) : %d\n", (cycle)->get_root() + 1,
+        reduced_graph->rows->at(cycle->non_tree_edge_index) + 1,
+        reduced_graph->cols->at(cycle->non_tree_edge_index) + 1,
+        cycle->total_length);
   }
   printf("\n");
 
