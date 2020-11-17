@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 
   Reader.close();
 
-  if (graph->countVerticesOfDegree(2) == graph->Nodes) {
+  if (graph->verticesOfDegree(2) == graph->Nodes) {
     info.setCycleNumFVS(1);
     info.setNumNodesRemoved(graph->Nodes - 1);
     info.setNumFinalCycles(1);
@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
     //debug(row+1,col+1,total_weight);
   }
 
-  assert(nodes_removed == graph->countVerticesOfDegree(2));
+  assert(nodes_removed == graph->verticesOfDegree(2));
 
   //Record the number of nodes removed in the graph.
   info.setNumNodesRemoved(nodes_removed);

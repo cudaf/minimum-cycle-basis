@@ -49,7 +49,7 @@ public:
 		weights = new vector<int>();
 	}
 
-	int countVerticesOfDegree(int d) {
+	int verticesOfDegree(int d) {
 		int a = 0;
 		int N = degree->size();
 		for (int i=0; i<N; i++)
