@@ -9,9 +9,12 @@
 #include <cuda.h>
 #endif
 
+using std::cerr;
+using std::endl;
+
+
 typedef unsigned* (*fn_alloc_t)(int, int);
 typedef void  (*fn_free_t)(unsigned*);
-
 
 //the following are UBUNTU/LINUX ONLY terminal color codes.
 #define RESET   "\033[0m"
@@ -58,8 +61,8 @@ inline int ceildiv(int x, int y) {
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
     true) {
   if (code != cudaSuccess) {
-    std::cerr << RED << "Error :" << cudaGetErrorString(code) << " : "
-    << file << " : line No = " << line << RESET << std::endl;
+    cerr << RED << "Error :" << cudaGetErrorString(code) << " : "
+    << file << " : line No = " << line << RESET << endl;
     // fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
     if (abort)
     cudaDeviceReset();
@@ -70,7 +73,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort =
 
 struct debugger {
   template<typename T> debugger& operator ,(const T& v) {
-    std::cerr << CYAN << v << " " << RESET;
+    cerr << CYAN << v << " " << RESET;
     return *this;
   }
 };
@@ -81,7 +84,7 @@ struct debugger {
 extern debugger dbg;
 
 #ifdef VERBOSE
-#define debug(args...)            {dbg,args; std::cerr<<std::endl;}
+#define debug(args...)            {dbg,args; cerr<<endl;}
 #else
 #define debug(args...)            {}
 #endif 
