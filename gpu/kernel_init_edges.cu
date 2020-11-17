@@ -2,6 +2,7 @@
 #include "common.cuh"
 #include "pitch.h"
 
+
 template<typename T>
 __device__  __forceinline__
  const T* get_pointer_const(const T* data,
@@ -39,7 +40,6 @@ void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
   int si_index = -1;
 
   unsigned long long si_value;
-
   int src_index = blockIdx.x + start;
 
   if (src_index >= end)
@@ -86,14 +86,11 @@ void __kernel_init_edge(const int* __restrict__ d_non_tree_edges,
  * @param end index of vertex from 1 to fvs_size - 1
  * @param stream_index 0 or 1
  */
-void gpu_struct::Kernel_init_edges_helper(int start, int end,
-    int stream_index) {
-
+void gpu_struct::Kernel_init_edges_helper(int start, int end, int stream_index) {
   int total_length = end - start;
 
   __kernel_init_edge<<<total_length, 512, 0, streams[stream_index]>>>(
       d_non_tree_edges, d_edge_offsets, d_precompute_array,
       d_fvs_vertices, d_si_vector, start, end, stream_index, chunk_size,
-      original_nodes, size_vector, fvs_size, num_non_tree_edges,
-      num_edges);
+      original_nodes, size_vector, fvs_size, num_non_tree_edges, num_edges);
 }

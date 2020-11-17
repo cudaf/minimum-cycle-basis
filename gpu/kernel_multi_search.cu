@@ -1,6 +1,7 @@
 #include "gpu_struct.cuh"
 #include "common.cuh"
 
+
 //Get block of data from pitched pointer and pitch size
 template<typename T>
 __device__  __forceinline__ T* get_row(T* data, size_t p) {
@@ -10,16 +11,14 @@ __device__  __forceinline__ T* get_row(T* data, size_t p) {
 template<typename T>
 __device__  __forceinline__ T* get_pointer(T* data, int node_index,
     int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes)
-      + (node_index * num_nodes));
+  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
 }
 
 template<typename T>
 __device__  __forceinline__
  const T* get_pointer_const(const T* data,
     int node_index, int num_nodes, int chunk_size, int stream_id) {
-  return (data + (stream_id * chunk_size * num_nodes)
-      + (node_index * num_nodes));
+  return (data + (stream_id * chunk_size * num_nodes) + (node_index * num_nodes));
 }
 
 __device__ __forceinline__
@@ -37,8 +36,7 @@ int outdegree(int v, const int *R) {
 
 __device__ __forceinline__
 int getWarpId() {
-  return (threadIdx.z * blockDim.y * blockDim.x + threadIdx.y * blockDim.x
-      + threadIdx.x) / WARP_SIZE;
+  return (threadIdx.z * blockDim.y * blockDim.x + threadIdx.y * blockDim.x + threadIdx.x) / WARP_SIZE;
 }
 
 //Returns the current thread's lane ID
@@ -66,19 +64,16 @@ void __kernel_multi_search_shuffle_based(const int *R, const int *C,
   int lane_id = getLaneId();     //lane id;
 
   int src_index = start + blockIdx.x * (blockDim.x / 32) + threadIdx.x / 32;
-
   if (src_index >= end)
     return;
 
   int *d_row = get_pointer(d, src_index - start, n, chunk_size, stream_index);
-
   const int* __restrict__ r_row = get_pointer_const(R, src_index - start,
       n + 1, chunk_size, stream_index);
   const int* __restrict__ c_row = get_pointer_const(C, src_index - start, n,
       chunk_size, stream_index);
 
   int k = 1; //current level
-
   int r, r_end, r_prev;
 
   while (k < n) //All threads in a warp simultaneously executes nodes in a level.
@@ -94,22 +89,17 @@ void __kernel_multi_search_shuffle_based(const int *R, const int *C,
 
     while (r < r_end) {
       int c = __ldg(&c_row[r]); //c is the index of the parent of the current edge. if c == -1, its the root node
-
       d_row[r] = d_row[r] ^ d_row[c];
-
       r += WARP_SIZE;
     }
 
     if (r_prev == r_end)
       break;
-
     k++;
   }
 }
 
-void gpu_struct::Kernel_multi_search_helper(int start, int end,
-    int stream_index) {
-
+void gpu_struct::Kernel_multi_search_helper(int start, int end, int stream_index) {
   int total_length = end - start;
 
   __kernel_multi_search_shuffle_based<<<

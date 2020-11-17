@@ -1,6 +1,4 @@
-#ifndef __H_GPU_STRUCT
-#define __H_GPU_STRUCT
-
+#pragma once
 #include "utils.h"
 #include "gpu_task.h"
 #include "BitVector.h"
@@ -29,16 +27,13 @@ struct gpu_struct {
   int *d_fvs_vertices;
 
   int *d_counter;
-
   GpuTimer timer;
 
   //Device pointers for queues
   int nstreams;
-
   cudaStream_t* streams;
 
   stats *info;
-
   unsigned long long *d_si_vector;
 
   gpu_struct(int num_edges, int num_non_tree_edges, int size_vector,
@@ -60,27 +55,19 @@ struct gpu_struct {
 
   void init_memory_setup();
   void init_pitch();
-
   void init_streams();
   void destroy_streams();
-
   void calculate_memory();
-
   void initialize_memory(gpu_task *host_memory);
+
   float copy_support_vector(BitVector *vector);
-
   void transfer_from_asynchronous(int stream_index, gpu_task *host_memory,int num_chunk);
-
   float fetch(gpu_task *host_memory);
-
   void transfer_to_asynchronous(int stream_index, gpu_task *host_memory,int num_chunk);
 
   void Kernel_init_edges_helper(int start, int end, int stream_index);
   void Kernel_multi_search_helper(int start, int end, int stream_index);
-
   void clear_memory();
 
   float process_shortest_path(gpu_task *host_memory,bool multiple_transfer);
 };
-
-#endif
