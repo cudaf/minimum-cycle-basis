@@ -226,9 +226,9 @@ struct bicc_graph {
     }
 
     for (auto&& it : edge_list) {
-      int component_number = it->first;
+      int component_number = it.first;
 
-      if (it->second.size() > 0) {
+      if (it.second.size() > 0) {
         ++file_output_count;
 
         string outputfilePath = outputDirName + std::to_string(file_output_count) + ".mtx";
@@ -236,7 +236,7 @@ struct bicc_graph {
         //debug(outputfilePath);
         unordered_set<int> articulation_points;
 
-        FileWriter fout(outputfilePath.c_str(), global_nodes_count, it->second.size());
+        FileWriter fout(outputfilePath.c_str(), global_nodes_count, it.second.size());
 
         for (auto&& ij : *it.second) {
           int edge_index = ij;
