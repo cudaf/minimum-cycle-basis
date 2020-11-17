@@ -1,23 +1,18 @@
-#include "FVS.h"
-
 #include <set>
 #include <queue>
 #include <climits>
-#include "utils.h"
 #include <cstring>
+#include "utils.h"
+#include "FVS.h"
+
 
 FVS::FVS(csr_multi_graph *graph) {
   input_graph = new csr_multi_graph();
-
   input_graph->copy(*graph);
-
   assert(input_graph->Nodes == graph->Nodes);
   assert(input_graph->rows->size() == graph->rows->size());
-
   Nodes = graph->Nodes;
-
   W = new double[input_graph->Nodes];
-
   node_status = new bool[input_graph->Nodes];
   edge_status = new bool[input_graph->rows->size()];
   is_vtx_in_fvs = new bool[input_graph->Nodes];
@@ -27,50 +22,42 @@ FVS::FVS(csr_multi_graph *graph) {
       W[i] = 0;
     else
       W[i] = 1;
-
     is_vtx_in_fvs[i] = 0;
   }
 
   for (int i = 0; i < Nodes; i++)
     node_status[i] = 1;
-
   for (int i = 0; i < input_graph->rows->size(); i++)
     edge_status[i] = 1;
 }
 
 void FVS::pruning(int node_id) {
   std::set<int> elements_to_prune;
-
   elements_to_prune.insert(node_id);
-
   double C = W[node_id] / input_graph->degree->at(node_id);
-
   node_status[node_id] = 0;
 
   while (!elements_to_prune.empty()) {
     int first_element = *elements_to_prune.begin();
-
     if (node_status[first_element] == 0) {
       elements_to_prune.erase(first_element);
       continue;
     }
 
     //operations associate with removal of nodes.
-
     elements_to_prune.erase(first_element);
     input_graph->degree->at(first_element) = 0;
     W[first_element] = 0;
 
     int row, col;
-
     for (int i = input_graph->rowOffsets->at(first_element);
         i < input_graph->rowOffsets->at(first_element + 1); i++) {
       row = input_graph->rows->at(i);
       col = input_graph->cols->at(i);
 
       if (node_status[col] == 1) {
-        input_graph->degree->at(col)--;if
-(        input_graph->degree->at(col) <= 1)
+        input_graph->degree->at(col)--;
+      if(input_graph->degree->at(col) <= 1)
         {
           elements_to_prune.insert(col);
         }
@@ -89,22 +76,15 @@ void FVS::pruning(int node_id) {
 
 bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
   std::queue<int> bfs_queue;
-
   bfs_queue.push(node_id);
-
   bool global_break = false;
-
   visited[node_id] = 1;
-
   std::vector<unsigned char> edge_status(input_graph->rows->size());
 
   while (!bfs_queue.empty() && !global_break) {
     int nid = bfs_queue.front();
-
     assert(is_vtx_in_fvs[nid] == false);
-
     bfs_queue.pop();
-
     int col;
 
     for (int i = input_graph->rowOffsets->at(nid);
@@ -138,14 +118,12 @@ bool FVS::contains_cycle(int node_id, bool *visited, int *parent) {
     bfs_queue.pop();
 
   edge_status.clear();
-
   return global_break;
 }
 
 bool FVS::test_fvs() {
   bool *visited = new bool[Nodes];
   int *parent = new int[Nodes];
-
   bool found_cycle = false;
 
   for (int i = 0; i < Nodes; i++) {
@@ -159,21 +137,17 @@ bool FVS::test_fvs() {
 
   delete[] visited;
   delete[] parent;
-
   return found_cycle;
 }
 
 void FVS::MGA() {
   int initial_zero_nodes = 0;
-
   for (int i = 0; i < Nodes; i++)
     initial_zero_nodes += (1 - node_status[i]);
 
   while (Nodes - initial_zero_nodes > 0) {
-
     double MAX_VAL = INT_MAX, temp_ratio;
     int vtx_min_ratio = 0;
-
     for (int i = 0; i < Nodes; i++)
       if (node_status[i]) {
         temp_ratio = W[i] / input_graph->degree->at(i);
@@ -185,22 +159,17 @@ void FVS::MGA() {
 
     FVS_SET.push_back(vtx_min_ratio);
     is_vtx_in_fvs[vtx_min_ratio] = true;
-
     initial_zero_nodes++;
-
     pruning(vtx_min_ratio);
   }
 
   FVS_SET.reverse();
-
   int node_id;
 
   //if the test contains any cycle by excluding {F/vi} vertex, then remove vi from F.
   for (std::list<int>::iterator it = FVS_SET.begin(); it != FVS_SET.end();) {
-
     node_id = *it;
     is_vtx_in_fvs[node_id] = false;
-
     bool val = !test_fvs();
 
     if (val) {
@@ -215,25 +184,21 @@ void FVS::MGA() {
 
 int *FVS::get_copy_fvs_array() {
   int *fvs_output_array = new int[input_graph->Nodes];
-
   int count = 0;
   for (int i = 0; i < input_graph->Nodes; i++)
     if (is_vtx_in_fvs[i])
       fvs_output_array[i] = count++;
     else
       fvs_output_array[i] = -1;
-
   return fvs_output_array;
 }
 
 void FVS::print_fvs() {
 #ifdef PRINT
-
   // printf("Number of FVS elements = %d\n",FVS_SET.size());
   // for(std::list<int>::iterator it = FVS_SET.begin(); it != FVS_SET.end();it++)
   //   printf("%d ",*it + 1);
   // printf("\n");
-
 #endif
 }
 
