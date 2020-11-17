@@ -3,7 +3,7 @@
 #include "gpu_task.h"
 #include "BitVector.h"
 #include "gputimer.h"
-#include "Stats.h"
+#include "stats.h"
 
 #include <stdio.h>
 

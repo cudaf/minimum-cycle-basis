@@ -27,7 +27,7 @@
 #include "BitVector.h"
 #include "WorkerThread.h"
 #include "cycle_searcher.h"
-#include "Stats.h"
+#include "stats.h"
 #include "FVS.h"
 #include "CompressedTrees.h"
 
