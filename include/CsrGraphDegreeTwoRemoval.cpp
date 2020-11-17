@@ -49,11 +49,11 @@ vector<unsigned> *CsrGraph::mark_degree_two_chains(
       chains_internal = chain;
     }
 
-    void dfs(unsigned row) {
+    void dfs(int row) {
       visited->at(row) = true;
-      for (unsigned offset = rowOffsets_internal->at(row);
+      for (int offset = rowOffsets_internal->at(row);
           offset < rowOffsets_internal->at(row + 1); offset++) {
-        unsigned column = columns_internal->at(offset);
+        int column = columns_internal->at(offset);
         //printf("dfs visit = %d - %d \n",row + 1,column + 1);
 
         if (!visited->at(column)) {

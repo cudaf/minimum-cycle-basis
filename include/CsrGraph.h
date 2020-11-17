@@ -128,9 +128,9 @@ public:
     combined.clear();
     //Now calculate the row_offset
     for (int i = 0; i < rows->size(); i++) {
-      unsigned curr_row = rows->at(i);
+      int curr_row = rows->at(i);
       rowOffsets->at(curr_row)++;}
-    unsigned prev = 0, current;
+    int prev = 0, current;
     for (int i = 0; i <= Nodes; i++) {
       current = rowOffsets->at(i);
       rowOffsets->at(i) = prev;
