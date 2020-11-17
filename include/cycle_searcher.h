@@ -1,15 +1,16 @@
-#ifndef _H_CYCLE_SEARCH
-#define _H_CYCLE_SEARCH
-
-#include <unordered_map>
+#pragma once
 #include <vector>
+#include <unordered_map>
 #include <utility>
 #include <climits>
-
 #include "cycles.h"
 
+using std::vector;
+using std::unordered_map;
+
+
 struct list_common_cycles {
-  std::vector<cycle*> listed_cycles;
+  vector<cycle*> listed_cycles;
 
   list_common_cycles(cycle *cle) {
     listed_cycles.push_back(cle);
@@ -22,14 +23,12 @@ struct list_common_cycles {
 
 struct cycle_storage {
   int Nodes;
-  std::vector<std::unordered_map<unsigned long long, list_common_cycles*> > list_cycles;
+  vector<unordered_map<unsigned long long, list_common_cycles*> > list_cycles;
 
   inline unsigned long long combine(unsigned u, unsigned v) {
     unsigned long long value = u;
     value <<= 32;
-
     value = value | v;
-
     return value;
   }
 
@@ -44,7 +43,6 @@ struct cycle_storage {
 
   void add_cycle(unsigned root, unsigned u, unsigned v, cycle *cle) {
     unsigned long long index = combine(std::min(u, v), std::max(u, v));
-
     if (list_cycles[root].find(index) == list_cycles[root].end())
       list_cycles[root].insert(
           std::make_pair(index, new list_common_cycles(cle)));
@@ -59,5 +57,3 @@ struct cycle_storage {
     list_cycles.clear();
   }
 };
-
-#endif
