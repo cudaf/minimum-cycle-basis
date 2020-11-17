@@ -3,6 +3,8 @@
 #include <cmath>
 #include "CsrGraphMulti.h"
 
+using std::vector;
+
 
 struct compressed_trees {
   int num_rows;
@@ -140,8 +142,8 @@ struct compressed_trees {
 
   int get_index(int original_node);
 
-  void copy(int index, std::vector<unsigned> *tree_edges,
-      std::vector<int> *parent_edges, std::vector<int> *distances);
+  void copy(int index, vector<unsigned> *tree_edges,
+      vector<int> *parent_edges, vector<int> *distances);
 
   void print_tree();
 };
