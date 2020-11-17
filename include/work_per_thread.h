@@ -131,12 +131,12 @@ struct worker_thread {
 
       csr_multi_graph *graph = trees->parent_graph;
       precompute_nodes[src] = 0;
-      unsigned edge_offset, reverse_edge, row, column, position, bit;
+      int edge_offset, reverse_edge, row, column, position, bit;
       std::queue<unsigned> q;
 
       q.push(src);
       while (!q.empty()) {
-        unsigned top_node = q.front();
+        int top_node = q.front();
         q.pop();
 
         assert(
