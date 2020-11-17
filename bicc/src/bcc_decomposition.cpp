@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
    * Edge_Map stores the mapping from <src,dest> => edge_index for the initial graph.
    * ====================================================================================
    */
-  unordered_map<uint64_t, int> *edge_map = create_map(graph->c_graph);
+  unordered_map<unsigned long long, int> *edge_map = create_map(graph->c_graph);
 
   /*
    * ====================================================================================
