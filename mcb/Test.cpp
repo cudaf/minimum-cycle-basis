@@ -144,9 +144,9 @@ int main(int argc, char* argv[]) {
   std::list<cycle*> list_cycle;
 
   for (int j = 0; j < storage->list_cycles.size(); j++) {
-    for (auto it = storage->list_cycles[j].begin(); it != storage->list_cycles[j].end(); it++) {
-      for (int k = 0; k < it->second->listed_cycles.size(); k++) {
-        list_cycle_vec.push_back(it->second->listed_cycles[k]);
+    for (auto&& it : storage->list_cycles[j]) {
+      for (int k = 0; k < it.second->listed_cycles.size(); k++) {
+        list_cycle_vec.push_back(it.second->listed_cycles[k]);
         list_cycle_vec.back()->ID = list_cycle_vec.size() - 1;
       }
     }
@@ -154,11 +154,11 @@ int main(int argc, char* argv[]) {
   sort(list_cycle_vec.begin(), list_cycle_vec.end(), cycle::compare());
 
   printf("\nList Cycles Pre Isometric\n");
-  for (auto cycle = list_cycle_vec.begin(); cycle != list_cycle_vec.end(); cycle++) {
-    printf("%u-(%u - %u) : %d\n", ((*cycle))->get_root() + 1,
-        reduced_graph->rows->at((*cycle)->non_tree_edge_index) + 1,
-        reduced_graph->cols->at((*cycle)->non_tree_edge_index) + 1,
-        (*cycle)->total_length);
+  for (auto&& cycle : list_cycle_vec) {
+    printf("%u-(%u - %u) : %d\n", (cycle)->get_root() + 1,
+        reduced_graph->rows->at(cycle->non_tree_edge_index) + 1,
+        reduced_graph->cols->at(cycle->non_tree_edge_index) + 1,
+        cycle->total_length);
   }
   printf("\n\n");
 
