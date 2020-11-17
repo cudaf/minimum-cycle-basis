@@ -14,6 +14,8 @@
 using std::pair;
 using std::list;
 using std::unordered_map;
+using std::make_pair;
+using std::min;
 
 
 inline uint64_t merge(uint64_t upper, uint64_t lower) {
@@ -44,7 +46,7 @@ unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
     src = graph->rows->at(i);
     dest = graph->cols->at(i);
     result = merge(src, dest);
-    custom_map->insert(std::make_pair(result, i));
+    custom_map->insert(make_pair(result, i));
   }
   edge_map = custom_map;
   return edge_map;
@@ -119,7 +121,7 @@ struct DFS {
           } else if ((dest != helper->parent[src])
               && (helper->discovery[dest] < helper->discovery[src])) {
 
-            helper->low[src] = std::min(helper->low[src], helper->discovery[dest]);
+            helper->low[src] = min(helper->low[src], helper->discovery[dest]);
             bicc_edges->push_back(edge_map->at(merge(src, dest)));
 
             assert(edge_map->at(merge(src, dest)) < graph->Edges);
@@ -132,7 +134,7 @@ struct DFS {
 
         //Here source is the destination. Parent[src] is the actual source.
         if (helper->discovery[src] != 1)
-          helper->low[helper->parent[src]] = std::min(helper->low[src], helper->low[helper->parent[src]]);
+          helper->low[helper->parent[src]] = min(helper->low[src], helper->low[helper->parent[src]]);
 
         int _edge_src = helper->parent[src];
         int _edge_dest = src;
@@ -183,7 +185,7 @@ struct DFS {
           if (edges_per_component->size() > 1) {
             //Updated bcc_no for this bicc
             int bcc_no = ++(*new_component_number);
-            store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
+            store_biconnected_edges.push_back(make_pair(bcc_no, edges_per_component));
 
             ////debug("New component number :",bcc_no);
           } else if (edges_per_component->size() == 1) {
@@ -192,7 +194,7 @@ struct DFS {
               edges_per_component->clear();
             else {
               int bcc_no = ++(*new_component_number);
-              store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
+              store_biconnected_edges.push_back(make_pair(bcc_no, edges_per_component));
             }
 
             graph->is_articulation_point[src_vtx] = true;
@@ -251,7 +253,7 @@ int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
   if (edges_per_component->size() > 1) {
     //Updated bcc_no for this bicc
     int bcc_no = ++new_bicc_number;
-    dfs_worker->store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
+    dfs_worker->store_biconnected_edges.push_back(make_pair(bcc_no, edges_per_component));
     ////debug("New component number :",bcc_no);
   } else if (edges_per_component->size() == 1) {
     dfs_worker->count_bridges++;
@@ -259,7 +261,7 @@ int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
       edges_per_component->clear();
     } else {
       int bcc_no = ++new_bicc_number;
-      dfs_worker->store_biconnected_edges.push_back(std::make_pair(bcc_no, edges_per_component));
+      dfs_worker->store_biconnected_edges.push_back(make_pair(bcc_no, edges_per_component));
     }
 
     assert(src_vtx != -1);

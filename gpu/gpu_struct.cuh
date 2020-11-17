@@ -1,11 +1,13 @@
 #pragma once
+#include <stdio.h>
 #include "utils.h"
 #include "GpuTask.h"
 #include "BitVector.h"
 #include "GpuTimer.h"
 #include "Stats.h"
 
-#include <stdio.h>
+using std::min;
+
 
 #define to_byte_32bit(X) (X * sizeof(int))
 #define to_byte_64bit(X) (X * sizeof(long long))
@@ -44,7 +46,7 @@ struct gpu_struct {
     this->original_nodes = original_nodes;
     this->fvs_size = fvs_size;
     this->chunk_size = chunk_size;
-    this->nstreams = std::min(32, nstreams);
+    this->nstreams = min(32, nstreams);
     this->num_chunks = nstreams;
     this->info = info;
 
