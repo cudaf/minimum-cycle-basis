@@ -76,7 +76,7 @@ struct bicc_graph {
    * @return count of edges pruned;
    */
   int prune_edges(int degree_threshold, int component_number, list<int> *edge_list,
-      unordered_map<unsigned long long, int> *edge_map, unordered_map<int, int> &src_vtx_component) {
+      unordered_map<uint64_t, int> *edge_map, unordered_map<int, int> &src_vtx_component) {
     int count_edges_pruned = 0;
     unordered_map<unsigned, int> degree_nodes;
     int src_vtx;

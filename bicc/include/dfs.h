@@ -25,19 +25,19 @@ inline uint64_t merge(uint64_t upper, uint64_t lower) {
 }
 
 /**
- * @brief This method is used to store an unordered_map<unsigned long long,unsigned>
+ * @brief This method is used to store an unordered_map<uint64_t,unsigned>
  * @details This unordered map is generated as src-dest and index of the edge .
  * 
  * @param graph c_graph representation
  * @return [description]
  */
-unordered_map<unsigned long long, int> *create_map(CsrGraph *graph) {
-  unordered_map<unsigned long long, int> *edge_map = NULL;
+unordered_map<uint64_t, int> *create_map(CsrGraph *graph) {
+  unordered_map<uint64_t, int> *edge_map = NULL;
 
   if (edge_map != NULL)
     return edge_map;
 
-  unordered_map<unsigned long long, int> *custom_map = new unordered_map<unsigned long long, int>();
+  unordered_map<uint64_t, int> *custom_map = new unordered_map<uint64_t, int>();
   uint64_t result;
   uint64_t src;
   uint64_t dest;
@@ -60,13 +60,13 @@ struct DFS {
   list<int> *bicc_edges;
   dfs_helper *helper;
   int count_bridges, time;  //count indicates number of bridges
-  unordered_map<unsigned long long, int> *edge_map;
+  unordered_map<uint64_t, int> *edge_map;
   list<pair<int, list<int>*> > store_biconnected_edges;
   bool keep_bridges = true;
 
   DFS(int c_number, int *new_c_number, bicc_graph *gr,
       list<int> *bi_edges, dfs_helper *helper_struct,
-      unordered_map<unsigned long long, int> *bi_map,
+      unordered_map<uint64_t, int> *bi_map,
       bool keep_bridges_param) {
     component_number = c_number;
     new_component_number = new_c_number;
@@ -221,7 +221,7 @@ struct DFS {
  * @return count of new_bccs_formed.
  */
 int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
-    bicc_graph *graph, dfs_helper *helper, unordered_map<unsigned long long, int> *edge_map,
+    bicc_graph *graph, dfs_helper *helper, unordered_map<uint64_t, int> *edge_map,
     unordered_map<int, list<int>*> &edge_list_component, bool keep_bridges) {
   int j = 1;
   list<int> *bicc_edges = new list<int>();
