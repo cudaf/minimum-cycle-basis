@@ -106,11 +106,12 @@ struct Dijkstra {
   }
 
   void compute_non_tree_edges(vector<int> **non_tree_edges) {
-    vector<uint8_t> is_tree_edge(graph->rows->size());
+    int M = graph->rows->size();
+    vector<uint8_t> is_tree_edge(M);
     for (int i = 0; i < tree_edges->size(); i++)
       is_tree_edge[tree_edges->at(i)] = 1;
 
-    for (int i = 0; i < graph->rows->size(); i++) {
+    for (int i=0; i<M; i++) {
       if (is_tree_edge[i] == 1) continue;
       else if (is_tree_edge[graph->reverse_edge->at(i)] == 1) is_tree_edge[i] = 1;
       else if (is_tree_edge[graph->reverse_edge->at(i)] == 2) is_tree_edge[i] = 2;
@@ -163,8 +164,6 @@ struct Dijkstra {
       csr_rows[i] = prev;
       prev += temp;
     }
-
-    edges.clear();
   }
 
   bool is_edge_cycle(int edge_offset, int &total_weight, int src) {
