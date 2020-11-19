@@ -111,15 +111,10 @@ struct Dijkstra {
       is_tree_edge[tree_edges->at(i)] = 1;
 
     for (int i = 0; i < graph->rows->size(); i++) {
-      if (is_tree_edge[i] == 1)
-        continue;
-      else if (is_tree_edge[graph->reverse_edge->at(i)] == 1) {
-        is_tree_edge[i] = 1;
-        continue;
-      } else if (is_tree_edge[graph->reverse_edge->at(i)] == 2) {
-        is_tree_edge[i] = 2;
-        continue;
-      } else {
+      if (is_tree_edge[i] == 1) continue;
+      else if (is_tree_edge[graph->reverse_edge->at(i)] == 1) is_tree_edge[i] = 1;
+      else if (is_tree_edge[graph->reverse_edge->at(i)] == 2) is_tree_edge[i] = 2;
+      else {
         is_tree_edge[i] = 2;
         (*non_tree_edges)->push_back(i);
       }
