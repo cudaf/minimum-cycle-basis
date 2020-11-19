@@ -105,9 +105,9 @@ struct bicc_graph {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
 
           all_vertices_pruned = false;
-          src_vtx = it.first;
+          int src_vtx = it.first;
           for (int j = c_graph->rowOffsets->at(src_vtx); j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
-            dest_vtx = c_graph->cols->at(j);
+            int dest_vtx = c_graph->cols->at(j);
 
             if (bicc_number[j] != component_number)
               continue;
