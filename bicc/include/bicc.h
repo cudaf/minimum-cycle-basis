@@ -77,16 +77,14 @@ struct bicc_graph {
    */
   int prune_edges(int degree_threshold, int component_number, list<int> *edge_list,
       unordered_map<uint64_t, int> *edge_map, unordered_map<int, int> &src_vtx_component) {
-    int count_edges_pruned = 0;
+    int pruned = 0;
     unordered_map<int, int> degree;
 
     for (auto&& it : *edge_list) {
-      int src_vtx = c_graph->rows->at(it);
-      int dest_vtx = c_graph->cols->at(it);
-
-      ////debug("edges for component,",component_number,"are",src_vtx + 1,dest_vtx + 1);
-      degree[src_vtx]++;
-      degree[dest_vtx]++;
+      int u = c_graph->rows->at(it);
+      int v = c_graph->cols->at(it);
+      degree[u]++;
+      degree[v]++;
     }
 
     // for(auto it = degree_nodes.begin(); it!=degree_nodes.end();it++)
@@ -122,14 +120,14 @@ struct bicc_graph {
 
             //debug("removed",src_vtx + 1,dest_vtx + 1);
             //debug("removed",dest_vtx + 1,src_vtx + 1);
-            count_edges_pruned += 2;
+            pruned += 2;
           }
           degree[src_vtx] = 0;
         }
       }
     }
     degree.clear();
-    return count_edges_pruned++;
+    return pruned++;
   }
 
   /**
