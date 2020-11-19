@@ -177,19 +177,19 @@ struct bicc_graph {
 
     for (int i = 0; i < Edges; i++) {
       if (finished_components.find(bicc_number[i]) != finished_components.end()) {
-        int src_vtx = c_graph->rows->at(i);
-        int dest_vtx = c_graph->cols->at(i);
+        int u = c_graph->rows->at(i);
+        int v = c_graph->cols->at(i);
 
         if (count_nodes.find(bicc_number[i]) == count_nodes.end()) {
           count_nodes[bicc_number[i]] = unordered_set<int>();
         }
 
         //insert bicc_numbers[i]
-        count_nodes[bicc_number[i]].insert(src_vtx);
-        count_nodes[bicc_number[i]].insert(dest_vtx);
+        count_nodes[bicc_number[i]].insert(u);
+        count_nodes[bicc_number[i]].insert(v);
 
         //print only the edge where src_vtx > dest_vtx;
-        if (src_vtx <= dest_vtx)
+        if (u <= v)
           continue;
 
         if (edge_list.find(bicc_number[i]) != edge_list.end())
