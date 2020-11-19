@@ -84,30 +84,26 @@ struct Dijkstra {
     while (!pq.empty()) {
       auto [u, d] = pq.top();
       pq.pop();
-      if (in_tree[u])
-        continue;
-      if (u != src) {
-        tree_edges->push_back(edge_offsets[u]);
-      }
-
+      if (in_tree[u]) continue;
+      if (u != src) tree_edges->push_back(edge_offsets[u]);
       in_tree[u] = true;
-      for (int offset = graph->rowOffsets->at(u);
-          offset < graph->rowOffsets->at(u + 1); offset++) {
-        int column = graph->cols->at(offset);
-        if (!in_tree[column]) {
+
+      for (int offset = graph->rowOffsets->at(u); offset < graph->rowOffsets->at(u+1); offset++) {
+        int v = graph->cols->at(offset);
+        if (!in_tree[v]) {
           int edge_weight = graph->weights->at(offset);
-          if (distance[column] == -1) {
-            distance[column] = distance[u] + edge_weight;
-            pq.push(make_pair(column, distance[column]));
-            parent[column] = u;
-            edge_offsets[column] = offset;
-            level[column] = level[u] + 1;
-          } else if (distance[u] + edge_weight < distance[column]) {
-            distance[column] = distance[u] + edge_weight;
-            pq.push(make_pair(column, distance[column]));
-            parent[column] = u;
-            edge_offsets[column] = offset;
-            level[column] = level[u] + 1;
+          if (distance[v] == -1) {
+            distance[v] = distance[u] + edge_weight;
+            pq.push(make_pair(v, distance[v]));
+            parent[v] = u;
+            edge_offsets[v] = offset;
+            level[v] = level[u] + 1;
+          } else if (distance[u] + edge_weight < distance[v]) {
+            distance[v] = distance[u] + edge_weight;
+            pq.push(make_pair(v, distance[v]));
+            parent[v] = u;
+            edge_offsets[v] = offset;
+            level[v] = level[u] + 1;
           }
         }
       }
