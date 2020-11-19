@@ -103,16 +103,12 @@ int main(int argc, char* argv[]) {
   }
 
   init_cuda();
-
-  vector<vector<int>> *chains = new vector<vector<int>>();
   int source_vertex;
-
+  vector<vector<int>> *chains = new vector<vector<int>>();
   vector<int> *remove_edge_list = graph->mark_degree_two_chains(&chains, source_vertex);
-  //initial_spanning_tree.populate_tree_edges(true,NULL,source_vertex);
-  vector<vector<int> > *edges_new_list = new vector<vector<int> >();
+  vector<vector<int>> *edges_new_list = new vector<vector<int>>();
 
   int nodes_removed = 0;
-
   for (int i = 0; i < chains->size(); i++) {
     int row, col;
     int total_weight = graph->pathWeight(chains->at(i), row, col);
@@ -123,12 +119,10 @@ int main(int argc, char* argv[]) {
     new_edge.push_back(col);
     new_edge.push_back(total_weight);
     edges_new_list->push_back(new_edge);
-    //debug(row+1,col+1,total_weight);
   }
 
-  assert(nodes_removed == graph->verticesOfDegree(2));
-
   //Record the number of nodes removed in the graph.
+  assert(nodes_removed == graph->verticesOfDegree(2));
   info.setNumNodesRemoved(nodes_removed);
 
   CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
@@ -144,27 +138,22 @@ int main(int argc, char* argv[]) {
   info.setCycleNumFVS(fvs_helper.get_num_elements());
 
   int *fvs_array = fvs_helper.get_copy_fvs_array();
-
   CsrTree *initial_spanning_tree = new CsrTree(reduced_graph);
   initial_spanning_tree->populate_tree_edges(true, source_vertex);
-
   int num_non_tree_edges = initial_spanning_tree->non_tree_edges->size();
-
   assert(num_non_tree_edges == edges - nodes + 1);
   assert(graph->totalWeight() == reduced_graph->totalWeight());
 
   vector<int> non_tree_edges_map(reduced_graph->rows->size());
   fill(non_tree_edges_map.begin(), non_tree_edges_map.end(), -1);
-
   for (int i = 0; i < initial_spanning_tree->non_tree_edges->size(); i++)
     non_tree_edges_map[initial_spanning_tree->non_tree_edges->at(i)] = i;
 
+  // copy the edges into the reverse edges as well.
   for (int i = 0; i < reduced_graph->rows->size(); i++) {
-    //copy the edges into the reverse edges as well.
     if (non_tree_edges_map[i] < 0)
       if (non_tree_edges_map[reduced_graph->reverse_edge->at(i)] >= 0)
-        non_tree_edges_map[i] =
-            non_tree_edges_map[reduced_graph->reverse_edge->at(i)];
+        non_tree_edges_map[i] = non_tree_edges_map[reduced_graph->reverse_edge->at(i)];
   }
 
   chunk_size = 720;
@@ -173,8 +162,7 @@ int main(int argc, char* argv[]) {
       CEILDIV(num_non_tree_edges, 64), nstreams);
   bool multiple_transfers = true;
 
-  if(chunk_size <= max_chunk_size)
-  {
+  if(chunk_size <= max_chunk_size) {
     multiple_transfers = false;
     debug("Multiple transfers are turned off and the entire graph is copied first.");
     debug("max_chunk_size:", max_chunk_size);
@@ -187,24 +175,17 @@ int main(int argc, char* argv[]) {
   info.setNchunks(nstreams);
   info.setNstreams(nstreams);
 
-  //construct the initial
+  // construct the initial
   debug("Construct the initial ...");
-  //compressed_trees trees(chunk_size,fvs_helper.get_num_elements(),fvs_array,reduced_graph);
   CompressedTrees trees(chunk_size, fvs_helper.get_num_elements(), fvs_array,
       reduced_graph, allocate_pinned_memory, free_pinned_memory);
-
   CycleStorage *storage = new CycleStorage(reduced_graph->Nodes);
   WorkerThread **multi_work = new WorkerThread*[num_threads];
-
   for (int i = 0; i < num_threads; i++)
     multi_work[i] = new WorkerThread(reduced_graph, storage, fvs_array, &trees);
 
-  //Record time for producing SP trees.
-  debug("Record time for producing SP trees.");
-  timer.start();
-
-  //produce shortest path trees across all the nodes.
   debug("Produce shortest path trees across all the nodes.");
+  timer.start();
   int count_cycles = 0;
 
 #pragma omp parallel for reduction(+:count_cycles)
@@ -214,10 +195,8 @@ int main(int argc, char* argv[]) {
   }
   info.setTimeConstructionTrees(timer.elapsed());
 
-  //Record time for collection of cycles.
-  debug("Record time for collection of cycles.");
+  debug("Collection of cycles ...");
   timer.start();
-
   vector<Cycle*> list_cycle_vec;
   list<Cycle*> list_cycle;
 
@@ -237,11 +216,9 @@ int main(int argc, char* argv[]) {
   }
   list_cycle_vec.clear();
   info.setTimeCollectCycles(timer.elapsed());
-
-  //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
   debug("At this stage we have shortest path trees and the cycles sorted in increasing order of length.");
 
-  //generate the bit vectors
+  // generate the bit vectors
   BitVector **support_vectors = new BitVector*[num_non_tree_edges];
   for (int i = 0; i < num_non_tree_edges; i++) {
     support_vectors[i] = new BitVector(num_non_tree_edges);
@@ -254,7 +231,6 @@ int main(int argc, char* argv[]) {
       support_vectors[0]->capacity, gpu_compute.original_nodes,
       gpu_compute.fvs_size, chunk_size, nstreams, &info);
   configure_grid(0, gpu_compute.fvs_size);
-  //device_struct.calculate_memory();
 
   vector<Cycle*> final_mcb;
   double precompute_time = 0;
@@ -264,7 +240,6 @@ int main(int argc, char* argv[]) {
   if(!multiple_transfers)
     device_struct.initialize_memory(&gpu_compute);
 
-  //bit_vector *cycle_vector = new bit_vector(num_non_tree_edges,allocate_pinned_memory,free_pinned_memory);
   BitVector *cycle_vector = new BitVector(num_non_tree_edges,
       allocate_pinned_memory, free_pinned_memory);
   BitVector *current_vector = new BitVector(num_non_tree_edges,
@@ -282,11 +257,8 @@ int main(int argc, char* argv[]) {
   info.print_stats(argv[2]);
   debug("Main Outer Loop of the Algorithm.");
   for (int e = 0; e < num_non_tree_edges; e++) {
-    //globalTimer.start_timer();
     timer.start();
-
-    int *node_rowoffsets, *node_columns, *precompute_nodes,
-        *nodes_index;
+    int *node_rowoffsets, *node_columns, *precompute_nodes, *nodes_index;
     int *node_edgeoffsets, *node_parents, *node_distance;
     int src, edge_offset, reverse_edge, row, col, position, bit;
     int src_index;
@@ -323,8 +295,7 @@ int main(int argc, char* argv[]) {
         initial_spanning_tree->non_tree_edges->size(), cycle_vector);
 
     cycle_inspection_time += timer.elapsed();
-    if((e + 1) >= num_non_tree_edges)
-      break;
+    if((e + 1) >= num_non_tree_edges) break;
     timer.start();
 
 
@@ -347,7 +318,7 @@ int main(int argc, char* argv[]) {
         support_vectors[j]->do_xor(current_vector);
     }
   }
-    //exchange the support vector pointers.
+    // exchange the support vector pointers.
     temp_bitvec_ptr = current_vector;
     current_vector = next_vector;
     next_vector = temp_bitvec_ptr;
