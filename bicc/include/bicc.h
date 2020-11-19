@@ -80,29 +80,24 @@ struct bicc_graph {
     int pruned = 0;
     unordered_map<int, int> degree;
 
-    for (auto&& it : *edge_list) {
-      int u = c_graph->rows->at(it);
-      int v = c_graph->cols->at(it);
+    // What about directed edge?
+    // in-degree, out-degree
+    for (auto&& i : *edge_list) {
+      int u = c_graph->rows->at(i);
+      int v = c_graph->cols->at(i);
       degree[u]++;
       degree[v]++;
     }
 
-    // for(auto it = degree_nodes.begin(); it!=degree_nodes.end();it++)
-    // {
-    //   ////debug("degree",it->first + 1,it->second);
-    //   //it->second /= 2;
-    // }
-
-    bool all_vertices_pruned = false;
-
-    while (!all_vertices_pruned) {
-      all_vertices_pruned = true;
+    bool allPruned = false;
+    while (!allPruned) {
+      allPruned = true;
 
       for (auto&& it : degree) {
         if ((it.second <= degree_threshold) && (it.second > 0)) {
           ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
 
-          all_vertices_pruned = false;
+          allPruned = false;
           int src_vtx = it.first;
           for (int j = c_graph->rowOffsets->at(src_vtx); j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
             int dest_vtx = c_graph->cols->at(j);
