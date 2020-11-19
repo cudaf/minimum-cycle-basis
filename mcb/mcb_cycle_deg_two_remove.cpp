@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 
   init_cuda();
 
-  vector<vector<int> > *chains = new vector<vector<int> >();
+  vector<vector<int>> *chains = new vector<vector<int>>();
   int source_vertex;
 
   vector<int> *remove_edge_list = graph->mark_degree_two_chains(&chains, source_vertex);
