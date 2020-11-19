@@ -98,21 +98,15 @@ struct bicc_graph {
         allPruned = false;
 
         for (int j = c_graph->rowOffsets->at(u); j < c_graph->rowOffsets->at(u+1); j++) {
+          if (bicc_number[j] != component_number) continue;
+
           int v = c_graph->cols->at(j);
-
-          if (bicc_number[j] != component_number)
-            continue;
-
           degree[v]--;
-          if (degree[v] > degree_threshold)
-            src_vtx_component[component_number] = v;
+          if (degree[v] > degree_threshold) src_vtx_component[component_number] = v;
 
           int reverse_edge = edge_map->at(merge(v, u));
           bicc_number[reverse_edge] = -1;
           bicc_number[j] = -1;
-
-          //debug("removed",src_vtx + 1,dest_vtx + 1);
-          //debug("removed",dest_vtx + 1,src_vtx + 1);
           pruned += 2;
         }
         degree[u] = 0;
@@ -132,32 +126,22 @@ struct bicc_graph {
    * @param component_range_end end range inclusive of component numbers
    * @param src_vtx_component map of component number => src vertex
    */
-  void collect_edges_component(int component_range_start,
-      int component_range_end,
-      unordered_map<int, list<int>*> &edge_list_component,
-      unordered_map<int, int> &src_vtx_component) {
+  void collect_edges_component(int component_range_start, int component_range_end,
+      unordered_map<int, list<int>*> &edge_list_component, unordered_map<int, int> &src_vtx_component) {
     for (int j = 0; j < Edges; j++) {
       if ((bicc_number[j] >= component_range_start) && (bicc_number[j] <= component_range_end)) {
         if (edge_list_component.find(bicc_number[j]) == edge_list_component.end()) {
           list<int> *temp = new list<int>();
           temp->push_back(j);
-
           edge_list_component[bicc_number[j]] = temp;
-        } else
+        }
+        else
           edge_list_component[bicc_number[j]]->push_back(j);
 
         //add to src_vtx_component
         src_vtx_component[bicc_number[j]] = c_graph->cols->at(j);
       }
     }
-
-    for (auto&& it : edge_list_component) {
-      for (auto&& ij : *it.second) {
-        int edge_index = ij;
-        ////debug(it->first,c_graph->rows->at(edge_index) + 1,c_graph->columns->at(edge_index) + 1);
-      }
-    }
-
   }
 
   /**
