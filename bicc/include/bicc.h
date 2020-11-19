@@ -93,32 +93,29 @@ struct bicc_graph {
     while (!allPruned) {
       allPruned = true;
 
-      for (auto&& it : degree) {
-        if ((it.second <= degree_threshold) && (it.second > 0)) {
-          ////debug("vertex:",it->first,"degree_threshold:",degree_threshold);
+      for (auto&& [u, d] : degree) {
+        if (d<0 || d>degree_threshold) continue;
+        allPruned = false;
 
-          allPruned = false;
-          int src_vtx = it.first;
-          for (int j = c_graph->rowOffsets->at(src_vtx); j < c_graph->rowOffsets->at(src_vtx + 1); j++) {
-            int dest_vtx = c_graph->cols->at(j);
+        for (int j = c_graph->rowOffsets->at(u); j < c_graph->rowOffsets->at(u+1); j++) {
+          int v = c_graph->cols->at(j);
 
-            if (bicc_number[j] != component_number)
-              continue;
+          if (bicc_number[j] != component_number)
+            continue;
 
-            degree[dest_vtx]--;
-            if (degree[dest_vtx] > degree_threshold)
-              src_vtx_component[component_number] = dest_vtx;
+          degree[v]--;
+          if (degree[v] > degree_threshold)
+            src_vtx_component[component_number] = v;
 
-            int reverse_edge = edge_map->at(merge(dest_vtx, src_vtx));
-            bicc_number[reverse_edge] = -1;
-            bicc_number[j] = -1;
+          int reverse_edge = edge_map->at(merge(v, u));
+          bicc_number[reverse_edge] = -1;
+          bicc_number[j] = -1;
 
-            //debug("removed",src_vtx + 1,dest_vtx + 1);
-            //debug("removed",dest_vtx + 1,src_vtx + 1);
-            pruned += 2;
-          }
-          degree[src_vtx] = 0;
+          //debug("removed",src_vtx + 1,dest_vtx + 1);
+          //debug("removed",dest_vtx + 1,src_vtx + 1);
+          pruned += 2;
         }
+        degree[u] = 0;
       }
     }
     degree.clear();
