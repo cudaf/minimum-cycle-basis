@@ -206,33 +206,25 @@ struct bicc_graph {
 
       if (it.second.size() > 0) {
         ++file_output_count;
-
-        string outputfilePath = outputDirName + to_string(file_output_count) + ".mtx";
-
-        //debug(outputfilePath);
         unordered_set<int> articulation_points;
 
+        string outputfilePath = outputDirName + to_string(file_output_count) + ".mtx";
         FileWriter fout(outputfilePath.c_str(), global_nodes_count, it.second.size());
+        for (auto&& i : it.second) {
+          int u = c_graph->rows->at(i);
+          int v = c_graph->cols->at(i);
+          int wt = c_graph->weights->at(i);
+          fout.write_edge(u, v, wt);
 
-        for (auto&& ij : it.second) {
-          int edge_index = ij;
-          int src_vtx = c_graph->rows->at(edge_index);
-          int dest_vtx = c_graph->cols->at(edge_index);
-          int weight = c_graph->weights->at(edge_index);
-
-          fout.write_edge(src_vtx, dest_vtx, weight);
-
-          if (is_articulation_point[src_vtx])
-            articulation_points.insert(src_vtx);
-          if (is_articulation_point[dest_vtx])
-            articulation_points.insert(dest_vtx);
+          if (is_articulation_point[u]) articulation_points.insert(u);
+          if (is_articulation_point[v]) articulation_points.insert(v);
         }
 
-        FILE *file_ref = fout.file;
         // write the info about Articulation Points here...
-        fprintf(file_ref, "%d\n", articulation_points.size());
+        FILE *f = fout.file;
+        fprintf(f, "%d\n", articulation_points.size());
         for (auto&& ij : articulation_points) {
-          fprintf(file_ref, "%d\n", ij+1);
+          fprintf(f, "%d\n", ij+1);
         }
         fout.close();
 
