@@ -210,7 +210,7 @@ struct DFS {
  */
 int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
     bicc_graph *graph, dfs_helper *helper, unordered_map<uint64_t, int> *edge_map,
-    unordered_map<int, list<int>*> &edge_list_component, bool keep_bridges) {
+    unordered_map<int, list<int>*> &edge_list_component, bool keepBridges) {
   int j = 1;
   list<int> *bicc_edges = new list<int>();
   helper->initialize_arrays();
@@ -219,7 +219,7 @@ int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
 
   //dfs(src,bicc_number,new_bicc_number,graph,bicc_edges,helper,count,bicc_pair,edge_map);
   DFS *dfs_worker = new DFS(bicc_number, &new_bicc_number, graph, bicc_edges,
-      helper, edge_map, keep_bridges);
+      helper, edge_map, keepBridges);
   dfs_worker->dfs(src);
 
   list<int> *edges_per_component = new list<int>();
@@ -245,7 +245,7 @@ int dfs_bicc_initializer(int src, int bicc_number, int &new_bicc_number,
     ////debug("New component number :",bcc_no);
   } else if (edges_per_component->size() == 1) {
     dfs_worker->count_bridges++;
-    if (!keep_bridges) {
+    if (!keepBridges) {
       edges_per_component->clear();
     } else {
       int bcc_no = ++new_bicc_number;

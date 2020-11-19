@@ -35,11 +35,11 @@ Debugger dbg;
 HostTimer timer;
 string InputFileName;
 string OutputFileDirectory;
-int global_output_file_count = 0;
-int global_edges_removed = 0;
-int global_num_bridges = 0;
+int outputFiles = 0;
+int edgesRemoved = 0;
+int bridges = 0;
 double totalTime = 0;
-bool keep_bridges = 1;
+bool keepBridges = 1;
 
 
 int main(int argc, char* argv[]) {
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
   }
 
   int num_threads = 1;
-  keep_bridges = atoi(argv[5]);
+  keepBridges = atoi(argv[5]);
   if (argc == 7)
     num_threads = atoi(argv[6]);
   omp_set_num_threads(num_threads);
@@ -183,9 +183,9 @@ int main(int argc, char* argv[]) {
       int num_bridges = dfs_bicc_initializer(
           src_vtx_component[component_list[i]], component_list[i],
           new_component_number, graph, vec_dfs_helper[thread_id],
-          edge_map, edge_list_component, keep_bridges);
+          edge_map, edge_list_component, keepBridges);
 
-      global_num_bridges += num_bridges;
+      bridges += num_bridges;
     }
 
     time_dfs += (timer.stop() - _local_time_dfs);
@@ -235,7 +235,7 @@ int main(int argc, char* argv[]) {
       if (num_edges == 0)
         list_finished_components[thread_id].push_back(component_list[i]);
 
-      global_edges_removed += num_edges;
+      edgesRemoved += num_edges;
       //debug("number of edges removed:",thread_id,num_edges);
 
       if (num_edges != 0) {
@@ -266,7 +266,7 @@ int main(int argc, char* argv[]) {
 
   debug("Total Number of Components in the current file =",
       finished_components.size());
-  graph->print_to_a_file(global_output_file_count, OutputFileDirectory,
+  graph->print_to_a_file(outputFiles, OutputFileDirectory,
       global_nodes_count, finished_components);
 
   delete graph;
@@ -276,10 +276,10 @@ int main(int argc, char* argv[]) {
 
   debug("Total dfs time:", time_dfs);
   debug("Total pruning time:", time_pruning);
-  debug("Total Edges Removed:", global_edges_removed);
-  debug("Total Number of Bridges", global_num_bridges);
-  debug("Total Number of components", global_output_file_count);
-  printf("%d\n", global_edges_removed);
+  debug("Total Edges Removed:", edgesRemoved);
+  debug("Total Number of Bridges", bridges);
+  debug("Total Number of components", outputFiles);
+  printf("%d\n", edgesRemoved);
   printf("%lf\n", totalTime);
   return 0;
 }
