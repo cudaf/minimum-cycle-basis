@@ -88,15 +88,15 @@ struct Dijkstra {
       if (u != src) tree_edges->push_back(edge_offsets[u]);
       in_tree[u] = true;
 
-      for (int offset = graph->rowOffsets->at(u); offset < graph->rowOffsets->at(u+1); offset++) {
-        int v = graph->cols->at(offset);
+      for (int i = graph->rowOffsets->at(u); i < graph->rowOffsets->at(u+1); i++) {
+        int v = graph->cols->at(i);
         if (in_tree[v]) continue;
-        int wt = graph->weights->at(offset);
+        int wt = graph->weights->at(i);
         if (distance[v] >= 0 && distance[v] < distance[u] + wt) continue;
         distance[v] = distance[u] + wt;
         pq.push(make_pair(v, distance[v]));
         parent[v] = u;
-        edge_offsets[v] = offset;
+        edge_offsets[v] = i;
         level[v] = level[u] + 1;
       }
     }
