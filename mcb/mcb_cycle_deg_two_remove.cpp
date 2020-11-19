@@ -61,8 +61,7 @@ int main(int argc, char* argv[]) {
     num_threads = atoi(argv[3]);
   omp_set_num_threads(num_threads);
 
-  //Open the FileReader class
-  //Read the Inputfile.
+  // read the Inputfile.
   InputFileName = argv[1];
   string InputFilePath = InputFileName;
   FileReader Reader(InputFilePath.c_str());
@@ -72,7 +71,6 @@ int main(int argc, char* argv[]) {
   if(argc >= 5)
     chunk_size = atoi(argv[4]);
 
-  //firt line of the input file contains the number of nodes and edges
   Reader.get_nodes_edges(nodes, edges);
   debug("InputFileName:", InputFileName);
   debug("chunk_size:", chunk_size);
@@ -82,24 +80,18 @@ int main(int argc, char* argv[]) {
   CsrGraph *graph = new CsrGraph();
   graph->Nodes = nodes;
   graph->initial_edge_count = edges;
-  /*
-   * ====================================================================================
-   * Fill Edges.
-   * ====================================================================================
-   */
+
+  // fill edges
   for (int i = 0; i < edges; i++) {
     Reader.read_edge(v1, v2, weight);
     graph->insert(v1, v2, weight, false);
   }
   graph->calculateDegreeandRowOffset();
-
-  //Record the Number of Nodes in the graph.
   info.setNumNodesTotal(graph->Nodes);
-  //Record the Number of initial Edges in the graph.
   info.setEdges(graph->rows->size());
-
   Reader.close();
 
+  // already a cycle?
   if (graph->verticesOfDegree(2) == graph->Nodes) {
     info.setCycleNumFVS(1);
     info.setNumNodesRemoved(graph->Nodes - 1);
@@ -112,9 +104,7 @@ int main(int argc, char* argv[]) {
 
   init_cuda();
 
-  vector<vector<int> > *chains = new vector<
-      vector<int> >();
-
+  vector<vector<int> > *chains = new vector<vector<int> >();
   int source_vertex;
 
   vector<int> *remove_edge_list = graph->mark_degree_two_chains(&chains, source_vertex);
