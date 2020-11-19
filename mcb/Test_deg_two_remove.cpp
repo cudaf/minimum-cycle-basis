@@ -35,7 +35,7 @@ using std::fill;
 
 
 Debugger dbg;
-HostTimer globalTimer;
+HostTimer timer;
 string InputFileName;
 string OutputFileDirectory;
 double totalTime = 0;

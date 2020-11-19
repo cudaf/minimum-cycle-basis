@@ -28,7 +28,7 @@ using std::unordered_map;
 
 
 Debugger dbg;
-HostTimer globalTimer;
+HostTimer timer;
 string InputFileName;
 string OutputFileName;
 double totalTime = 0;

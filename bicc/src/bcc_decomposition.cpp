@@ -32,7 +32,7 @@ using std::unordered_map;
 
 
 Debugger dbg;
-HostTimer globalTimer;
+HostTimer timer;
 string InputFileName;
 string OutputFileDirectory;
 int global_output_file_count = 0;
@@ -64,9 +64,8 @@ int main(int argc, char* argv[]) {
   int degree_pruning = atoi(argv[3]);
   int global_nodes_count = atoi(argv[4]);
 
-  //Open the FileReader class
-  string InputFilePath = InputFileName;
   //Read the Inputfile.
+  string InputFilePath = InputFileName;
   FileReader Reader(InputFilePath.c_str());
 
   int v1, v2, Initial_Vertices, weight;
@@ -143,7 +142,7 @@ int main(int argc, char* argv[]) {
   graph->collect_edges_component(component_number + 1, new_component_number,
       edge_list_component, src_vtx_component);
 
-  double _counter_init = globalTimer.start();
+  double _counter_init = timer.start();
   assert(!src_vtx_component.empty());
   bool flag = true;
   /*
@@ -169,7 +168,7 @@ int main(int argc, char* argv[]) {
     flag = false;
     component_number = new_component_number;
     edge_list_component.clear();
-    double _local_time_dfs = globalTimer.start();
+    double _local_time_dfs = timer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < component_list.size(); i++) {
@@ -189,7 +188,7 @@ int main(int argc, char* argv[]) {
       global_num_bridges += num_bridges;
     }
 
-    time_dfs += (globalTimer.stop() - _local_time_dfs);
+    time_dfs += (timer.stop() - _local_time_dfs);
     src_vtx_component.clear();
 
     /*
@@ -219,7 +218,7 @@ int main(int argc, char* argv[]) {
      * Parallely prune the edge lists and update the finished component 
      * ====================================================================
      */
-    double _local_time_pruning = globalTimer.start();
+    double _local_time_pruning = timer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < component_list.size(); i++) {
@@ -245,7 +244,7 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    time_pruning += (globalTimer.stop() - _local_time_pruning);
+    time_pruning += (timer.stop() - _local_time_pruning);
 
     /*
      * ====================================================================
@@ -262,7 +261,7 @@ int main(int argc, char* argv[]) {
   }
 
   debug("Num Iterations:", num_iterations);
-  double _counter_exit = globalTimer.stop();
+  double _counter_exit = timer.stop();
   totalTime += (_counter_exit - _counter_init);
 
   debug("Total Number of Components in the current file =",

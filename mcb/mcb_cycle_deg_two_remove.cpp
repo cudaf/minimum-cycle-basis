@@ -38,7 +38,7 @@ using std::vector;
 using std::fill;
 
 Debugger dbg;
-HostTimer globalTimer;
+HostTimer timer;
 
 string InputFileName;
 string OutputFileDirectory;
@@ -211,7 +211,7 @@ int main(int argc, char* argv[]) {
 
   //Record time for producing SP trees.
   debug("Record time for producing SP trees.");
-  globalTimer.start();
+  timer.start();
 
   //produce shortest path trees across all the nodes.
   debug("Produce shortest path trees across all the nodes.");
@@ -222,11 +222,11 @@ int main(int argc, char* argv[]) {
     int threadId = omp_get_thread_num();
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
-  info.setTimeConstructionTrees(globalTimer.elapsed());
+  info.setTimeConstructionTrees(timer.elapsed());
 
   //Record time for collection of cycles.
   debug("Record time for collection of cycles.");
-  globalTimer.start();
+  timer.start();
 
   vector<Cycle*> list_cycle_vec;
   list<Cycle*> list_cycle;
@@ -246,7 +246,7 @@ int main(int argc, char* argv[]) {
       list_cycle.push_back(list_cycle_vec[i]);
   }
   list_cycle_vec.clear();
-  info.setTimeCollectCycles(globalTimer.elapsed());
+  info.setTimeCollectCycles(timer.elapsed());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
   debug("At this stage we have shortest path trees and the cycles sorted in increasing order of length.");
@@ -293,7 +293,7 @@ int main(int argc, char* argv[]) {
   debug("Main Outer Loop of the Algorithm.");
   for (int e = 0; e < num_non_tree_edges; e++) {
     //globalTimer.start_timer();
-    globalTimer.start();
+    timer.start();
 
     int *node_rowoffsets, *node_columns, *precompute_nodes,
         *nodes_index;
@@ -332,10 +332,10 @@ int main(int argc, char* argv[]) {
     final_mcb.back()->get_cycle_vector(non_tree_edges_map,
         initial_spanning_tree->non_tree_edges->size(), cycle_vector);
 
-    cycle_inspection_time += globalTimer.elapsed();
+    cycle_inspection_time += timer.elapsed();
     if((e + 1) >= num_non_tree_edges)
       break;
-    globalTimer.start();
+    timer.start();
 
 
   #pragma omp parallel
@@ -361,7 +361,7 @@ int main(int argc, char* argv[]) {
     temp_bitvec_ptr = current_vector;
     current_vector = next_vector;
     next_vector = temp_bitvec_ptr;
-    hybrid_time += globalTimer.elapsed();
+    hybrid_time += timer.elapsed();
   }
 
   debug("Clear vector data.");

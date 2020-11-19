@@ -41,7 +41,7 @@ using std::endl;
 
 
 Debugger dbg;
-HostTimer globalTimer;
+HostTimer timer;
 string InputFileName;
 string OutputFileDirectory;
 Stats info(false);
@@ -146,7 +146,7 @@ int main(int argc, char* argv[]) {
         &trees);
 
   //Record time for producing SP trees.
-  globalTimer.start();
+  timer.start();
 
   //produce shortest path trees across all the nodes.
   int count_cycles = 0;
@@ -158,9 +158,9 @@ int main(int argc, char* argv[]) {
         reduced_graph);
   }
 
-  info.setTimeConstructionTrees(globalTimer.elapsed());
+  info.setTimeConstructionTrees(timer.elapsed());
   //Record time for collection of cycles.
-  globalTimer.start();
+  timer.start();
 
   vector<Cycle*> list_cycle_vec;
   list<Cycle*> list_cycle;
@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
   list_cycle_vec.clear();
 
   //assert(list_cycle.size() == count_cycles);
-  info.setTimeCollectCycles(globalTimer.elapsed());
+  info.setTimeCollectCycles(timer.elapsed());
 
   //At this stage we have the shortest path trees and the cycles sorted in increasing order of length.
   //generate the bit vectors
@@ -213,16 +213,16 @@ int main(int argc, char* argv[]) {
     }
 
     //Record timings for precomputation steps.
-    globalTimer.start();
+    timer.start();
 
 #pragma omp parallel for
     for (int i = 0; i < num_threads; i++) {
       multi_work[i]->precompute_supportVec(non_tree_edges_map, *support_vectors[e]);
     }
-    precompute_time += globalTimer.elapsed();
+    precompute_time += timer.elapsed();
 
     //Record timings for cycle inspection steps.
-    globalTimer.start();
+    timer.start();
 
     int *node_rowoffsets, *node_columns, *precompute_nodes;
     int *node_edgeoffsets, *node_parents, *node_distance;
@@ -259,9 +259,9 @@ int main(int argc, char* argv[]) {
 
     BitVector *cycle_vector = final_mcb.back()->get_cycle_vector(
         non_tree_edges_map, initial_spanning_tree->non_tree_edges->size());
-    cycle_inspection_time += globalTimer.elapsed();
+    cycle_inspection_time += timer.elapsed();
     //Record timing for independence test.
-    globalTimer.start();
+    timer.start();
 
 #pragma omp parallel for
     for (int j = e + 1; j < num_non_tree_edges; j++) {
@@ -269,7 +269,7 @@ int main(int argc, char* argv[]) {
       if (product == 1)
         support_vectors[j]->do_xor(support_vectors[e]);
     }
-    independence_test_time += globalTimer.elapsed();
+    independence_test_time += timer.elapsed();
   }
   list_cycle.clear();
 

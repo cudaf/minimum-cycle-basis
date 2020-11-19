@@ -185,7 +185,7 @@ inline int parity(uint32_t x, int n) {
   int m = (1<<n) - 1, a = 0;
   while (x!=0) {
     a ^= x & m;
-    x >>>= n;
+    x >>= n;
   }
   return a;
 }
@@ -381,7 +381,7 @@ inline uint64_t signExtend(uint64_t x, int w) {
  * @return swapped int
  */
 inline uint32_t swap(uint32_t x, int i, int j, int n) {
-  uint32_t t = ((x>>>i)^(x>>>j)) & ((1<<n)-1);
+  uint32_t t = ((x>>i)^(x>>j)) & ((1<<n)-1);
   return x ^ ((t<<i)|(t<<j));
 }
 
