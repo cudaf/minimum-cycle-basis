@@ -90,21 +90,20 @@ struct Dijkstra {
 
       for (int offset = graph->rowOffsets->at(u); offset < graph->rowOffsets->at(u+1); offset++) {
         int v = graph->cols->at(offset);
-        if (!in_tree[v]) {
-          int edge_weight = graph->weights->at(offset);
-          if (distance[v] == -1) {
-            distance[v] = distance[u] + edge_weight;
-            pq.push(make_pair(v, distance[v]));
-            parent[v] = u;
-            edge_offsets[v] = offset;
-            level[v] = level[u] + 1;
-          } else if (distance[u] + edge_weight < distance[v]) {
-            distance[v] = distance[u] + edge_weight;
-            pq.push(make_pair(v, distance[v]));
-            parent[v] = u;
-            edge_offsets[v] = offset;
-            level[v] = level[u] + 1;
-          }
+        if (in_tree[v]) continue;
+        int edge_weight = graph->weights->at(offset);
+        if (distance[v] == -1) {
+          distance[v] = distance[u] + edge_weight;
+          pq.push(make_pair(v, distance[v]));
+          parent[v] = u;
+          edge_offsets[v] = offset;
+          level[v] = level[u] + 1;
+        } else if (distance[u] + edge_weight < distance[v]) {
+          distance[v] = distance[u] + edge_weight;
+          pq.push(make_pair(v, distance[v]));
+          parent[v] = u;
+          edge_offsets[v] = offset;
+          level[v] = level[u] + 1;
         }
       }
     }
