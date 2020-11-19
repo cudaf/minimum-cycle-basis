@@ -92,19 +92,12 @@ struct Dijkstra {
         int v = graph->cols->at(offset);
         if (in_tree[v]) continue;
         int wt = graph->weights->at(offset);
-        if (distance[v] == -1) {
-          distance[v] = distance[u] + wt;
-          pq.push(make_pair(v, distance[v]));
-          parent[v] = u;
-          edge_offsets[v] = offset;
-          level[v] = level[u] + 1;
-        } else if (distance[u] + wt < distance[v]) {
-          distance[v] = distance[u] + wt;
-          pq.push(make_pair(v, distance[v]));
-          parent[v] = u;
-          edge_offsets[v] = offset;
-          level[v] = level[u] + 1;
-        }
+        if (distance[v] >= 0 && distance[v] < distance[u] + wt) continue;
+        distance[v] = distance[u] + wt;
+        pq.push(make_pair(v, distance[v]));
+        parent[v] = u;
+        edge_offsets[v] = offset;
+        level[v] = level[u] + 1;
       }
     }
 #ifndef NDEBUG
