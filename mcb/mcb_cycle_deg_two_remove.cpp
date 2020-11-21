@@ -194,6 +194,9 @@ int main(int argc, char* argv[]) {
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
   info.setTimeConstructionTrees(timer.elapsed());
+  
+  for (auto&& d : multi_work[0]->helper->distance)
+    printf("%d/n", d);
 
   debug("Collection of cycles ...");
   timer.start();
