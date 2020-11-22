@@ -9,5 +9,4 @@ mcb/Test
 mcb/mcb_cpu_baseline
 mcb/Test_deg_two_remove
 mcb/mcb_cpu
-*.mtx
 RESULT_MCB/
