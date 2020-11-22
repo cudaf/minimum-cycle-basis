@@ -109,6 +109,7 @@ struct WorkerThread {
     helper->fill_tree_edges(csr_rows, csr_cols, csr_nodes_index,
         csr_edge_offset, csr_parent, csr_distance, src);
 
+    sp_tree->print_tree_edges();
     delete sp_tree;
     return count_cycle;
   }
