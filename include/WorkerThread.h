@@ -110,6 +110,7 @@ struct WorkerThread {
         csr_edge_offset, csr_parent, csr_distance, src);
 
     sp_tree->print_tree_edges();
+    sp_tree->print_non_tree_edges();
     delete sp_tree;
     return count_cycle;
   }
