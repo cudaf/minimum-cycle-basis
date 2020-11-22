@@ -29,7 +29,7 @@ struct FileReader {
       (mm_is_symmetric(code) || mm_is_general(code)),
       "This .mtx is not supported.\n");
     err = mm_read_mtx_crd_size(file, &rows, &cols, &vals);
-    ASSERTMSG(err, "Could not find all 3 parameters.\n");
+    ASSERTMSG(!err, "Could not find all 3 parameters.\n");
   }
 
 
