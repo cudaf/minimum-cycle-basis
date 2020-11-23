@@ -53,6 +53,7 @@ public:
   }
 
   void obtain_shortest_path_tree(Dijkstra &helper, bool populate_non_tree_edges, int src) {
+    printf("obtain_shortest_path_tree: %d (+1)\n", src+1);
     if (populate_non_tree_edges)
       non_tree_edges = new vector<int>();
 
