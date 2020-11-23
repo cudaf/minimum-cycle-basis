@@ -72,6 +72,7 @@ struct WorkerThread {
 
   int produce_sp_tree_and_cycles_warp(int src_index, CsrGraphMulti *graph) {
     // assert(src_index >= 0 && src_index < trees->fvs_size);
+    printf("produce_sp_tree_and_cycles_warp: %d\n", src_index);
     int src = trees->final_vertices[src_index];
     assert(src >= 0 && src < graph->Nodes);
     helper->reset();

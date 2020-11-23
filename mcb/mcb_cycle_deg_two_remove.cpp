@@ -206,7 +206,6 @@ int main(int argc, char* argv[]) {
 #pragma omp parallel for reduction(+:count_cycles)
   for (int i = 0; i < reduced_graph->Nodes; ++i) {
     int threadId = omp_get_thread_num();
-    printf("i: %d\n", i);
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
   info.setTimeConstructionTrees(timer.elapsed());
