@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
   //Record the number of nodes removed in the graph.
   assert(nodes_removed == graph->verticesOfDegree(2));
   info.setNumNodesRemoved(nodes_removed);
-  debuug("Graph");
+  debug("Graph");
   graph->print();
 
   CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
