@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
   debug("reduced_graph->Nodes:", reduced_graph->Nodes);
   debug("trees.fvs_size:", trees.fvs_size);
 #pragma omp parallel for reduction(+:count_cycles)
-  for (int i = 0; i < trees.fvs_size; ++i) {
+  for (int i = 0; i < reduced_graph->Nodes; ++i) {
     int threadId = omp_get_thread_num();
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
