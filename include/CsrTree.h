@@ -93,7 +93,7 @@ public:
     printf("=================================================================================\n");
     printf("Printing Distance,count = %d\n", distance->size());
     for (int i = 0; i < distance->size(); i++)
-      printf("-> %d : %d\n", i, distance->at(i));
+      printf("-> %d : %d\n", i+1, distance->at(i));
     printf("=================================================================================\n");
   }
 
