@@ -94,6 +94,7 @@ struct Dijkstra {
         int v = graph->rows->at(i) == u? graph->cols->at(i) : graph->rows->at(i);
         if (in_tree[v]) continue;
         int wt = graph->weights->at(i);
+        printf("u: %d v: %d wt: %d\n", u, v, wt);
         if (distance[v] >= 0 && distance[v] < distance[u] + wt) continue;
         distance[v] = distance[u] + wt;
         pq.push(make_pair(v, distance[v]));
