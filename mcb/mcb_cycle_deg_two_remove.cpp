@@ -200,7 +200,9 @@ int main(int argc, char* argv[]) {
   timer.start();
   int count_cycles = 0;
 
-debug("trees.fvs_size:", trees.fvs_size);
+  debug("REMOVE: using reduced_graph->Nodes instead of trees.fvs_size");
+  debug("reduced_graph->Nodes:", reduced_graph->Nodes);
+  debug("trees.fvs_size:", trees.fvs_size);
 #pragma omp parallel for reduction(+:count_cycles)
   for (int i = 0; i < trees.fvs_size; ++i) {
     int threadId = omp_get_thread_num();
