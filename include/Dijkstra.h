@@ -90,7 +90,7 @@ struct Dijkstra {
 
       // for (int i = graph->rowOffsets->at(u); i < graph->rowOffsets->at(u+1); i++) {
       for (int i = 0; i < graph->cols->size(); i++) {
-        if (graph->rows->at(i) != u || graph->cols->at(i) != u) continue;
+        if (graph->rows->at(i) != u && graph->cols->at(i) != u) continue;
         int v = graph->rows->at(i) == u? graph->cols->at(i) : graph->rows->at(i);
         if (in_tree[v]) continue;
         int wt = graph->weights->at(i);
