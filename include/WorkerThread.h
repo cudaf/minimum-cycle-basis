@@ -110,7 +110,6 @@ struct WorkerThread {
     helper->fill_tree_edges(csr_rows, csr_cols, csr_nodes_index,
         csr_edge_offset, csr_parent, csr_distance, src);
 
-    printf("Shortest path for %d\n", src_index);
     sp_tree->print_distance();
     sp_tree->print_tree_edges();
     sp_tree->print_non_tree_edges();
