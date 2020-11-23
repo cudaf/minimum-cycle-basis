@@ -129,7 +129,7 @@ int main(int argc, char* argv[]) {
 
   CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
       remove_edge_list, edges_new_list, nodes_removed);
-  debuug("Reduced graph");
+  debug("Reduced graph");
   reduced_graph->print();
 
   FVS fvs_helper(reduced_graph);
