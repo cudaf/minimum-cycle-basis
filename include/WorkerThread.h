@@ -79,7 +79,8 @@ struct WorkerThread {
     CsrTree *sp_tree = new CsrTree(graph);
 
     //compute shortest path spanning tree and also non-tree edges
-    sp_tree->obtain_shortest_path_tree(*helper, true, src);
+    // sp_tree->obtain_shortest_path_tree(*helper, true, src);
+    sp_tree->obtain_shortest_path_tree(*helper, true, src_index);
     //compute the cycles;
     vector<int> *non_tree_edges = sp_tree->non_tree_edges;
 
