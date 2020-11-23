@@ -124,10 +124,12 @@ int main(int argc, char* argv[]) {
   //Record the number of nodes removed in the graph.
   assert(nodes_removed == graph->verticesOfDegree(2));
   info.setNumNodesRemoved(nodes_removed);
+  debuug("Graph");
   graph->print();
 
   CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
       remove_edge_list, edges_new_list, nodes_removed);
+  debuug("Reduced graph");
   reduced_graph->print();
 
   FVS fvs_helper(reduced_graph);
@@ -190,6 +192,7 @@ int main(int argc, char* argv[]) {
   timer.start();
   int count_cycles = 0;
 
+debug("trees.fvs_size:", trees.fvs_size);
 #pragma omp parallel for reduction(+:count_cycles)
   for (int i = 0; i < trees.fvs_size; ++i) {
     int threadId = omp_get_thread_num();
