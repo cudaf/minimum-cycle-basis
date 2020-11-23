@@ -207,6 +207,7 @@ debug("trees.fvs_size:", trees.fvs_size);
     count_cycles += multi_work[threadId]->produce_sp_tree_and_cycles_warp(i, reduced_graph);
   }
   info.setTimeConstructionTrees(timer.elapsed());
+  return 0;
 
   for (int i=0; i<trees.fvs_size; i++)  
     for (auto&& d : multi_work[i]->helper->distance)

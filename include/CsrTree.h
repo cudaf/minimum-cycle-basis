@@ -89,6 +89,14 @@ public:
     return v;
   }
 
+  void print_distance() {
+    printf("=================================================================================\n");
+    printf("Printing Distance,count = %d\n", distance->size());
+    for (int i = 0; i < distance->size(); i++)
+      printf("-> %d : %d\n", i, distance->at(i));
+    printf("=================================================================================\n");
+  }
+
   void print_tree_edges() {
     printf("=================================================================================\n");
     printf("Printing Spanning Tree Edges,count = %d\n", tree_edges->size());
