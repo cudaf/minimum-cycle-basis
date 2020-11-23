@@ -88,8 +88,10 @@ struct Dijkstra {
       if (u != src) tree_edges->push_back(edge_offsets[u]);
       in_tree[u] = true;
 
-      for (int i = graph->rowOffsets->at(u); i < graph->rowOffsets->at(u+1); i++) {
-        int v = graph->cols->at(i);
+      // for (int i = graph->rowOffsets->at(u); i < graph->rowOffsets->at(u+1); i++) {
+      for (int i = 0; i < graph->cols->size(); i++) {
+        if (graph->rows->at(i) != u || graph->cols->at(i) != u) continue;
+        int v = graph->rows->at(i) == u? graph->cols->at(i) : graph->rows->at(i);
         if (in_tree[v]) continue;
         int wt = graph->weights->at(i);
         if (distance[v] >= 0 && distance[v] < distance[u] + wt) continue;
