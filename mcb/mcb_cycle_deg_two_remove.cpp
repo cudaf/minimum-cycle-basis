@@ -127,6 +127,14 @@ int main(int argc, char* argv[]) {
   debug("Graph");
   graph->print();
 
+  debug("REMOVE: dont reduce graph");
+  debug("remove_edge_list:", remove_edge_list->size());
+  debug("edges_new_list:", edges_new_list->size());
+  debug("nodes_removed:", nodes_removed);
+  remove_edge_list->clear();
+  edges_new_list->clear();
+  nodes_removed = 0;
+
   CsrGraphMulti *reduced_graph = CsrGraphMulti::get_modified_graph(graph,
       remove_edge_list, edges_new_list, nodes_removed);
   debug("Reduced graph");
